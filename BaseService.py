@@ -11,8 +11,8 @@ timestamp = int(time.time() * 1000)
 timestamp = str(timestamp)
 
 # Ncloud API Key 설정
-ncloud_accesskey = "JTzqj1cN0fd3mIegCEI8"
-ncloud_secretkey = "GcnavhhuQHzZ7kGjDdyAQz6OSgIW2N0Z3Y0LSuFM"
+ncloud_accesskey = "acces_key"
+ncloud_secretkey = "secret_key"
 
 # 암호화 문자열 생성을 위한 기본값 설정
 apicall_method = "POST"
