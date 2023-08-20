@@ -1,1 +1,1 @@
-from spaceone.inventory.manager
+from spaceone.inventory.manager.server.server_manager import ServerConnectorManager
