@@ -1,4 +1,4 @@
-from spaceone.inventory.libs.manager import NCloudManager
+from src.spaceone.inventory.libs.manager import NCloudManager
 
 
 class ServerConnectorManager(NCloudManager):

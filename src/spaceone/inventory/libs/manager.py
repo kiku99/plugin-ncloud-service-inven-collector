@@ -1,7 +1,7 @@
 import json
 import logging
 from spaceone.core.manager import BaseManager
-from spaceone.inventory.libs.schema.resource import ErrorResourceResponse
+from src.spaceone.inventory.libs.schema.resource import ErrorResourceResponse
 
 _LOGGER = logging.getLogger(__name__)
 
