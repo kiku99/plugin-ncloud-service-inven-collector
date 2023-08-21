@@ -19,20 +19,7 @@ class CollectorService(BaseService):
         self.execute_managers = []
         '''
         self.execute_managers = [
-            'SQLWorkspaceManager',
-            'CloudSQLManager',
-            'InstanceGroupManager',
-            'InstanceTemplateManager',
-            'MachineImageManager',
-            'DiskManager',
-            'SnapshotManager',
-            'StorageManager',
-            'VPCNetworkManager',
-            'ExternalIPAddressManager',
-            'FirewallManager',
-            'RouteManager',
-            'LoadBalancingManager',
-            'VMInstance'
+        
         ]
         '''
 
@@ -60,8 +47,8 @@ class CollectorService(BaseService):
         options = params['options']
         secret_data = params.get('secret_data', {})
         if secret_data != {}:
-            google_manager = GoogleCloudManager()
-            active = google_manager.verify({}, secret_data)
+            naver_manager = NCloudManager()
+            active = naver_manager.verify({}, secret_data)
 
         return {}
 
@@ -79,7 +66,7 @@ class CollectorService(BaseService):
 
         start_time = time.time()
 
-        _LOGGER.debug(f'EXECUTOR START: Google Cloud Service')
+        _LOGGER.debug(f'EXECUTOR START: Naver Cloud Service')
         # Get target manager to collect
         try:
             self.execute_managers = self._get_target_execute_manager(params.get('options', {}))
