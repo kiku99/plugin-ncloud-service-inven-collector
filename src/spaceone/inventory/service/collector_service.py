@@ -3,7 +3,7 @@ import logging
 import json
 import concurrent.futures
 
-from spaceone.inventory.libs.manager import GoogleCloudManager
+from spaceone.inventory.libs.manager import NCloudManager
 from spaceone.core.service import *
 from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
 from spaceone.inventory.conf.cloud_service_conf import *
