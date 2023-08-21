@@ -1,0 +1,1 @@
+from src.spaceone.inventory.libs.connector import NaverCloudConnector
