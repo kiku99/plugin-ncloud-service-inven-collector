@@ -3,7 +3,7 @@ import logging
 import json
 import concurrent.futures
 
-from spaceone.inventory.libs.manager import NCloudManager
+from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.core.service import *
 from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
 from spaceone.inventory.conf.cloud_service_conf import *
@@ -47,7 +47,7 @@ class CollectorService(BaseService):
         options = params['options']
         secret_data = params.get('secret_data', {})
         if secret_data != {}:
-            naver_manager = NCloudManager()
+            naver_manager = NaverCloudManager()
             active = naver_manager.verify({}, secret_data)
 
         return {}
