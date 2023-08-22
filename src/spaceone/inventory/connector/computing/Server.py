@@ -9,8 +9,15 @@ class Server(NaverCloudConnector):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def getRegion(self):
+    def getRegionList(self):
         api_instance = V2Api(ncloud_server.ApiClient(configuration))
+
+    def getServerImageProductList(self):
+
+    def getServerImageProductList(self):
+    def getServerProductList(self):
+    def getRaidList(self):
+            
 
 
 #
