@@ -54,7 +54,7 @@ CLOUD_SERVICE_GROUP_MAP = {
 
 ASSET_URL = ''
 
-## 수정 필요
+## 수정 필요?!
 REGION_INFO = {
     "asia-east1": {"name": "Taiwan (Changhua County)",
                    "tags": {"latitude": "24.051196", "longitude": "120.516430", "continent": "asia_pacific"}},
