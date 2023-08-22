@@ -1,6 +1,6 @@
 from schematics import Model
-from schematics.types import ModelType, StringType, PolyModelType, DictType, ListType
-from .dynamic_field import BaseDynamicField, TextDyField
+from schematics.types import StringType, PolyModelType, ListType
+from spaceone.inventory.libs.schema.metadata.dynamic_field import BaseDynamicField, TextDyField, MoreField
 
 
 class LayoutOptions(Model):
@@ -46,13 +46,13 @@ class RawLayoutOption(LayoutOptions):
         serialize_when_none = False
 
 
-class ListLayoutOption(LayoutOptions):
-    layouts = ListType(PolyModelType(BaseLayoutField))
-
-
 class HTMLLayoutOption(LayoutOptions):
     class Options:
         serialize_when_none = False
+
+
+class ListLayoutOption(LayoutOptions):
+    layouts = ListType(PolyModelType(BaseLayoutField))
 
 
 class ItemDynamicLayout(BaseLayoutField):
@@ -116,6 +116,27 @@ class SimpleTableDynamicLayout(BaseLayoutField):
             fields = [
                 TextDyField.data_source('Key', 'key'),
                 TextDyField.data_source('Value', 'value'),
+            ]
+        return cls.set_fields(name, root_path, fields)
+
+    @classmethod
+    def set_code_field(cls, name='Code sources', root_path='data.display.source_code', fields=None):
+        if fields is None:
+            fields = [
+                TextDyField.data_source('File name', 'file_name'),
+                MoreField.data_source('Source', 'output_display',
+                                      options={
+                                          'sub_key': 'content',
+                                          'layout': {
+                                              'name': 'Code',
+                                              'type': 'popup',
+                                              'options': {
+                                                  'layout': {
+                                                      'type': 'raw'
+                                                  }
+                                              }
+                                          }
+                                      })
             ]
         return cls.set_fields(name, root_path, fields)
 
