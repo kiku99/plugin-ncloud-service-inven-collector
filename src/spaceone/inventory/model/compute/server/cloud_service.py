@@ -21,10 +21,10 @@ vm_instance = ItemDynamicLayout.set_fields('VM Instance', fields=[
         'disable': [],
         'alert': ['SUSPENDED', 'TERMINATED']
     }),
-    EnumDyField.data_source('Preemptible', 'data.google_cloud.scheduling.preemptible', default_badge={
+    EnumDyField.data_source('Preemptible', 'data.naver_cloud.scheduling.preemptible', default_badge={
         'indigo.500': ['true'], 'coral.600': ['false']
     }),
-    EnumDyField.data_source('Is Managed Instance in Instance Group', 'data.google_cloud.is_managed_instance',
+    EnumDyField.data_source('Is Managed Instance in Instance Group', 'data.naver_cloud.is_managed_instance',
                             default_badge={
                                 'indigo.500': ['true'], 'coral.600': ['false']
                             }),
@@ -37,9 +37,9 @@ vm_instance = ItemDynamicLayout.set_fields('VM Instance', fields=[
     TextDyField.data_source('Image', 'data.compute.image'),
     TextDyField.data_source('Region', 'region_code'),
     TextDyField.data_source('Availability Zone', 'data.compute.az'),
-    TextDyField.data_source('Reservation Affinity', 'data.google_cloud.reservation_affinity'),
-    TextDyField.data_source('Self link', 'data.google_cloud.self_link'),
-    EnumDyField.data_source('Deletion Protection', 'data.google_cloud.deletion_protection', default_badge={
+    TextDyField.data_source('Reservation Affinity', 'data.naver_cloud.reservation_affinity'),
+    TextDyField.data_source('Self link', 'data.naver_cloud.self_link'),
+    EnumDyField.data_source('Deletion Protection', 'data.naver_cloud.deletion_protection', default_badge={
         'indigo.500': ['true'], 'coral.600': ['false']
     }),
     TextDyField.data_source('Public IP', 'data.compute.public_ip_address'),
@@ -79,58 +79,53 @@ hardware_manager = ItemDynamicLayout.set_fields('Hardware', root_path='data.hard
     TextDyField.data_source('CPU Model', 'cpu_model'),
 ])
 
-ssh_keys = SimpleTableDynamicLayout.set_tags('SSH Keys', root_path='data.google_cloud.ssh_keys.ssh_keys',
-                                             fields=[
-                                                 TextDyField.data_source('User Name', 'user_name'),
-                                                 MoreField.data_source('Overview', 'display_name',
-                                                                       options={
-                                                                           'sub_key': 'ssh_key',
-                                                                           'layout': {
-                                                                               'name': 'SSH Key',
-                                                                               'type': 'popup',
-                                                                               'options': {
-                                                                                   'layout': {
-                                                                                       'type': 'raw'
-                                                                                   }
-                                                                               }
-                                                                           }
-                                                                       })
-                                             ])
-ssh_options = ItemDynamicLayout.set_fields('SSH Key Options', root_path='data.google_cloud.ssh_keys', fields=[
+ssh_keys = SimpleTableDynamicLayout.set_tags('SSH Keys', root_path='data.naver_cloud.ssh_keys.ssh_keys',fields=[
+    TextDyField.data_source('User Name', 'user_name'),
+    MoreField.data_source('Overview', 'display_name',
+    options={
+    'sub_key': 'ssh_key',
+    'layout': {
+    'name': 'SSH Key',
+    'type': 'popup',
+    'options': {
+    'layout': {
+    'type': 'raw'
+    }
+    }
+    }
+    })
+    ])
+ssh_options = ItemDynamicLayout.set_fields('SSH Key Options', root_path='data.naver_cloud.ssh_keys', fields=[
     TextDyField.data_source('Block project-wide SSH keys', 'block_project_ssh_keys')
 ])
 
-service_accounts = TableDynamicLayout.set_fields('API and Identity Management',
-                                                 root_path='data.google_cloud.service_accounts',
-                                                 fields=[
-                                                     TextDyField.data_source('Service Account', 'service_account'),
-                                                     MoreField.data_source('Cloud API access scopes', 'display_name',
-                                                                           options={
-                                                                               'layout': {
-                                                                                   'name': 'Details',
-                                                                                   'options': {
-                                                                                       'type': 'popup',
-                                                                                       'layout': {
-                                                                                           'type': 'simple-table',
-                                                                                           'options': {
-                                                                                               'root_path': 'scopes',
-                                                                                               'fields': [
-                                                                                                   {
-                                                                                                       "type": "text",
-                                                                                                       "key": "description",
-                                                                                                       "name": "Scope Description"
-                                                                                                   }
-                                                                                               ]
-                                                                                           }
-                                                                                       }
-                                                                                   }
-                                                                               }
-                                                                           })
-                                                 ])
+service_accounts = TableDynamicLayout.set_fields('API and Identity Management',root_path='data.naver_cloud.service_accounts',fields=[
+    TextDyField.data_source('Service Account', 'service_account'),
+    MoreField.data_source('Cloud API access scopes', 'display_name',
+    options={
+    'layout': {
+    'name': 'Details',
+    'options': {
+    'type': 'popup',
+    'layout': {
+    'type': 'simple-table',
+    'options': {
+    'root_path': 'scopes',
+    'fields': [
+    {
+    "type": "text",
+    "key": "description",
+    "name": "Scope Description"
+        }
+        ]
+        }
+        }
+    }
+    }
+    })
+])
 
-compute_engine = ListDynamicLayout.set_layouts('Compute Engine',
-                                               layouts=[vm_instance, google_cloud_vpc, ssh_keys, ssh_options,
-                                                        service_accounts, instance_group_manager])
+compute_engine = ListDynamicLayout.set_layouts('Compute Engine',layouts=[vm_instance, google_cloud_vpc, ssh_keys, ssh_options, service_accounts, instance_group_manager])
 
 disk = TableDynamicLayout.set_fields('Disk', root_path='data.disks', fields=[
     TextDyField.data_source('Index', 'device_index'),
@@ -183,12 +178,12 @@ lb = TableDynamicLayout.set_fields('LB', root_path='data.load_balancers', fields
     }),
 ])
 
-labels = TableDynamicLayout.set_fields('Labels', root_path='data.google_cloud.labels', fields=[
+labels = TableDynamicLayout.set_fields('Labels', root_path='data.naver_cloud.labels', fields=[
     TextDyField.data_source('Key', 'key'),
     TextDyField.data_source('Value', 'value'),
 ])
 
-tags = TableDynamicLayout.set_fields('Tags', root_path='data.google_cloud.tags', fields=[
+tags = TableDynamicLayout.set_fields('Tags', root_path='data.naver_cloud.tags', fields=[
     TextDyField.data_source('Item', 'key')
 ])
 
