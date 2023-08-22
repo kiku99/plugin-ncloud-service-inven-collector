@@ -4,10 +4,10 @@ import logging
 from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.compute_engine.instance_group import InstanceGroupConnector
-from spaceone.inventory.model.compute_engine.instance_group.cloud_service_type import CLOUD_SERVICE_TYPES
-from spaceone.inventory.model.compute_engine.instance_group.cloud_service import InstanceGroupResource, \
+from spaceone.inventory.model.compute.server.cloud_service_type import CLOUD_SERVICE_TYPES
+from spaceone.inventory.model.compute.server.cloud_service import InstanceGroupResource, \
     InstanceGroupResponse
-from spaceone.inventory.model.compute_engine.instance_group.data import InstanceGroupManagers, AutoScaler, \
+from spaceone.inventory.model.compute.server.data import InstanceGroupManagers, AutoScaler, \
     InstanceTemplate, InstanceGroup
 
 _LOGGER = logging.getLogger(__name__)
