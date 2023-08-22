@@ -25,9 +25,7 @@ cst_vm_instance.service_code = 'Compute Engine'
 cst_vm_instance.labels = ['Compute', 'Server']
 cst_vm_instance.is_primary = True
 cst_vm_instance.is_major = True
-cst_vm_instance.tags = {
-    'spaceone:icon': f'{ASSET_URL}/Compute_Engine.svg',
-}
+cst_vm_instance.tags = {'spaceone:icon': f'{ASSET_URL}/Compute_Engine.svg',}
 
 cst_vm_instance._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
@@ -111,12 +109,11 @@ cst_vm_instance._metadata = CloudServiceTypeMeta.set_meta(
             'is_optional': True,
             'field_description': '(Daily Average)'
         }),
-        SizeField.data_source('Network Received Throughput', 'data.monitoring.network.received_throughput.avg',
-                              options={
-                                  'default': 0,
-                                  'is_optional': True,
-                                  'field_description': '(Daily Average)'
-                              }),
+        SizeField.data_source('Network Received Throughput', 'data.monitoring.network.received_throughput.avg', options={
+            'default': 0,
+            'is_optional': True,
+            'field_description': '(Daily Average)'
+        }),
         SizeField.data_source('Network Sent Throughput', 'data.monitoring.network.sent_throughput.avg', options={
             'default': 0,
             'is_optional': True,
@@ -162,12 +159,11 @@ cst_vm_instance._metadata = CloudServiceTypeMeta.set_meta(
             'is_optional': True,
             'field_description': '(Daily Max)'
         }),
-        SizeField.data_source('Network Received Throughput', 'data.monitoring.network.received_throughput.max',
-                              options={
-                                  'default': 0,
-                                  'is_optional': True,
-                                  'field_description': '(Daily Max)'
-                              }),
+        SizeField.data_source('Network Received Throughput', 'data.monitoring.network.received_throughput.max', options={
+            'default': 0,
+            'is_optional': True,
+            'field_description': '(Daily Max)'
+        }),
         SizeField.data_source('Network Sent Throughput', 'data.monitoring.network.sent_throughput.max', options={
             'default': 0,
             'is_optional': True,
