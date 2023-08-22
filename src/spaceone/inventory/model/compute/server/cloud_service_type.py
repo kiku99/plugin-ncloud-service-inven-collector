@@ -19,7 +19,7 @@ count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 
 cst_vm_instance = CloudServiceTypeResource()
 cst_vm_instance.name = 'Instance'
-cst_vm_instance.provider = 'google_cloud'
+cst_vm_instance.provider = 'naver_cloud'
 cst_vm_instance.group = 'ComputeEngine'
 cst_vm_instance.service_code = 'Compute Engine'
 cst_vm_instance.labels = ['Compute', 'Server']

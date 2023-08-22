@@ -3,7 +3,7 @@ import logging
 
 from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.libs.schema.base import ReferenceModel
-from spaceone.inventory.connector.compute_engine.instance_group import InstanceGroupConnector
+from spaceone.inventory.connector.compute_engine.instance_group import ServerConnector
 from spaceone.inventory.model.compute.server.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.model.compute.server.cloud_service import InstanceGroupResource, \
     InstanceGroupResponse
@@ -13,12 +13,12 @@ from spaceone.inventory.model.compute.server.data import InstanceGroupManagers, 
 _LOGGER = logging.getLogger(__name__)
 
 
-class InstanceGroupManager(NaverCloudManager):
-    connector_name = 'InstanceGroupConnector'
+class ServerManager(NaverCloudManager):
+    connector_name = 'ServerConnector'
     cloud_service_types = CLOUD_SERVICE_TYPES
 
     def collect_cloud_service(self, params):
-        _LOGGER.debug(f'** Instance Group START **')
+        _LOGGER.debug(f'** Server START **')
         start_time = time.time()
         """
         Args:
@@ -37,13 +37,13 @@ class InstanceGroupManager(NaverCloudManager):
 
         secret_data = params['secret_data']
         project_id = secret_data['project_id']
-        instance_group_conn: InstanceGroupConnector = self.locator.get_connector(self.connector_name, **params)
+        instance_group_conn: ServerConnector = self.locator.get_connector(self.connector_name, **params)
 
         ##################################
         # 0. Gather All Related Resources
         # List all information through connector
         ##################################
-        instance_groups = instance_group_conn.list_instance_groups()
+        instance_groups = instance_group_conn.list_instancel_groups()
         instance_group_managers = instance_group_conn.list_instance_group_managers()
         autoscalers = instance_group_conn.list_autoscalers()
         instance_templates = instance_group_conn.list_instance_templates()

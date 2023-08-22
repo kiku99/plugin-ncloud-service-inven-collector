@@ -1,7 +1,8 @@
 from schematics import Model
-from schematics.types import StringType, ListType, BooleanType, ModelType, PolyModelType, DictType
+from schematics.types import StringType, ListType, BooleanType, ModelType, PolyModelType, BaseType
 from .dynamic_field import TextDyField, StateDyField, BadgeDyField, ListDyField, DictDyField, DateTimeDyField, \
     ImageDyField, EnumDyField, SizeField, ProgressField
+
 
 class BaseDynamicWidgetKeyFields(Model):
     key = StringType(serialize_when_none=False)
@@ -70,8 +71,7 @@ class BaseDynamicWidgetQueryAggregate(Model):
 
 class BaseDynamicWidgetQueryFilter(Model):
     key = StringType(serialize_when_none=False)
-    # value = PolyModelType([StringType], serialize_when_none=False)
-    value = StringType(serialize_when_none=False)
+    value = BaseType(serialize_when_none=False)
     operator = StringType(serialize_when_none=False)
 
 
@@ -82,7 +82,7 @@ class BaseDynamicWidgetQuery(Model):
 
 class BaseDynamicWidgetOptions(Model):
     value_options = PolyModelType([TextDyField, StateDyField, BadgeDyField, ListDyField, DictDyField, DateTimeDyField,
-                                  ImageDyField, EnumDyField, SizeField, ProgressField], serialize_when_none=False)
+                                   ImageDyField, EnumDyField, SizeField, ProgressField], serialize_when_none=False)
     name_options = PolyModelType([TextDyField, StateDyField, BadgeDyField, ListDyField, DictDyField, DateTimeDyField,
                                   ImageDyField, EnumDyField, SizeField, ProgressField], serialize_when_none=False)
     chart_type = StringType(choices=('COLUMN', 'DONUT', 'TREEMAP'), serialize_when_none=False)
@@ -155,7 +155,7 @@ class BaseDynamicWidget(Model):
         query['aggregate'] = query_aggrs
 
         # Query : filter
-        filter = [{'key': 'provider', 'value': 'aws', 'operator': 'eq'},
+        filter = [{'key': 'provider', 'value': 'google_cloud', 'operator': 'eq'},
                   {'key': 'cloud_service_group', 'value': cloud_service_group, 'operator': 'eq'},
                   {'key': 'cloud_service_type', 'value': cloud_service_type, 'operator': 'eq'}]
 
