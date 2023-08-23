@@ -1,9 +1,10 @@
 import os
 
-from spaceone.inventory.libs.common_parser import *
-from spaceone.inventory.libs.schema.metadata.dynamic_widget import CardWidget, ChartWidget
-from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, SearchField, EnumDyField, SizeField
-from spaceone.inventory.libs.schema.cloud_service_type import CloudServiceTypeResource, CloudServiceTypeResponse, \
+from src.spaceone.inventory.conf.cloud_service_conf import ASSET_URL
+from src.spaceone.inventory.libs.common_parser import *
+from src.spaceone.inventory.libs.schema.metadata.dynamic_widget import CardWidget, ChartWidget
+from src.spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, SearchField, EnumDyField, SizeField
+from src.spaceone.inventory.libs.schema.cloud_service_type import CloudServiceTypeResource, CloudServiceTypeResponse, \
     CloudServiceTypeMeta
 from spaceone.inventory.conf.cloud_service_conf import *
 
@@ -40,8 +41,7 @@ cst_vm_instance._metadata = CloudServiceTypeMeta.set_meta(
         TextDyField.data_source('Core', 'data.hardware.core'),
         TextDyField.data_source('Memory', 'data.hardware.memory'),
         TextDyField.data_source('Preemptible', 'data.compute.scheduling.preemptible', options={'is_optional': True}),
-        EnumDyField.data_source('Has GPU', 'data.display.has_gpu', default_badge={
-            'indigo.500': ['True'], 'coral.600': ['False']}),
+        EnumDyField.data_source('Has GPU', 'data.display.has_gpu', default_badge={'indigo.500': ['True'], 'coral.600': ['False']}),
         TextDyField.data_source('Total GPU Count', 'data.total_gpu_count', options={'is_optional': True}),
         TextDyField.data_source('GPUs', 'data.display.gpus',
                                 default_badge={'type': 'outline', 'delimiter': '<br>'}, options={'is_optional': True}),
@@ -65,7 +65,7 @@ cst_vm_instance._metadata = CloudServiceTypeMeta.set_meta(
         TextDyField.data_source('Subnet Name', 'data.subnet.subnet_name', options={'is_optional': True}),
         TextDyField.data_source('LB Name', 'data.load_balancers.name', options={'is_optional': True}),
         TextDyField.data_source('LB DNS', 'data.load_balancers.dns', options={'is_optional': True}),
-        TextDyField.data_source('Managed Instance', 'data.google_cloud.is_managed_instance',
+        TextDyField.data_source('Managed Instance', 'data.naver_cloud.is_managed_instance',
                                 options={'is_optional': True}),
         TextDyField.data_source('LB DNS', 'data.load_balancers.dns', options={'is_optional': True}),
         TextDyField.data_source('Auto Scaling Group', 'data.auto_scaling_group.name', options={'is_optional': True}),
