@@ -3,7 +3,7 @@ import logging
 
 from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.libs.schema.base import ReferenceModel
-from spaceone.inventory.connector.compute_engine.instance_group import ServerConnector
+from spaceone.inventory.connector.computing.Server import Server
 from spaceone.inventory.model.compute.server.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.model.compute.server.cloud_service import InstanceGroupResource, \
     InstanceGroupResponse
@@ -37,7 +37,8 @@ class ServerManager(NaverCloudManager):
 
         secret_data = params['secret_data']
         project_id = secret_data['project_id']
-        instance_group_conn: ServerConnector = self.locator.get_connector(self.connector_name, **params)
+        ## Server connector
+        instance_group_conn: Server = self.locator.get_connector(self.connector_name, **params)
 
         ##################################
         # 0. Gather All Related Resources

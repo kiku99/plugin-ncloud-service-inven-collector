@@ -144,7 +144,7 @@ class NIC(Model):
     tags = DictType(StringType, default={})
 
 
-# Firewall
+# Firewallf
 class SecurityGroup(Model):
     priority = IntType(serialize_when_none=False)
     protocol = StringType()
