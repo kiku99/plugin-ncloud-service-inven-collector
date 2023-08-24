@@ -2,6 +2,80 @@ from schematics import Model
 from schematics.types import ModelType, ListType, StringType, IntType, DateTimeType, BooleanType, FloatType, DictType
 
 # common
+class getServerProductList(Model):
+    serverImageProductCode = StringType(20)
+    exclusionProductCode = StringType(20)
+    productCode = StringType(20)
+    generationCode = StringType(20)
+    regionNo = StringType()
+    zoneNo = StringType()
+
+
+class getServerImageProductList(Model):
+    exclusionProductCode = StringType(20)
+    productCode = StringType(20)
+    platformTypeCodeList = ListType()
+    blockStorageSize = IntType()
+    regionNO = StringType()
+    ingraResourceDetailTypeCode = StringType()
+
+# class getRaidList(Model):
+
+class getZoneList(Model):
+    regionNo = StringType()
+
+class getRegionList(Model):
+    regionNo = StringType()
+
+# class getInitScriptList(Model):
+
+class getLoginKeyList(Model):
+    keyName = StringType(30)
+    pageNo = IntType(2147483647)
+    pageSize = IntType(2147483647)
+
+
+
+class createLoginKey(Model):
+    keyName = StringType(30)
+class deleteLoginKey(Model):
+    keyName = StringType(30)
+
+
+class importLoginKey(Model):
+    keyName = StringType(30)
+    publicKey = StringType
+
+
+class getAccessControlGroupList(Model):
+    accessControlGroupConfigurationNoList = ListType(5)
+    isDefaultGroup = BooleanType
+    accessControlGroupName = StringType(30)
+    pageNo = IntType(2147483647)
+    pageSize = IntType(2147483647)
+
+
+class getAccessControlGroupServerInstanceList(Model):
+    accessControlGroupConfigurationNo = StringType()
+
+
+class getAccessControlRuleList(Model):
+    accessControlGroupConfigurationNo = StringType()
+
+# disk
+class getServerInstanceList(Model):
+    serverInstanceNoList = ListType()
+    searchFilterName = StringType()
+    searchFilterValue = StringType()
+    pageNo = IntType(2147483647)
+    pageSize = IntType(2147483647)
+    serverInstanceStatusCode = StringType(5)
+    regionNo = StringType()
+    zoneNo = StringType()
+    baseBlockStorageDiskTypeCode = StringType(5)
+    baseBlockStorageDiskDetailTypeCode = StringType(5)
+    sortedBy = StringType()
+    sortingOrder = StringType()
 class Labels(Model):
     key = StringType()
     value = StringType()
