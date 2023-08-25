@@ -26,13 +26,13 @@ class NaverCloudConnector(BaseConnector):
         if self.client is None:
             self.set_connect(**kwargs)
 
-    # def generate_query(self, **query):
-    #     query.update({
-    #         'project': self.project_id,
-    #     })
-    #     return query
-    #
-    # def list_zones(self, **query):
-    #     query = self.generate_query(**query)
-    #     result = self.client.zones().list(**query).execute()
-    #     return result.get('items', [])
+    def generate_query(self, **query):
+        query.update({
+            'project': self.project_id,
+        })
+        return query
+
+    def list_zones(self, **query):
+        query = self.generate_query(**query)
+        result = self.client.zones().list(**query).execute()
+        return result.get('items', [])
