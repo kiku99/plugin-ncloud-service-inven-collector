@@ -64,7 +64,3 @@ class NaverCloudConnector(BaseConnector):
         query = self.generate_query(**query)
         result = self.client.zones().list(**query).execute()
         return result.get('items', [])
-
-
-
-naver = NaverCloudConnector()
