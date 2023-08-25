@@ -1,6 +1,6 @@
 from schematics.types import ModelType, StringType, PolyModelType
 
-from src.spaceone.inventory.model.compute_engine.instance.data import VMInstance
+from src.spaceone.inventory.model.compute.server.data import VMInstance
 from src.spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, EnumDyField, ListDyField, \
     DateTimeDyField, SizeField, MoreField
 from src.spaceone.inventory.libs.schema.metadata.dynamic_layout import ItemDynamicLayout, TableDynamicLayout, \

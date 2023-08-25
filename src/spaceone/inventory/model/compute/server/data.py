@@ -2,6 +2,112 @@ from schematics import Model
 from schematics.types import ModelType, ListType, StringType, IntType, DateTimeType, BooleanType, FloatType, DictType
 
 # common
+# class getServerProductList(Model):
+#     serverImageProductCode = StringType(20)
+#     exclusionProductCode = StringType(20)
+#     productCode = StringType(20)
+#     generationCode = StringType(20)
+#     regionNo = StringType()
+#     zoneNo = StringType()
+#
+#
+# class getServerImageProductList(Model):
+#     exclusionProductCode = StringType(20)
+#     productCode = StringType(20)
+#     platformTypeCodeList = ListType()
+#     blockStorageSize = IntType()
+#     regionNO = StringType()
+#     ingraResourceDetailTypeCode = StringType()
+#
+# # class getRaidList(Model):
+#
+# class getZoneList(Model):
+#     regionNo = StringType()
+#
+# class getRegionList(Model):
+#     regionNo = StringType()
+#
+# # class getInitScriptList(Model):
+#
+# class getLoginKeyList(Model):
+#     keyName = StringType(30)
+#     pageNo = IntType(2147483647)
+#     pageSize = IntType(2147483647)
+
+
+
+class createLoginKey(Model): #생성
+    keyName = StringType(30)
+class deleteLoginKey(Model): # 로그인키를 이용하여 비밀번호를 암호화->복호화키 삭제
+    keyName = StringType(30)
+
+
+class importLoginKey(Model):#서버인스턴스 접속시 로그인키를 이용하여 비밀번호 암호화
+    keyName = StringType(30)
+    publicKey = StringType
+
+
+class getAccessControlGroupList(Model):
+    #서버인스턴스 생성할때 사용자가 설정한 ACCESS Control Group을 넣어 방화벽기능 설정
+    accessControlGroupConfigurationNoList = ListType(5)
+    isDefaultGroup = BooleanType
+    accessControlGroupName = StringType(30)
+    pageNo = IntType(2147483647)
+    pageSize = IntType(2147483647)
+
+
+# class getAccessControlGroupServerInstanceList(Model): # 접근제어그룹설정 번호로 등록된 서버 인스턴스 리스트들 조회
+#     accessControlGroupConfigurationNo = StringType()
+
+
+# class getAccessControlRuleList(Model):#접근제어규칙리스트초회
+#     accessControlGroupConfigurationNo = StringType()
+
+# disk
+class getServerInstanceList(Model): #서버 인스턴스 리스트 조회(페이징처리)
+    serverInstanceNoList = ListType()
+    searchFilterName = StringType()
+    searchFilterValue = StringType()
+    pageNo = IntType(2147483647)
+    pageSize = IntType(2147483647)
+    serverInstanceStatusCode = StringType(5)
+    regionNo = StringType()
+    zoneNo = StringType()
+    baseBlockStorageDiskTypeCode = StringType(5)
+    baseBlockStorageDiskDetailTypeCode = StringType(5)
+    sortedBy = StringType()
+    sortingOrder = StringType()
+
+class createServerInstances(Model) :#서버 인스턴스 생성
+    serverImageProductCode = StringType(20)
+
+# class recreateServerInstances(Model) : #서버인스턴스 재생성(베어메탈상품 전용)
+#     serverInstanceNo = StringType()
+#     serverInstanceName = StringType()
+#     serverImageProductCode = StringType()
+#     userData = StringType(21847)
+#     instanceTagListKey = ListType()
+#     instanceTagListValue = ListType()
+
+# class terminateServerInstances(Model) : #서버 인스턴스 반납?
+#     serverInstaceNoList = ListType()
+
+class startServerInstances(Model) : #서버 인스턴스 시작
+    serverInstanceNoList = ListType()
+
+class rebootServerInstances(Model) : #서버인스턴스 재시작
+    serverInstanceNoList = ListType()
+
+class stopServerInstances(Model) : #VM 정지
+    serverInstanceNoList = ListType()
+
+class createMemberServerImage(Model) : #서버이미지 생성
+    memberServerImageName = StringType(30)
+    memberServerImageDescription = StringType(1000)
+    serverInstanceNo = StringType()
+class deleteMemberServerImages(Model) :
+    memberServerImageNoList = ListType()
+
 class Labels(Model):
     key = StringType()
     value = StringType()
@@ -9,7 +115,6 @@ class Labels(Model):
 
 class Tags(Model):
     key = StringType()
-
 
 
 class Description(Model):
@@ -71,7 +176,7 @@ class SSHKey(Model):
     ssh_keys = ListType(ModelType(Key))
 
 
-class GoogleCloud(Model):
+class NaverCloud(Model):
     self_link = StringType()
     fingerprint = StringType()
     reservation_affinity = StringType(default="ANY_RESERVATION")
@@ -144,7 +249,7 @@ class NIC(Model):
     tags = DictType(StringType, default={})
 
 
-# Firewall
+# Firewallf
 class SecurityGroup(Model):
     priority = IntType(serialize_when_none=False)
     protocol = StringType()
@@ -191,7 +296,7 @@ class Display(Model):
 
 class VMInstance(Model):
     os = ModelType(OS)
-    google_cloud = ModelType(GoogleCloud)
+    naver_cloud = ModelType(NaverCloud)
     primary_ip_address = StringType()
     hardware = ModelType(Hardware)
     compute = ModelType(Compute)
