@@ -12,7 +12,8 @@ class NaverCloudConnector(BaseConnector):
     naver_client_service = 'compute'
     version = 'v2'
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, config={}, options={}, service={} ,secret_data={}, region_id=None, zone_id=None, pool_id=None,
+                 filter={}, **kwargs):
         """
         kwargs
             - schema
@@ -26,14 +27,22 @@ class NaverCloudConnector(BaseConnector):
             - ...
         """
 
-        super().__init__(*args, **kwargs)
+        super().__init__(config = config, **kwargs)
+        self.options = options
+        self.secret_data = secret_data
+        self.region_id = region_id
+        self.zone_id = zone_id
+        self.pool_id = pool_id
+        self.filter = filter
+        self.service = service
         secret_data = kwargs.get('secret_data')
+
 
         # create an instance of the API class
         configuration = ncloud_server.Configuration()
-        configuration.access_key = "access key"
+        configuration.access_key = "JTzqj1cN0fd3mIegCEI8"
 
-        configuration.secret_key = "secret key"
+        configuration.secret_key = "GcnavhhuQHzZ7kGjDdyAQz6OSgIW2N0Z3Y0LSuFM"
 
 
         #self.credentials = ncloud_apikey.Credentials
