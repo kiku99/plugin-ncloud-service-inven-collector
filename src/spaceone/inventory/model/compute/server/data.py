@@ -62,8 +62,8 @@ class ServerInstanceList(Model):  # 서버 인스턴스 리스트 조회(페이�
     serverInstanceNoList = ListType()
     searchFilterName = StringType()
     searchFilterValue = StringType()
-    pageNo = IntType(2147483647)
-    pageSize = IntType(2147483647)
+    pageNo = IntType()
+    pageSize = IntType()
     serverInstanceStatusCode = StringType(5)
     regionNo = StringType()
     zoneNo = StringType()
@@ -71,6 +71,41 @@ class ServerInstanceList(Model):  # 서버 인스턴스 리스트 조회(페이�
     baseBlockStorageDiskDetailTypeCode = StringType(5)
     sortedBy = StringType()
     sortingOrder = StringType()
+
+
+class ServerInstance(Model):
+    serverInstanceNo = StringType()
+    serverName = StringType()
+    serverDescription = StringType()
+    cpuCount = IntType()
+    memorySize = LongType()
+    baseBlockStorageSize = LongType()
+    platformType = StringType(choices=('LNX32', 'WIN64'))
+    loginKeyName = StringType()
+    publicIp = StringType()
+    privateIp = StringType()
+    serverImageName = StringType()
+    serverInstanceStatus = StringType(choices=('INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'))
+    serverInstanceOperation = StringType(choices=('START', 'SHTDN', 'RESTA', 'TERMT', 'NULL', 'MIGRA', 'COPY', 'SETUP', 'HREST', 'HSHTD', 'CHNG', 'CREAT'))
+    serverInstanceStatusName = StringType()
+    createDate = DateTimeType()
+    uptime = DateTimeType()
+    serverImageProductCode = StringType()
+    serverProductCode = StringType()
+    isProtectServerTermination = BooleanType()
+    portForwardingPublicIp = StringType()
+    portForwardingExternalPort = IntType()
+    portForwardingInternalPort = IntType()
+    zone = StringType(serialize_when_none=False)
+    region = StringType(serialize_when_none=False)
+    baseBlockStorageDiskType = StringType(choices=('LOCAL', 'NET'))
+    baseBlockStorageDiskDetailType = StringType(choices=('LOCAL', 'NET'))
+    serverInstanceType = StringType(choices=('LOCAL', 'NET'))
+    userData = StringType()
+    accessControlGroupList = ListType(StringType, default=[])
+    blockDevicePartitionList = ListType(StringType, default=[])
+
+
 
 
 # class recreateServerInstances(Model) : #서버인스턴스 재생성(베어메탈상품 전용)
@@ -90,12 +125,12 @@ class MemberServerImage(Model):  # 서버이미지 생성
     serverInstanceNo = StringType()
 
 
-class BlockStorageInstance(Model):  # 블록스토리지인스턴스 생성
-    blockStorageName = StringType(30)
-    blockStorageSize = LongType(2000)
-    blockStorageDescription = StringType(2000)
+class Storage(Model):  # 블록스토리지인스턴스
+    storageName = StringType(30)
+    storageSize = LongType()
+    StorageDescription = StringType()
     serverInstanceNo = StringType()
-    diskDetailTypeCode = StringType()
+    storageDetailTypeCode = StringType()
 
 
 class BlockStorageSnapshotInstances(Model):  # 블록 스토리지 스냡샷 인스턴스 생성
@@ -129,8 +164,8 @@ class PublicIpInstanceList(Model):  # 공인 IP 인스턴스 리스트를 조회
     searchFilterValue = StringType()
     regionNo = StringType()
     zoneNo = StringType()
-    pageNo = IntType(2147483647)
-    pageSize = IntType(2147483647)
+    pageNo = IntType()
+    pageSize = IntType()
     sortedBy = StringType()
     sortingOrder = StringType()
 
@@ -196,20 +231,20 @@ class AutoScaler(Model):
 
 
 # Server = compute, google_cloud, hardware, os, server,
-class Compute(Model):
-    keypair = StringType(default="")
-    public_ip_address = StringType()
-    az = StringType()
-    instance_id = StringType()
-    instance_name = StringType(default='')
-    instance_state = StringType(choices=(
-        'PROVISIONING', 'STAGING', 'RUNNING', 'STOPPING', 'REPAIRING', 'SUSPENDING', 'SUSPENDED', 'TERMINATED'))
-    instance_type = StringType()
-    account = StringType()
-    image = StringType()
-    launched_at = DateTimeType()
-    security_groups = ListType(StringType, default=[])
-    tags = DictType(StringType, default={})
+# class Compute(Model):
+#     keypair = StringType(default="")
+#     public_ip_address = StringType()
+#     az = StringType()
+#     instance_id = StringType()
+#     instance_name = StringType(default='')
+#     instance_state = StringType(choices=(
+#         'PROVISIONING', 'STAGING', 'RUNNING', 'STOPPING', 'REPAIRING', 'SUSPENDING', 'SUSPENDED', 'TERMINATED'))
+#     instance_type = StringType()
+#     account = StringType()
+#     image = StringType()
+#     launched_at = DateTimeType()
+#     security_groups = ListType(StringType, default=[])
+#     tags = DictType(StringType, default={})
 
 
 class Scheduling(Model):
@@ -257,26 +292,26 @@ class OS(Model):
 
 
 # disk
-class DiskTags(Model):
-    disk_id = StringType(serialize_when_none=False)
-    disk_name = StringType(serialize_when_none=False)
-    description = StringType(serialize_when_none=False)
-    zone = StringType(serialize_when_none=False)
-    disk_type = StringType(choices=('local-ssd', 'pd-balanced', 'pd-ssd', 'pd-standard'), serialize_when_none=False)
-    encrypted = BooleanType(default=True)
-    read_iops = FloatType(serialize_when_none=False)
-    write_iops = FloatType(serialize_when_none=False)
-    read_throughput = FloatType(serialize_when_none=False)
-    write_throughput = FloatType(serialize_when_none=False)
-    labels = ListType(ModelType(Labels), default=[], serialize_when_none=False)
+# class DiskTags(Model):
+#     disk_id = StringType(serialize_when_none=False)
+#     disk_name = StringType(serialize_when_none=False)
+#     description = StringType(serialize_when_none=False)
+#     zone = StringType(serialize_when_none=False)
+#     disk_type = StringType(choices=('local-ssd', 'pd-balanced', 'pd-ssd', 'pd-standard'), serialize_when_none=False)
+#     encrypted = BooleanType(default=True)
+#     read_iops = FloatType(serialize_when_none=False)
+#     write_iops = FloatType(serialize_when_none=False)
+#     read_throughput = FloatType(serialize_when_none=False)
+#     write_throughput = FloatType(serialize_when_none=False)
+#     labels = ListType(ModelType(Labels), default=[], serialize_when_none=False)
 
 
-class Disk(Model):
-    device_index = IntType()
-    device = StringType(default="")
-    disk_type = StringType(default="disk")
-    size = FloatType()
-    tags = ModelType(DiskTags, default={})
+# class Disk(Model):
+#     device_index = IntType()
+#     device = StringType(default="")
+#     disk_type = StringType(default="disk")
+#     size = FloatType()
+#     tags = ModelType(DiskTags, default={})
 
 
 # loadbalancing = load_balancer
@@ -347,19 +382,19 @@ class Display(Model):
     has_gpu = BooleanType(default=False)
 
 
-class VMInstance(Model):
-    os = ModelType(OS)
-    naver_cloud = ModelType(NaverCloud)
-    primary_ip_address = StringType()
-    hardware = ModelType(Hardware)
-    compute = ModelType(Compute)
-    gpus = ListType(ModelType(GPU))
-    total_gpu_count = IntType()
-    load_balancers = ListType(ModelType(LoadBalancer))
-    security_group = ListType(ModelType(SecurityGroup))
-    vpc = ModelType(VPC)
-    subnet = ModelType(Subnet)
-    nics = ListType(ModelType(NIC))
-    disks = ListType(ModelType(Disk))
-    autoscaler = ModelType(AutoScaler, serialize_when_none=False)
-    display = ModelType(Display, serialize_when_none=False)
+# class VMInstance(Model):
+#     os = ModelType(OS)
+#     naver_cloud = ModelType(NaverCloud)
+#     primary_ip_address = StringType()
+#     hardware = ModelType(Hardware)
+#     compute = ModelType(Compute)
+#     gpus = ListType(ModelType(GPU))
+#     total_gpu_count = IntType()
+#     load_balancers = ListType(ModelType(LoadBalancer))
+#     security_group = ListType(ModelType(SecurityGroup))
+#     vpc = ModelType(VPC)
+#     subnet = ModelType(Subnet)
+#     nics = ListType(ModelType(NIC))
+#     disks = ListType(ModelType(Storage))
+#     autoscaler = ModelType(AutoScaler, serialize_when_none=False)
+#     display = ModelType(Display, serialize_when_none=False)
