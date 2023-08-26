@@ -5,7 +5,7 @@ import ipaddress
 from urllib.parse import urlparse
 
 from spaceone.core.manager import BaseManager
-from spaceone.inventory.libs.connector import GoogleCloudConnector
+from spaceone.inventory.libs.connector import NaverCloudConnector
 from spaceone.inventory.libs.schema.region import RegionResource, RegionResponse
 from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
 from spaceone.inventory.conf.cloud_service_conf import REGION_INFO, ASSET_URL
@@ -25,7 +25,7 @@ class NaverCloudManager(BaseManager):
     def verify(self, options, secret_data, **kwargs):
         """ Check collector's status.
         """
-        connector: GoogleCloudConnector = GoogleCloudConnector(secret_data=secret_data)
+        connector: NaverCloudManager = NaverCloudConnector(secret_data=secret_data)
         connector.verify()
 
     def collect_cloud_service_type(self, params):
