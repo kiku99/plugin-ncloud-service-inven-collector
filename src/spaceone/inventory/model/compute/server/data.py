@@ -173,8 +173,8 @@ class PublicIpInstanceList(Model):  # 공인 IP 인스턴스 리스트를 조회
 class PortForwardingRules(Model):  # 포트포워딩룰
     portForwardingConfigurationNo = StringType()
     portForwardingRuleListInstanceNo = StringType()
-    portForwardingRuleListportForwardingExternalPort = StringType()
-    portForwardingRuleListportForwardingInternalPort = StringType()
+    portForwardingRule_portForwardingExternalPort = StringType()
+    portForwardingRule_portForwardingInternalPort = StringType()
 
 
 class Labels(Model):
@@ -184,8 +184,8 @@ class Labels(Model):
 
 class Tags(Model):
     instanceNoList = ListType()
-    instanceTagListkey = StringType()
-    instanceTagListtagValue = StringType()
+    instanceTag_key = StringType()
+    instanceTag_Value = StringType()
 
 
 class InstanceTagList(Model):
