@@ -1,5 +1,7 @@
 from schematics import Model
-from schematics.types import ModelType, ListType, StringType, IntType, DateTimeType, BooleanType, FloatType, DictType, LongType
+from schematics.types import ModelType, ListType, StringType, IntType, DateTimeType, BooleanType, FloatType, DictType, \
+    LongType
+
 
 # common
 # class getServerProductList(Model):
@@ -35,20 +37,12 @@ from schematics.types import ModelType, ListType, StringType, IntType, DateTimeT
 #     pageSize = IntType(2147483647)
 
 
-
-class createLoginKey(Model): #생성
-    keyName = StringType(30)
-class deleteLoginKey(Model): # 로그인키를 이용하여 비밀번호를 암호화->복호화키 삭제
+class LoginKey(Model):  # 생성
     keyName = StringType(30)
 
 
-class importLoginKey(Model):#서버인스턴스 접속시 로그인키를 이용하여 비밀번호 암호화
-    keyName = StringType(30)
-    publicKey = StringType
-
-
-class getAccessControlGroupList(Model):
-    #서버인스턴스 생성할때 사용자가 설정한 ACCESS Control Group을 넣어 방화벽기능 설정
+class AccessControlGroupList(Model):
+    # 서버인스턴스 생성할때 사용자가 설정한 ACCESS Control Group을 넣어 방화벽기능 설정
     accessControlGroupConfigurationNoList = ListType(5)
     isDefaultGroup = BooleanType
     accessControlGroupName = StringType(30)
@@ -64,7 +58,7 @@ class getAccessControlGroupList(Model):
 #     accessControlGroupConfigurationNo = StringType()
 
 # disk
-class getServerInstanceList(Model): #서버 인스턴스 리스트 조회(페이징처리)
+class ServerInstanceList(Model):  # 서버 인스턴스 리스트 조회(페이징처리)
     serverInstanceNoList = ListType()
     searchFilterName = StringType()
     searchFilterValue = StringType()
@@ -78,8 +72,6 @@ class getServerInstanceList(Model): #서버 인스턴스 리스트 조회(페이
     sortedBy = StringType()
     sortingOrder = StringType()
 
-class createServerInstances(Model) :#서버 인스턴스 생성
-    serverImageProductCode = StringType(20)
 
 # class recreateServerInstances(Model) : #서버인스턴스 재생성(베어메탈상품 전용)
 #     serverInstanceNo = StringType()
@@ -92,76 +84,44 @@ class createServerInstances(Model) :#서버 인스턴스 생성
 # class terminateServerInstances(Model) : #서버 인스턴스 반납?
 #     serverInstaceNoList = ListType()
 
-class startServerInstances(Model) : #서버 인스턴스 시작
-    serverInstanceNoList = ListType()
-
-class rebootServerInstances(Model) : #서버인스턴스 재시작
-    serverInstanceNoList = ListType()
-
-class stopServerInstances(Model) : #VM 정지
-    serverInstanceNoList = ListType()
-
-class createMemberServerImage(Model) : #서버이미지 생성
+class MemberServerImage(Model):  # 서버이미지 생성
     memberServerImageName = StringType(30)
     memberServerImageDescription = StringType(1000)
     serverInstanceNo = StringType()
-class deleteMemberServerImages(Model) :
-    memberServerImageNoList = ListType()
 
-class createBlockStorageInstance(Model) : #블록스토리지인스턴스 생성
+
+class BlockStorageInstance(Model):  # 블록스토리지인스턴스 생성
     blockStorageName = StringType(30)
     blockStorageSize = LongType(2000)
     blockStorageDescription = StringType(2000)
     serverInstanceNo = StringType()
     diskDetailTypeCode = StringType()
 
-class deleteBlockStorageInstances(Model) :
-    blockStorageInstanceNoList = ListType()
-class changeBlockStorageVolumeSize(Model) : #블록스토리지불륨사이즈 변경
-    blockStorageInstanceNo = StringType()
-    blockStorageSize = LongType()
-class attachBlockStorageInstance(Model): #블록 스토리지 인스턴스를 서버에 할당
-    blockStorageInstanceNo = StringType()
-    serverInstanceNo = StringType()
 
-class detachBlockStorageInstances(Model) : #블록스토리지 인스턴스 리스트를 서버에서 할당 해제
-    blockStorageInstanceNoList = ListType()
-
-class createBlockStorageSnapshotInstances(Model) : #블록 스토리지 스냡샷 인스턴스 생성
+class BlockStorageSnapshotInstances(Model):  # 블록 스토리지 스냡샷 인스턴스 생성
     blockStorageInstanceNo = StringType()
     blockStorageSnapshotName = StringType()
     blockStorageSnapshotDescription = StringType(1000)
 
-class deleteBlockStorageSnapshotInstances(Model) : #위에꺼 삭제
-    blockStorageSnapshotInstanceNoList = ListType()
 
-class getBlockStorageSnapshotInstanceList(Model) :
-    blockStorageSnapshotInstanceNoList = ListType()
-    originalBlockStorageInstanceNoList = ListType()
+class PublicIpTargetServerInstanceList(Model):  # IP할당 가능 서버 인스턴스 조회
     regionNo = StringType()
-    pageNo = IntType()
-    pagesize = IntType()
-class getPublicIpTargetServerInstanceList(Model) : #IP할당 가능 서버 인스턴스 조회
-    regionNo =StringType()
     zoneNo = StringType()
-class createPublicIpInstance(Model) :
+
+
+class PublicIpInstance(Model):
     serverInstanceNo = StringType()
     publicIpDescription = StringType(1000)
     regionNo = StringType()
     zoneNo = StringType()
 
-class associatePublicIpWithServerInstance(Model) : #공인 IP를 서버 인스턴스에 할당
-    publicIpInstanceNo = StringType()
-    publicIpInstanceNo = StringType()
-class disassociatePublicIpFromServerInstance(Model) :
-    publicIpInstanceNo  = StringType()
 
-class deletePublicIpInstances(Model):
-    publicIpInstanceNoList = ListType()
-class getPortForwardingRuleList(Model) :
+class PortForwardingRuleList(Model):
     regionNo = StringType()
     zoneNo = StringType()
-class getPublicIpInstanceList(Model) : #공인 IP 인스턴스 리스트를 조회
+
+
+class PublicIpInstanceList(Model):  # 공인 IP 인스턴스 리스트를 조회
     isAssociated = BooleanType()
     publicIpInstanceNoList = StringType()
     publicIpList = ListType(15)
@@ -174,44 +134,47 @@ class getPublicIpInstanceList(Model) : #공인 IP 인스턴스 리스트를 조�
     sortedBy = StringType()
     sortingOrder = StringType()
 
-class deletePortForwardingRules (Model): #포트포워딩룰
-    portForwardingConfigurationNo =StringType()
+
+class PortForwardingRules(Model):  # 포트포워딩룰
+    portForwardingConfigurationNo = StringType()
     portForwardingRuleListInstanceNo = StringType()
     portForwardingRuleListportForwardingExternalPort = StringType()
     portForwardingRuleListportForwardingInternalPort = StringType()
+
+
 class Labels(Model):
     key = StringType()
     value = StringType()
 
-class CreateTags(Model):
+
+class Tags(Model):
     instanceNoList = ListType()
     instanceTagListkey = StringType()
     instanceTagListtagValue = StringType()
 
 
-class deleteTags(Model) :
-    instanceNoList = ListType()
-    instanceTagListtagKey= ListType()
-    instanceTagListtagValue = ListType()
-
-class getInstanceTagList(Model) :
+class InstanceTagList(Model):
     instanceNoList = ListType()
     tagKeyList = ListType()
     tagValueList = ListType()
     pageNo = IntType()
     pageSize = IntType()
 
-class setProtectServerTermination(Model) : # 서버반납보호여부
+
+class ProtectServerTermination(Model):  # 서버반납보호여부
     serverInstanceNo = StringType()
     isProtectServerTermination = BooleanType()
 
-class interrupServerInstance(Model) :
+
+class InterruptServerInstance(Model):
     serverInstanceNo = StringType()
+
+
 class Description(Model):
     description = StringType()
 
 
-class AccessPolicy(Model) :
+class AccessPolicy(Model):
     service_account = StringType()
     display_name = StringType()
     scopes = ListType(ModelType(Description))
@@ -272,7 +235,7 @@ class NaverCloud(Model):
     reservation_affinity = StringType(default="ANY_RESERVATION")
     deletion_protection = BooleanType(default=False)
     scheduling = ModelType(Scheduling)
-    tags = ListType(ModelType(CreateTags))
+    tags = ListType(ModelType(Tags))
     labels = ListType(ModelType(Labels), default=[])
     ssh_keys = ModelType(SSHKey)
     service_accounts = ListType(ModelType(AccessPolicy), default=[])
