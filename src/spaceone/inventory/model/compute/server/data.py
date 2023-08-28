@@ -288,12 +288,12 @@ class OS(Model):
 #     labels = ListType(ModelType(Labels), default=[], serialize_when_none=False)
 
 
-# class Disk(Model):
-#     device_index = IntType()
-#     device = StringType(default="")
-#     disk_type = StringType(default="disk")
-#     size = FloatType()
-#     tags = ModelType(DiskTags, default={})
+class Storage(Model):
+    device_index = IntType()
+    device = StringType(default="")
+    disk_type = StringType(default="disk")
+    size = FloatType()
+    tags = ModelType(Tags, default={})
 
 
 # loadbalancing = load_balancer
