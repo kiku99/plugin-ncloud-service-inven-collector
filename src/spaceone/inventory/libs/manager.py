@@ -25,7 +25,7 @@ class NaverCloudManager(BaseManager):
     def verify(self, options, secret_data, **kwargs):
         """ Check collector's status.
         """
-        connector: NaverCloudConnector = NaverCloudConnector(secret_data=secret_data)
+        connector: NaverCloudManager = NaverCloudConnector(secret_data=secret_data)
         connector.verify()
 
     def collect_cloud_service_type(self, params):

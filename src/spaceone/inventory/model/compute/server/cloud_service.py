@@ -1,6 +1,6 @@
 from schematics.types import ModelType, StringType, PolyModelType
 
-from src.spaceone.inventory.model.compute.server.data import VMInstance
+from src.spaceone.inventory.model.compute.server.data import ServerInstance
 from src.spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, EnumDyField, ListDyField, \
     DateTimeDyField, SizeField, MoreField
 from src.spaceone.inventory.libs.schema.metadata.dynamic_layout import ItemDynamicLayout, TableDynamicLayout, \
@@ -9,9 +9,9 @@ from src.spaceone.inventory.libs.schema.cloud_service import CloudServiceMeta, C
     CloudServiceResponse
 
 '''
-VM Instance
+Server Instance
 '''
-vm_instance = ItemDynamicLayout.set_fields('VM Instance', fields=[
+server_instance = ItemDynamicLayout.set_fields('Server Instance', fields=[
     TextDyField.data_source('Account', 'data.compute.account'),
     TextDyField.data_source('Instance ID', 'data.compute.instance_id'),
     TextDyField.data_source('Instance Name', 'data.compute.instance_name'),
@@ -51,7 +51,7 @@ vm_instance = ItemDynamicLayout.set_fields('VM Instance', fields=[
     DateTimeDyField.data_source('Launched At', 'data.compute.launched_at'),
 ])
 
-google_cloud_vpc = ItemDynamicLayout.set_fields('VPC', fields=[
+naver_cloud_vpc = ItemDynamicLayout.set_fields('VPC', fields=[
     TextDyField.data_source('VPC ID', 'data.vpc.vpc_id'),
     TextDyField.data_source('VPC Name', 'data.vpc.vpc_name'),
     TextDyField.data_source('Subnet ID', 'data.subnet.subnet_id'),
@@ -125,9 +125,9 @@ service_accounts = TableDynamicLayout.set_fields('API and Identity Management',r
     })
 ])
 
-compute_engine = ListDynamicLayout.set_layouts('Compute Engine',layouts=[vm_instance, google_cloud_vpc, ssh_keys, ssh_options, service_accounts, instance_group_manager])
+server_engine = ListDynamicLayout.set_layouts('server engine', layouts=[server_instance, naver_cloud_vpc, ssh_keys, ssh_options, service_accounts, instance_group_manager])
 
-disk = TableDynamicLayout.set_fields('Disk', root_path='data.disks', fields=[
+storage = TableDynamicLayout.set_fields('Storage', root_path='data.storage', fields=[
     TextDyField.data_source('Index', 'device_index'),
     TextDyField.data_source('Name', 'tags.disk_name'),
     SizeField.data_source('Size', 'size'),
@@ -187,18 +187,19 @@ tags = TableDynamicLayout.set_fields('Tags', root_path='data.naver_cloud.tags', 
     TextDyField.data_source('Item', 'key')
 ])
 
-vm_instance_meta = CloudServiceMeta.set_layouts([compute_engine, labels, tags, disk, nic, firewall, lb])
+
+server_instance_meta = CloudServiceMeta.set_layouts([server_engine, labels, tags, storage, nic, firewall, lb])
 
 
-class ComputeEngineResource(CloudServiceResource):
-    cloud_service_group = StringType(default='ComputeEngine')
+class ComputeResource(CloudServiceResource):
+    cloud_service_group = StringType(default='Compute')
 
 
-class VMInstanceResource(ComputeEngineResource):
-    cloud_service_type = StringType(default='Instance')
-    data = ModelType(VMInstance)
-    _metadata = ModelType(CloudServiceMeta, default=vm_instance_meta, serialized_name='metadata')
+class ServerInstanceResource(ComputeResource):
+    cloud_service_type = StringType(default='Server')
+    data = ModelType(ServerInstance)
+    _metadata = ModelType(CloudServiceMeta, default=server_instance_meta, serialized_name='metadata')
 
 
-class VMInstanceResponse(CloudServiceResponse):
-    resource = PolyModelType(VMInstanceResource)
+class ServerInstanceResponse(CloudServiceResponse):
+    resource = PolyModelType(ServerInstanceResource)
