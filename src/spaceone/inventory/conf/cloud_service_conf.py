@@ -13,42 +13,6 @@ CLOUD_SERVICE_GROUP_MAP = {
         'AutoScalingManager',
         'CloudFunctionsManager',
         'ApplicationServerLauncher'
-    ],
-    'ContainersServices': [
-        'ContainerRegistryManager',
-        'KubernetesServiceManager'
-    ],
-    'Storage': [
-        'ObjectStorageManager',
-        'ArchiveStorageManager',
-        'BlockStorageManager',
-        'NASManager',
-        'BackupManager'
-    ],
-    'Database': [
-        'CloudDBForPostgreSQLManager',
-        'CloudDBForMySQLManager',
-        'CloudDBForRedisManager',
-        'CloudDBForMSSQLManager',
-        'CloudDBForMongoDBManager',
-        'MSSQLManager',
-        'MySQLManager',
-        'CUBRIDManager',
-        'RedisManager',
-        'PostgreSQLManager',
-        'MariaDBManager',
-        'TiberoManager',
-        'DatabaseMigrationServiceManager'
-    ],
-    'Networking': [
-        'VPCManager',
-        'LoadBalancerManager',
-        'CloudConnectManager',
-        'GlobalDNSManager',
-        'IPsecVPNManager',
-        'NATGatewayManager',
-        'DNSManager',
-        'GlobalTrafficManager'
     ]
 }
 
