@@ -2,7 +2,7 @@ from schematics import Model
 from schematics.types import ListType, StringType, PolyModelType, DictType, ModelType, FloatType, DateTimeType
 
 from .base import BaseMetaData, BaseResponse, MetaDataView, MetaDataViewSubData, ReferenceModel
-from src.spaceone.inventory.model.compute_engine.instance.data import VMInstance, NIC, Disk
+from src.spaceone.inventory.model.compute.server.data import ServerInstance, NIC, Storage
 from src.spaceone.inventory.libs.schema.region import RegionResource
 
 
@@ -39,8 +39,9 @@ class BaseResource(Model):
     region = StringType(serialize_when_none=False)
     self_link = StringType(deserialize_from='selfLink', serialize_when_none=False)
 
+
 class CloudServiceResource(Model):
-    provider = StringType(default="google_cloud")
+    provider = StringType(default="naver_cloud")
     account = StringType()
     ip_addresses = ListType(StringType())
     instance_type = StringType(serialize_when_none=False)
@@ -66,9 +67,9 @@ class CloudServiceResponse(BaseResponse):
 
 class ErrorResource(Model):
     resource_type = StringType(default='inventory.CloudService')
-    provider = StringType(default="google_cloud")
-    cloud_service_group = StringType(default='ComputeEngine', serialize_when_none=False)
-    cloud_service_type = StringType(default='Instance', serialize_when_none=False)
+    provider = StringType(default="naver_cloud")
+    cloud_service_group = StringType(default='Compute', serialize_when_none=False)
+    cloud_service_type = StringType(default='Server', serialize_when_none=False)
     resource_id = StringType(serialize_when_none=False)
 
 
@@ -78,23 +79,23 @@ class ErrorResourceResponse(CloudServiceResponse):
     resource = ModelType(ErrorResource, default={})
 
 
-class VMInstanceResource(Model):
+class ServerInstanceResource(Model):
     server_type = StringType(default='VM')
-    os_type = StringType(choices=('LINUX', 'WINDOWS'))
+    os_type = StringType(choices=('CentOS', 'Ubuntu' 'WINDOWS'))
     primary_ip_address = StringType()
     ip_addresses = ListType(StringType())
     nics = ListType(ModelType(NIC))
-    disks = ListType(ModelType(Disk))
-    provider = StringType(default='google_cloud')
-    cloud_service_type = StringType(default='Instance')
-    cloud_service_group = StringType(default='ComputeEngine')
+    disks = ListType(ModelType(Storage))
+    provider = StringType(default='naver_cloud')
+    cloud_service_type = StringType(default='Server')
+    cloud_service_group = StringType(default='Compute')
     name = StringType()
     account = StringType()
     instance_type = StringType(serialize_when_none=False)
     instance_size = StringType(serialize_when_none=False)
     launched_at = StringType(serialize_when_none=False)
     region_code = StringType()
-    data = ModelType(VMInstance)
+    data = ModelType(ServerInstance)
     tags = ListType(ModelType(Labels))
     reference = ModelType(ReferenceModel)
     _metadata = ModelType(ServerMetadata, serialized_name='metadata')
@@ -105,4 +106,3 @@ class RegionResourceResponse(BaseResponse):
     resource_type = StringType(default='inventory.Region')
     match_rules = DictType(ListType(StringType), default={'1': ['region_code', 'provider']})
     resource = PolyModelType(RegionResource)
-
