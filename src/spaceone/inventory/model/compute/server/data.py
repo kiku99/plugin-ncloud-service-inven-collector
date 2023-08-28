@@ -106,31 +106,11 @@ class ServerInstance(Model):
     blockDevicePartitionList = ListType(StringType, default=[])
 
 
-
-
-# class recreateServerInstances(Model) : #서버인스턴스 재생성(베어메탈상품 전용)
-#     serverInstanceNo = StringType()
-#     serverInstanceName = StringType()
-#     serverImageProductCode = StringType()
-#     userData = StringType(21847)
-#     instanceTagListKey = ListType()
-#     instanceTagListValue = ListType()
-
-# class terminateServerInstances(Model) : #서버 인스턴스 반납?
-#     serverInstaceNoList = ListType()
-
 class MemberServerImage(Model):  # 서버이미지 생성
     memberServerImageName = StringType(30)
     memberServerImageDescription = StringType(1000)
     serverInstanceNo = StringType()
 
-
-class Storage(Model):  # 블록스토리지인스턴스
-    storageName = StringType(30)
-    storageSize = LongType()
-    StorageDescription = StringType()
-    serverInstanceNo = StringType()
-    storageDetailTypeCode = StringType()
 
 
 class BlockStorageSnapshotInstances(Model):  # 블록 스토리지 스냡샷 인스턴스 생성
@@ -186,6 +166,7 @@ class Tags(Model):
     instanceNoList = ListType()
     instanceTag_key = StringType()
     instanceTag_Value = StringType()
+    disk_name = StringType()
 
 
 class InstanceTagList(Model):
@@ -230,7 +211,7 @@ class AutoScaler(Model):
     instance_group = ModelType(InstanceGroup, serialize_when_none=False)
 
 
-class Compute(Model):
+class compute(Model):
     keypair = StringType(default="")
     public_ip_address = StringType()
     az = StringType()
@@ -259,6 +240,8 @@ class Key(Model):
 
 
 class SSHKey(Model):
+    user_name = StringType()
+    display_name = StringType()
     block_project_ssh_keys = StringType()
     ssh_keys = ListType(ModelType(Key))
 
@@ -344,9 +327,9 @@ class SecurityGroup(Model):
     remote_id = StringType(serialize_when_none=False)  # filter value
     remote_cidr = StringType(serialize_when_none=False)  # cidr
     security_group_name = StringType(default="")
+    security_group_id = StringType()
     port_range_min = IntType(serialize_when_none=False)
     port_range_max = IntType(serialize_when_none=False)
-    security_group_id = StringType()
     description = StringType(default="")
     direction = StringType(choices=("inbound", "outbound"))
     port = StringType(serialize_when_none=False)
