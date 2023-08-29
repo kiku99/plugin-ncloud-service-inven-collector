@@ -37,17 +37,13 @@ from schematics.types import ModelType, ListType, StringType, IntType, DateTimeT
 #     pageSize = IntType(2147483647)
 
 
-class LoginKey(Model):  # 생성
-    keyName = StringType(30)
-
-
 class AccessControlGroupList(Model):
     # 서버인스턴스 생성할때 사용자가 설정한 ACCESS Control Group을 넣어 방화벽기능 설정
-    accessControlGroupConfigurationNoList = ListType(5)
+    accessControlGroupConfigurationNoList = ListType(IntType())
     isDefaultGroup = BooleanType
-    accessControlGroupName = StringType(30)
-    pageNo = IntType(2147483647)
-    pageSize = IntType(2147483647)
+    accessControlGroupName = StringType()
+    pageNo = IntType()
+    pageSize = IntType()
 
 
 # class getAccessControlGroupServerInstanceList(Model): # 접근제어그룹설정 번호로 등록된 서버 인스턴스 리스트들 조회
@@ -59,16 +55,16 @@ class AccessControlGroupList(Model):
 
 # disk
 class ServerInstanceList(Model):  # 서버 인스턴스 리스트 조회(페이징처리)
-    serverInstanceNoList = ListType()
+    serverInstanceNoList = ListType(IntType())
     searchFilterName = StringType()
     searchFilterValue = StringType()
     pageNo = IntType()
     pageSize = IntType()
-    serverInstanceStatusCode = StringType(5)
+    serverInstanceStatusCode = StringType()
     regionNo = StringType()
     zoneNo = StringType()
-    baseBlockStorageDiskTypeCode = StringType(5)
-    baseBlockStorageDiskDetailTypeCode = StringType(5)
+    baseBlockStorageDiskTypeCode = StringType()
+    baseBlockStorageDiskDetailTypeCode = StringType()
     sortedBy = StringType()
     sortingOrder = StringType()
 
@@ -85,8 +81,8 @@ class ServerInstanceList(Model):  # 서버 인스턴스 리스트 조회(페이�
 #     serverInstaceNoList = ListType()
 
 class MemberServerImage(Model):  # 서버이미지 생성
-    memberServerImageName = StringType(30)
-    memberServerImageDescription = StringType(1000)
+    memberServerImageName = StringType()
+    memberServerImageDescription = StringType()
     serverInstanceNo = StringType()
 
 
@@ -97,7 +93,7 @@ class PublicIpTargetServerInstanceList(Model):  # IP할당 가능 서버 인스�
 
 class PublicIpInstance(Model):
     serverInstanceNo = StringType()
-    publicIpDescription = StringType(1000)
+    publicIpDescription = StringType()
     regionNo = StringType()
     zoneNo = StringType()
 
@@ -110,7 +106,7 @@ class PortForwardingRuleList(Model):
 class PublicIpInstanceList(Model):  # 공인 IP 인스턴스 리스트를 조회
     isAssociated = BooleanType()
     publicIpInstanceNoList = StringType()
-    publicIpList = ListType(15)
+    publicIpList = ListType(StringType, default=[])
     searchFilterName = StringType()
     searchFilterValue = StringType()
     regionNo = StringType()
@@ -134,15 +130,15 @@ class Labels(Model):
 
 
 class Tags(Model):
-    instanceNoList = ListType()
+    instanceNoList = ListType(StringType, default=[])
     instanceTag_key = StringType()
     instanceTag_Value = StringType()
 
 
 class InstanceTagList(Model):
-    instanceNoList = ListType()
-    tagKeyList = ListType()
-    tagValueList = ListType()
+    instanceNoList = ListType(StringType, default=[])
+    tagKeyList = ListType(StringType, default=[])
+    tagValueList = ListType(StringType, default=[])
     pageNo = IntType()
     pageSize = IntType()
 
@@ -298,7 +294,7 @@ class GPU(Model):
 #     has_gpu = BooleanType(default=False)
 
 class Storage(Model):  # 블록스토리지인스턴스
-    storageName = StringType(30)
+    storageName = StringType()
     storageSize = LongType()
     storageDescription = StringType()
     storageDiskType = StringType(choices=('LOCAL', 'NET'))

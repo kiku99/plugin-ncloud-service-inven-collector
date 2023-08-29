@@ -1,6 +1,7 @@
 from __future__ import print_function
 import ncloud_server
 from ncloud_server.rest import ApiException
+import ncloud_apikey
 import logging
 
 from spaceone.core.connector import BaseConnector
@@ -30,16 +31,15 @@ class NaverCloudConnector(BaseConnector):
         secret_data = kwargs.get('secret_data')
 
         # create an instance of the API class
-        configuration = ncloud_server.Configuration()
-        configuration.access_key = "access key"
+       # configuration = ncloud_server.Configuration()
+        #configuration.access_key = "access_key"
 
-        configuration.secret_key = "secret key"
-
-
-        #self.credentials = ncloud_apikey.Credentials
+        #configuration.secret_key = "secret_key"
 
 
-        self.client = ncloud_server.V2Api(ncloud_server.ApiClient(configuration))
+        self.credentials = ncloud_apikey.Credentials
+
+        self.client = ncloud_server.V2Api(ncloud_server.ApiClient(credentials=self.credentials))
         get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
         #add_nas_volume_access_control_request = ncloud_server.AddNasVolumeAccessControlRequest()  # AddNasVolumeAccessControlRequest | addNasVolumeAccessControlRequest
 
