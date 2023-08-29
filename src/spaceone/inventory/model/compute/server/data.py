@@ -3,154 +3,22 @@ from schematics.types import ModelType, ListType, StringType, IntType, DateTimeT
     LongType
 
 
-# common
-# class getServerProductList(Model):
-#     serverImageProductCode = StringType(20)
-#     exclusionProductCode = StringType(20)
-#     productCode = StringType(20)
-#     generationCode = StringType(20)
-#     regionNo = StringType()
-#     zoneNo = StringType()
-#
-#
-# class getServerImageProductList(Model):
-#     exclusionProductCode = StringType(20)
-#     productCode = StringType(20)
-#     platformTypeCodeList = ListType()
-#     blockStorageSize = IntType()
-#     regionNO = StringType()
-#     ingraResourceDetailTypeCode = StringType()
-#
-# # class getRaidList(Model):
-#
-# class getZoneList(Model):
-#     regionNo = StringType()
-#
-# class getRegionList(Model):
-#     regionNo = StringType()
-#
-# # class getInitScriptList(Model):
-#
-# class getLoginKeyList(Model):
-#     keyName = StringType(30)
-#     pageNo = IntType(2147483647)
-#     pageSize = IntType(2147483647)
+class AccessControlGroup(Model):
+    accessControlGroupConfigurationNo = StringType()
+    accessControlGroupName = StringType()
+    accessControlGroupDescription = StringType()
+    isDefaultGroup = BooleanType()
+    createData = DateTimeType()
 
 
 class AccessControlGroupList(Model):
-    # 서버인스턴스 생성할때 사용자가 설정한 ACCESS Control Group을 넣어 방화벽기능 설정
-    accessControlGroupConfigurationNoList = ListType(IntType())
+    # 서버인스턴스 생성할때 사용자가 설정한 ACCESS Control Group을 넣어 방화벽 기능 설정
+    accessControlGroup = ModelType(AccessControlGroup)
+    accessControlGroupConfigurationNoList = ListType(StringType())
     isDefaultGroup = BooleanType
     accessControlGroupName = StringType()
     pageNo = IntType()
     pageSize = IntType()
-
-
-# class getAccessControlGroupServerInstanceList(Model): # 접근제어그룹설정 번호로 등록된 서버 인스턴스 리스트들 조회
-#     accessControlGroupConfigurationNo = StringType()
-
-
-# class getAccessControlRuleList(Model):#접근제어규칙리스트초회
-#     accessControlGroupConfigurationNo = StringType()
-
-# disk
-class ServerInstanceList(Model):  # 서버 인스턴스 리스트 조회(페이징처리)
-    serverInstanceNoList = ListType(IntType())
-    searchFilterName = StringType()
-    searchFilterValue = StringType()
-    pageNo = IntType()
-    pageSize = IntType()
-    serverInstanceStatusCode = StringType()
-    regionNo = StringType()
-    zoneNo = StringType()
-    baseBlockStorageDiskTypeCode = StringType()
-    baseBlockStorageDiskDetailTypeCode = StringType()
-    sortedBy = StringType()
-    sortingOrder = StringType()
-
-
-class ServerInstance(Model):
-    serverInstanceNo = StringType()
-    serverName = StringType()
-    serverDescription = StringType()
-    cpuCount = IntType()
-    memorySize = LongType()
-    baseBlockStorageSize = LongType()
-    platformType = StringType(choices=('LNX32', 'WIN64'))
-    loginKeyName = StringType()
-    publicIp = StringType()
-    privateIp = StringType()
-    serverImageName = StringType()
-    serverInstanceStatus = StringType(choices=('INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'))
-    serverInstanceOperation = StringType(choices=('START', 'SHTDN', 'RESTA', 'TERMT', 'NULL', 'MIGRA', 'COPY', 'SETUP', 'HREST', 'HSHTD', 'CHNG', 'CREAT'))
-    serverInstanceStatusName = StringType()
-    createDate = DateTimeType()
-    uptime = DateTimeType()
-    serverImageProductCode = StringType()
-    serverProductCode = StringType()
-    isProtectServerTermination = BooleanType()
-    portForwardingPublicIp = StringType()
-    portForwardingExternalPort = IntType()
-    portForwardingInternalPort = IntType()
-    zone = StringType(serialize_when_none=False)
-    region = StringType(serialize_when_none=False)
-    baseBlockStorageDiskType = StringType(choices=('LOCAL', 'NET'))
-    baseBlockStorageDiskDetailType = StringType(choices=('LOCAL', 'NET'))
-    serverInstanceType = StringType(choices=('LOCAL', 'NET'))
-    userData = StringType()
-    accessControlGroupList = ListType(StringType, default=[])
-    blockDevicePartitionList = ListType(StringType, default=[])
-
-
-class MemberServerImage(Model):  # 서버이미지 생성
-    memberServerImageName = StringType(30)
-    memberServerImageDescription = StringType(1000)
-    serverInstanceNo = StringType()
-
-
-class Storage(Model):  # 블록스토리지인스턴스
-    storageName = StringType(30)
-    storageSize = LongType()
-    StorageDescription = StringType()
-    serverInstanceNo = StringType()
-    storageDetailTypeCode = StringType()
-
-
-class BlockStorageSnapshotInstances(Model):  # 블록 스토리지 스냡샷 인스턴스 생성
-    blockStorageInstanceNo = StringType()
-    blockStorageSnapshotName = StringType()
-    blockStorageSnapshotDescription = StringType(1000)
-
-
-class PublicIpTargetServerInstanceList(Model):  # IP할당 가능 서버 인스턴스 조회
-    regionNo = StringType()
-    zoneNo = StringType()
-
-
-class PublicIpInstance(Model):
-    serverInstanceNo = StringType()
-    publicIpDescription = StringType()
-    regionNo = StringType()
-    zoneNo = StringType()
-
-
-class PortForwardingRuleList(Model):
-    regionNo = StringType()
-    zoneNo = StringType()
-
-
-class PublicIpInstanceList(Model):  # 공인 IP 인스턴스 리스트를 조회
-    isAssociated = BooleanType()
-    publicIpInstanceNoList = StringType()
-    publicIpList = ListType(StringType, default=[])
-    searchFilterName = StringType()
-    searchFilterValue = StringType()
-    regionNo = StringType()
-    zoneNo = StringType()
-    pageNo = IntType()
-    pageSize = IntType()
-    sortedBy = StringType()
-    sortingOrder = StringType()
 
 
 class PortForwardingRules(Model):  # 포트포워딩룰
@@ -160,19 +28,15 @@ class PortForwardingRules(Model):  # 포트포워딩룰
     portForwardingRule_portForwardingInternalPort = StringType()
 
 
-class Labels(Model):
-    key = StringType()
-    value = StringType()
-
-
-class Tags(Model):
-    instanceNoList = ListType(StringType, default=[])
-    instanceTag_key = StringType()
-    instanceTag_Value = StringType()
-    disk_name = StringType()
+class InstanceTag(Model):
+    instanceNo = StringType()
+    instanceType = StringType()
+    tagKey = StringType()
+    tagValue = StringType()
 
 
 class InstanceTagList(Model):
+    instanceTag = ModelType(InstanceTag)
     instanceNoList = ListType(StringType, default=[])
     tagKeyList = ListType(StringType, default=[])
     tagValueList = ListType(StringType, default=[])
@@ -185,116 +49,6 @@ class ProtectServerTermination(Model):  # 서버반납보호여부
     isProtectServerTermination = BooleanType()
 
 
-class InterruptServerInstance(Model):
-    serverInstanceNo = StringType()
-
-
-class Description(Model):
-    description = StringType()
-
-
-class AccessPolicy(Model):
-    service_account = StringType()
-    display_name = StringType()
-    scopes = ListType(ModelType(Description))
-
-
-# InstanceGroup
-class InstanceGroup(Model):
-    id = StringType()
-    self_link = StringType()
-    name = StringType()
-    instance_template_name = StringType()
-
-
-class AutoScaler(Model):
-    id = StringType()
-    self_link = StringType()
-    name = StringType()
-    instance_group = ModelType(InstanceGroup, serialize_when_none=False)
-
-
-class Compute(Model):
-    keypair = StringType(default="")
-    public_ip_address = StringType()
-    az = StringType()
-    instance_id = StringType()
-    instance_name = StringType(default='')
-    instance_state = StringType(choices=(
-        'PROVISIONING', 'STAGING', 'RUNNING', 'STOPPING', 'REPAIRING', 'SUSPENDING', 'SUSPENDED', 'TERMINATED'))
-    instance_type = StringType()
-    account = StringType()
-    image = StringType()
-    launched_at = DateTimeType()
-    security_groups = ListType(StringType, default=[])
-    tags = DictType(StringType, default={})
-
-
-class Scheduling(Model):
-    on_host_maintenance = StringType(default="MIGRATE")
-    automatic_restart = BooleanType(default=True)
-    preemptible = BooleanType(default=False)
-
-
-class Key(Model):
-    user_name = StringType()
-    ssh_key = StringType()
-    display_name = StringType()
-
-
-class SSHKey(Model):
-    user_name = StringType()
-    display_name = StringType()
-    block_project_ssh_keys = StringType()
-    ssh_keys = ListType(ModelType(Key))
-
-
-# class NaverCloud(Model):
-#     self_link = StringType()
-#     fingerprint = StringType()
-#     reservation_affinity = StringType(default="ANY_RESERVATION")
-#     deletion_protection = BooleanType(default=False)
-#     scheduling = ModelType(Scheduling)
-#     tags = ListType(ModelType(Tags))
-#     labels = ListType(ModelType(Labels), default=[])
-#     ssh_keys = ModelType(SSHKey)
-#     service_accounts = ListType(ModelType(AccessPolicy), default=[])
-#     is_managed_instance = BooleanType(default=False)
-
-# disk
-# class DiskTags(Model):
-#     disk_id = StringType(serialize_when_none=False)
-#     disk_name = StringType(serialize_when_none=False)
-#     description = StringType(serialize_when_none=False)
-#     zone = StringType(serialize_when_none=False)
-#     disk_type = StringType(choices=('local-ssd', 'pd-balanced', 'pd-ssd', 'pd-standard'), serialize_when_none=False)
-#     encrypted = BooleanType(default=True)
-#     read_iops = FloatType(serialize_when_none=False)
-#     write_iops = FloatType(serialize_when_none=False)
-#     read_throughput = FloatType(serialize_when_none=False)
-#     write_throughput = FloatType(serialize_when_none=False)
-#     labels = ListType(ModelType(Labels), default=[], serialize_when_none=False)
-
-
-class Storage(Model):
-    device_index = IntType()
-    device = StringType(default="")
-    disk_type = StringType(default="disk")
-    size = FloatType()
-    tags = ModelType(Tags, default={})
-
-
-# loadbalancing = load_balancer
-class LoadBalancer(Model):
-    type = StringType(choices=('HTTP', 'TCP', 'UDP'))
-    name = StringType()
-    dns = StringType(default="")
-    port = ListType(IntType())
-    protocol = ListType(StringType())
-    scheme = StringType(choices=('EXTERNAL', 'INTERNAL'))
-    tags = DictType(StringType, default={})
-
-
 # nic
 class NIC(Model):
     device_index = IntType()
@@ -305,24 +59,6 @@ class NIC(Model):
     mac_address = StringType(default="")
     public_ip_address = StringType()
     tags = DictType(StringType, default={})
-
-
-# Firewallf
-class SecurityGroup(Model):
-    priority = IntType(serialize_when_none=False)
-    protocol = StringType()
-    remote = StringType()  # mimic
-    remote_id = StringType(serialize_when_none=False)  # filter value
-    remote_cidr = StringType(serialize_when_none=False)  # cidr
-    security_group_name = StringType(default="")
-    security_group_id = StringType()
-    port_range_min = IntType(serialize_when_none=False)
-    port_range_max = IntType(serialize_when_none=False)
-    security_group_id = StringType()
-    description = StringType(default="")
-    direction = StringType(choices=("inbound", "outbound"))
-    port = StringType(serialize_when_none=False)
-    action = StringType(choices=('allow', 'deny'))
 
 
 # vpc
@@ -343,14 +79,13 @@ class Subnet(Model):
     self_link = StringType()
 
 
-class GPU(Model):
+class Hardware(Model):
+    cpu_machine_type = StringType(serialize_when_none=False)
+    cpuCount = IntType()
     gpu_machine_type = StringType(serialize_when_none=False)
     gpu_count = IntType(serialize_when_none=False)
+    memorySize = LongType()
 
-
-# class Display(Model):
-#     gpus = ListType(StringType, default=[])
-#     has_gpu = BooleanType(default=False)
 
 class Storage(Model):  # 블록스토리지인스턴스
     storageName = StringType()
@@ -358,40 +93,66 @@ class Storage(Model):  # 블록스토리지인스턴스
     storageDescription = StringType()
     storageDiskType = StringType(choices=('LOCAL', 'NET'))
     storageDiskDetailType = StringType(choices=('LOCAL', 'NET'))
-
-
-class OS(Model):
-    platformType = StringType(choices=('LNX32', 'WIN64'))
+    #     read_iops = FloatType(serialize_when_none=False)
+    #     write_iops = FloatType(serialize_when_none=False)
+    #     read_throughput = FloatType(serialize_when_none=False)
+    #     write_throughput = FloatType(serialize_when_none=False)
 
 
 class Compute(Model):
-    serverInstanceNo = StringType()
-    serverName = StringType()
-    serverDescription = StringType()
     serverImageName = StringType()
     serverInstanceStatus = StringType(
         choices=('INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'))
     serverInstanceOperation = StringType(choices=(
         'START', 'SHTDN', 'RESTA', 'TERMT', 'NULL', 'MIGRA', 'COPY', 'SETUP', 'HREST', 'HSHTD', 'CHNG', 'CREAT'))
     serverInstanceStatusName = StringType()
+    platformType = StringType(choices=('LNX32', 'WIN64'))
     createDate = DateTimeType()
     uptime = DateTimeType()
     serverImageProductCode = StringType()
     serverProductCode = StringType()
-    serverInstanceType = StringType(choices=('LOCAL', 'NET'))
+    serverInstanceType = StringType(choices=('MICRO', 'COMPT', 'STAND', 'GPU', 'LDISK', 'CHADP', 'BM', 'VDS'))
     zone = StringType(serialize_when_none=False)
     region = StringType(serialize_when_none=False)
+    portForwardingRules = ModelType(PortForwardingRules)
 
 
-############################# 얘가 제일 중요 #####################################
+class LoginKey(Model):
+    fingerprint = StringType()
+    keyName = StringType()
+    createData = DateTimeType()
+
+
+class NaverCloud(Model):
+    loginKey = ModelType(LoginKey)
+    memberNo = StringType()
+
+
 class ServerInstance(Model):
+    serverInstanceNo = StringType()
+    serverInstanceName = StringType()
+    serverInstanceDescription = StringType()
     compute = ModelType(Compute)
-    os = ModelType(OS)
     nics = ListType(ModelType(NIC))
     storage = ModelType(Storage)
-    cpuCount = IntType()
-    memorySize = LongType()
-    loginKeyName = StringType()
-    userData = StringType()
-    accessControlGroupList = ListType(StringType, default=[])
-    blockDevicePartitionList = ListType(StringType, default=[])
+    hardware = ModelType(Hardware)
+    vpc = ModelType(VPC)
+    subnet = ModelType(Subnet)
+    naverCloud = ModelType(NaverCloud)
+    tag = ModelType(InstanceTag)
+    protectServerTermination = ModelType(ProtectServerTermination)
+    accessControlGroupList = ListType(ModelType(AccessControlGroupList))
+
+
+class ServerInstanceList(Model):  # 서버 인스턴스 리스트 조회(페이징처리)
+    serverInstance = ListType(ModelType(ServerInstance))
+    serverInstanceNoList = ListType(StringType())
+    searchFilterName = StringType()
+    searchFilterValue = StringType()
+    pageNo = IntType()
+    pageSize = IntType()
+    serverInstanceStatusCode = StringType()
+    regionNo = StringType()
+    zoneNo = StringType()
+    sortedBy = StringType()
+    sortingOrder = StringType()
