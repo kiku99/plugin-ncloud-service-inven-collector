@@ -19,7 +19,7 @@ class CollectorService(BaseService):
         self.execute_managers = []
         '''
         self.execute_managers = [
-        
+            serverManager
         ]
         '''
 
@@ -31,7 +31,7 @@ class CollectorService(BaseService):
             'filter_format': FILTER_FORMAT,
             'supported_resource_type': SUPPORTED_RESOURCE_TYPE,
             'supported_features': SUPPORTED_FEATURES,
-            'supported_schedules': SUPPORTED_SCHEDULES
+            'supported_schedules': SUPPORTED_SCHEDULES,
         }
         return {'metadata': capability}
 
@@ -50,7 +50,7 @@ class CollectorService(BaseService):
             naver_manager = NaverCloudManager()
             active = naver_manager.verify({}, secret_data)
 
-        return {}
+        return secret_data
 
     @transaction
     @check_required(['options', 'secret_data', 'filter'])
@@ -80,7 +80,6 @@ class CollectorService(BaseService):
         with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKER) as executor:
             future_executors = []
             for execute_manager in self.execute_managers:
-
                 _manager = self.locator.get_manager(execute_manager)
                 future_executors.append(executor.submit(_manager.collect_resources, params))
 

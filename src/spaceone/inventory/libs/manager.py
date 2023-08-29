@@ -50,6 +50,7 @@ class NaverCloudManager(BaseManager):
     def collect_cloud_service(self, params) -> list:
         raise NotImplemented
 
+    # 여기 완성해야 함
     def collect_resources(self, params) -> list:
         total_resources = []
 
@@ -88,16 +89,16 @@ class NaverCloudManager(BaseManager):
         if region not in self.collected_region_codes:
             self.collected_region_codes.append(region)
 
-    @staticmethod
-    def set_google_cloud_monitoring(project_id, metric_type, resource_id, filters):
-        return {
-            'name': f'projects/{project_id}',
-            'resource_id': resource_id,
-            'filters': [{
-                'metric_type': metric_type,
-                'labels': filters
-            }]
-        }
+    # @staticmethod
+    # def set_google_cloud_monitoring(project_id, metric_type, resource_id, filters):
+    #     return {
+    #         'name': f'projects/{project_id}',
+    #         'resource_id': resource_id,
+    #         'filters': [{
+    #             'metric_type': metric_type,
+    #             'labels': filters
+    #         }]
+    #     }
 
         # metric_filter = f"metric.type = starts_with('{metric_type}')"
         #
