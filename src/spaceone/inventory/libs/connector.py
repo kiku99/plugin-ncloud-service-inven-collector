@@ -1,26 +1,54 @@
 from __future__ import print_function
 import ncloud_server
-
+from ncloud_server.rest import ApiException
+import ncloud_apikey
+import logging
 
 from spaceone.core.connector import BaseConnector
 
+_DEFAULT_SCHEMA = 'naver_cloud_oauth_client_id'
+_LOGGER = logging.getLogger(__name__)
+
 class NaverCloudConnector(BaseConnector):
-    Naver_client_service = 'compute'
+    naver_client_service = 'compute'
     version = 'v2'
 
     def __init__(self, *args, **kwargs):
         """
         kwargs
-            - access_key
-            - secret_key
+            - schema
+            - options
+            - secret_data
+
+        secret_data(dict)
+            - type: ..
+            - access_key: ...
+            - secret_key: ...
+            - ...
         """
 
         super().__init__(*args, **kwargs)
-        configuration = ncloud_server.Configuration()
-        configuration.access_key = kwargs.get('access_key')
+        secret_data = kwargs.get('secret_data')
 
-        configuration.secret_key = kwargs.get('secret_key')
-        self.project_id = secret_data.get('project_id')
+        # create an instance of the API class
+       # configuration = ncloud_server.Configuration()
+        #configuration.access_key = "access_key"
+
+        #configuration.secret_key = "secret_key"
+
+
+        self.credentials = ncloud_apikey.Credentials
+
+        self.client = ncloud_server.V2Api(ncloud_server.ApiClient(credentials=self.credentials))
+        get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
+        #add_nas_volume_access_control_request = ncloud_server.AddNasVolumeAccessControlRequest()  # AddNasVolumeAccessControlRequest | addNasVolumeAccessControlRequest
+
+        try:
+            api_response = self.client.get_server_instance_list(get_server_instance_list_request)
+            print(api_response)
+        except ApiException as e:
+            print("Exception when calling V2Api->add_nas_volume_access_control: %s\n" % e)
+
 
     def verify(self, **kwargs):
         if self.client is None:
