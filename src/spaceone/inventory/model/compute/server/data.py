@@ -73,41 +73,6 @@ class ServerInstanceList(Model):  # 서버 인스턴스 리스트 조회(페이�
     sortingOrder = StringType()
 
 
-class ServerInstance(Model):
-    serverInstanceNo = StringType()
-    serverName = StringType()
-    serverDescription = StringType()
-    cpuCount = IntType()
-    memorySize = LongType()
-    baseBlockStorageSize = LongType()
-    platformType = StringType(choices=('LNX32', 'WIN64'))
-    loginKeyName = StringType()
-    publicIp = StringType()
-    privateIp = StringType()
-    serverImageName = StringType()
-    serverInstanceStatus = StringType(choices=('INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'))
-    serverInstanceOperation = StringType(choices=('START', 'SHTDN', 'RESTA', 'TERMT', 'NULL', 'MIGRA', 'COPY', 'SETUP', 'HREST', 'HSHTD', 'CHNG', 'CREAT'))
-    serverInstanceStatusName = StringType()
-    createDate = DateTimeType()
-    uptime = DateTimeType()
-    serverImageProductCode = StringType()
-    serverProductCode = StringType()
-    isProtectServerTermination = BooleanType()
-    portForwardingPublicIp = StringType()
-    portForwardingExternalPort = IntType()
-    portForwardingInternalPort = IntType()
-    zone = StringType(serialize_when_none=False)
-    region = StringType(serialize_when_none=False)
-    baseBlockStorageDiskType = StringType(choices=('LOCAL', 'NET'))
-    baseBlockStorageDiskDetailType = StringType(choices=('LOCAL', 'NET'))
-    serverInstanceType = StringType(choices=('LOCAL', 'NET'))
-    userData = StringType()
-    accessControlGroupList = ListType(StringType, default=[])
-    blockDevicePartitionList = ListType(StringType, default=[])
-
-
-
-
 # class recreateServerInstances(Model) : #서버인스턴스 재생성(베어메탈상품 전용)
 #     serverInstanceNo = StringType()
 #     serverInstanceName = StringType()
@@ -123,20 +88,6 @@ class MemberServerImage(Model):  # 서버이미지 생성
     memberServerImageName = StringType(30)
     memberServerImageDescription = StringType(1000)
     serverInstanceNo = StringType()
-
-
-class Storage(Model):  # 블록스토리지인스턴스
-    storageName = StringType(30)
-    storageSize = LongType()
-    StorageDescription = StringType()
-    serverInstanceNo = StringType()
-    storageDetailTypeCode = StringType()
-
-
-class BlockStorageSnapshotInstances(Model):  # 블록 스토리지 스냡샷 인스턴스 생성
-    blockStorageInstanceNo = StringType()
-    blockStorageSnapshotName = StringType()
-    blockStorageSnapshotDescription = StringType(1000)
 
 
 class PublicIpTargetServerInstanceList(Model):  # IP할당 가능 서버 인스턴스 조회
@@ -230,22 +181,6 @@ class AutoScaler(Model):
     instance_group = ModelType(InstanceGroup, serialize_when_none=False)
 
 
-class Compute(Model):
-    keypair = StringType(default="")
-    public_ip_address = StringType()
-    az = StringType()
-    instance_id = StringType()
-    instance_name = StringType(default='')
-    instance_state = StringType(choices=(
-        'PROVISIONING', 'STAGING', 'RUNNING', 'STOPPING', 'REPAIRING', 'SUSPENDING', 'SUSPENDED', 'TERMINATED'))
-    instance_type = StringType()
-    account = StringType()
-    image = StringType()
-    launched_at = DateTimeType()
-    security_groups = ListType(StringType, default=[])
-    tags = DictType(StringType, default={})
-
-
 class Scheduling(Model):
     on_host_maintenance = StringType(default="MIGRATE")
     automatic_restart = BooleanType(default=True)
@@ -263,32 +198,17 @@ class SSHKey(Model):
     ssh_keys = ListType(ModelType(Key))
 
 
-class NaverCloud(Model):
-    self_link = StringType()
-    fingerprint = StringType()
-    reservation_affinity = StringType(default="ANY_RESERVATION")
-    deletion_protection = BooleanType(default=False)
-    scheduling = ModelType(Scheduling)
-    tags = ListType(ModelType(Tags))
-    labels = ListType(ModelType(Labels), default=[])
-    ssh_keys = ModelType(SSHKey)
-    service_accounts = ListType(ModelType(AccessPolicy), default=[])
-    is_managed_instance = BooleanType(default=False)
-
-
-class Hardware(Model):
-    core = IntType(default=0)
-    memory = FloatType(default=0.0)
-    is_vm = BooleanType(default=True)
-    cpu_model = StringType(default="")
-
-
-class OS(Model):
-    os_type = StringType(serialize_when_none=False)
-    details = StringType(choices=('LINUX', 'WINDOWS'), serialize_when_none=False)
-    os_distro = StringType(serialize_when_none=False)
-    os_arch = StringType(serialize_when_none=False)
-
+# class NaverCloud(Model):
+#     self_link = StringType()
+#     fingerprint = StringType()
+#     reservation_affinity = StringType(default="ANY_RESERVATION")
+#     deletion_protection = BooleanType(default=False)
+#     scheduling = ModelType(Scheduling)
+#     tags = ListType(ModelType(Tags))
+#     labels = ListType(ModelType(Labels), default=[])
+#     ssh_keys = ModelType(SSHKey)
+#     service_accounts = ListType(ModelType(AccessPolicy), default=[])
+#     is_managed_instance = BooleanType(default=False)
 
 # disk
 # class DiskTags(Model):
@@ -326,14 +246,11 @@ class LoadBalancer(Model):
 
 # nic
 class NIC(Model):
-    device_index = IntType()
-    device = StringType(default="")
-    cidr = StringType()
-    nic_type = StringType(default="Virtual")  # 확인 필요
-    ip_addresses = ListType(StringType())  # 확인필요 (accessConfig)
-    mac_address = StringType(default="")
-    public_ip_address = StringType()
-    tags = DictType(StringType, default={})
+    publicIp = StringType()
+    privateIp = StringType()
+    portForwardingPublicIp = StringType()
+    portForwardingExternalPort = IntType()
+    portForwardingInternalPort = IntType()
 
 
 # Firewallf
@@ -376,24 +293,50 @@ class GPU(Model):
     gpu_count = IntType(serialize_when_none=False)
 
 
-class Display(Model):
-    gpus = ListType(StringType, default=[])
-    has_gpu = BooleanType(default=False)
+# class Display(Model):
+#     gpus = ListType(StringType, default=[])
+#     has_gpu = BooleanType(default=False)
+
+class Storage(Model):  # 블록스토리지인스턴스
+    storageName = StringType(30)
+    storageSize = LongType()
+    storageDescription = StringType()
+    storageDiskType = StringType(choices=('LOCAL', 'NET'))
+    storageDiskDetailType = StringType(choices=('LOCAL', 'NET'))
 
 
-# class VMInstance(Model):
-#     os = ModelType(OS)
-#     naver_cloud = ModelType(NaverCloud)
-#     primary_ip_address = StringType()
-#     hardware = ModelType(Hardware)
-#     compute = ModelType(Compute)
-#     gpus = ListType(ModelType(GPU))
-#     total_gpu_count = IntType()
-#     load_balancers = ListType(ModelType(LoadBalancer))
-#     security_group = ListType(ModelType(SecurityGroup))
-#     vpc = ModelType(VPC)
-#     subnet = ModelType(Subnet)
-#     nics = ListType(ModelType(NIC))
-#     disks = ListType(ModelType(Storage))
-#     autoscaler = ModelType(AutoScaler, serialize_when_none=False)
-#     display = ModelType(Display, serialize_when_none=False)
+class OS(Model):
+    platformType = StringType(choices=('LNX32', 'WIN64'))
+
+
+class Compute(Model):
+    serverInstanceNo = StringType()
+    serverName = StringType()
+    serverDescription = StringType()
+    serverImageName = StringType()
+    serverInstanceStatus = StringType(
+        choices=('INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'))
+    serverInstanceOperation = StringType(choices=(
+        'START', 'SHTDN', 'RESTA', 'TERMT', 'NULL', 'MIGRA', 'COPY', 'SETUP', 'HREST', 'HSHTD', 'CHNG', 'CREAT'))
+    serverInstanceStatusName = StringType()
+    createDate = DateTimeType()
+    uptime = DateTimeType()
+    serverImageProductCode = StringType()
+    serverProductCode = StringType()
+    serverInstanceType = StringType(choices=('LOCAL', 'NET'))
+    zone = StringType(serialize_when_none=False)
+    region = StringType(serialize_when_none=False)
+
+
+############################# 얘가 제일 중요 #####################################
+class ServerInstance(Model):
+    compute = ModelType(Compute)
+    os = ModelType(OS)
+    nics = ListType(ModelType(NIC))
+    storage = ModelType(Storage)
+    cpuCount = IntType()
+    memorySize = LongType()
+    loginKeyName = StringType()
+    userData = StringType()
+    accessControlGroupList = ListType(StringType, default=[])
+    blockDevicePartitionList = ListType(StringType, default=[])

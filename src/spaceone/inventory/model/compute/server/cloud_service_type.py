@@ -18,17 +18,17 @@ count_by_account_conf = os.path.join(current_dir, 'widget/count_by_account.yml')
 count_by_instance_type_conf = os.path.join(current_dir, 'widget/count_by_instance_type.yml')
 count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 
-cst_vm_instance = CloudServiceTypeResource()
-cst_vm_instance.name = 'Instance'
-cst_vm_instance.provider = 'naver_cloud'
-cst_vm_instance.group = 'ComputeEngine'
-cst_vm_instance.service_code = 'Compute Engine'
-cst_vm_instance.labels = ['Compute', 'Server']
-cst_vm_instance.is_primary = True
-cst_vm_instance.is_major = True
-cst_vm_instance.tags = {'spaceone:icon': f'{ASSET_URL}/Compute_Engine.svg',}
+cst_server_instance = CloudServiceTypeResource()
+cst_server_instance.name = 'Instance'
+cst_server_instance.provider = 'naver_cloud'
+cst_server_instance.group = 'ComputeEngine'
+cst_server_instance.service_code = 'Compute Engine'
+cst_server_instance.labels = ['Compute', 'Server']
+cst_server_instance.is_primary = True
+cst_server_instance.is_major = True
+cst_server_instance.tags = {'spaceone:icon': f'{ASSET_URL}/Compute_Engine.svg', }
 
-cst_vm_instance._metadata = CloudServiceTypeMeta.set_meta(
+cst_server_instance._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
         EnumDyField.data_source('Instance State', 'data.compute.instance_state', default_state={
             'safe': ['RUNNING'],
@@ -228,5 +228,5 @@ cst_vm_instance._metadata = CloudServiceTypeMeta.set_meta(
 )
 
 CLOUD_SERVICE_TYPES = [
-    CloudServiceTypeResponse({'resource': cst_vm_instance}),
+    CloudServiceTypeResponse({'resource': cst_server_instance}),
 ]
