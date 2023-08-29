@@ -21,10 +21,10 @@ server_instance = ItemDynamicLayout.set_fields('Server Instance', fields=[
         'disable': [],
         'alert': ['SUSPENDED', 'TERMINATED']
     }),
-    EnumDyField.data_source('Preemptible', 'data.naver_cloud.scheduling.preemptible', default_badge={
+    EnumDyField.data_source('Preemptible', 'data.NaverCloud.scheduling', default_badge={
         'indigo.500': ['true'], 'coral.600': ['false']
     }),
-    EnumDyField.data_source('Is Managed Instance in Instance Group', 'data.naver_cloud.is_managed_instance',
+    EnumDyField.data_source('Is Managed Instance in Instance Group', 'data.NaverCloud.is_managed_instance',
                             default_badge={
                                 'indigo.500': ['true'], 'coral.600': ['false']
                             }),
@@ -35,15 +35,15 @@ server_instance = ItemDynamicLayout.set_fields('Server Instance', fields=[
     ListDyField.data_source('GPUs', 'data.display.gpus',
                             default_badge={'type': 'outline', 'delimiter': '<br>'}),
     TextDyField.data_source('Image', 'data.compute.image'),
-    TextDyField.data_source('Region', 'region_code'),
+    # TextDyField.data_source('Region', 'region_code'),
     TextDyField.data_source('Availability Zone', 'data.compute.az'),
-    TextDyField.data_source('Reservation Affinity', 'data.naver_cloud.reservation_affinity'),
-    TextDyField.data_source('Self link', 'data.naver_cloud.self_link'),
-    EnumDyField.data_source('Deletion Protection', 'data.naver_cloud.deletion_protection', default_badge={
+    TextDyField.data_source('Reservation Affinity', 'data.NaverCloud.reservation_affinity'),
+    TextDyField.data_source('Self link', 'data.NaverCloud.self_link'),
+    EnumDyField.data_source('Deletion Protection', 'data.NaverCloud.deletion_protection', default_badge={
         'indigo.500': ['true'], 'coral.600': ['false']
     }),
     TextDyField.data_source('Public IP', 'data.compute.public_ip_address'),
-    ListDyField.data_source('IP Addresses', 'ip_addresses',
+    ListDyField.data_source('IP Addresses', 'NIC.ip_addresses',
                             default_badge={'type': 'outline', 'delimiter': '<br>'}),
     ListDyField.data_source('Affected Rules', 'data.compute.security_groups',
                             default_badge={'type': 'outline', 'delimiter': '<br>'}),
@@ -59,27 +59,27 @@ naver_cloud_vpc = ItemDynamicLayout.set_fields('VPC', fields=[
 ])
 
 instance_group_manager = ItemDynamicLayout.set_fields('InstanceGroupManager', fields=[
-    TextDyField.data_source('Auto Scaler', 'data.autoscaler.name'),
-    TextDyField.data_source('Auto Scaler ID', 'data.autoscaler.id'),
-    TextDyField.data_source('Instance Group Name', 'data.autoscaler.instance_group.name'),
-    TextDyField.data_source('Instance Template Name', 'data.autoscaler.instance_group.instance_template_name'),
+    TextDyField.data_source('Auto Scaler', 'data.Autoscaler.name'),
+    TextDyField.data_source('Auto Scaler ID', 'data.Autoscaler.id'),
+    TextDyField.data_source('Instance Group Name', 'data.Autoscaler.instance_group.name'),
+    TextDyField.data_source('Instance Template Name', 'data.Autoscaler.instance_group.instance_template_name'),
 ])
 
 operating_system_manager = ItemDynamicLayout.set_fields('Operating System', fields=[
-    TextDyField.data_source('OS Type', 'os_type'),
-    TextDyField.data_source('OS Distribution', 'data.os.os_distro'),
-    TextDyField.data_source('OS Architecture', 'data.os.os_arch'),
-    TextDyField.data_source('OS Version Details', 'data.os.details'),
-    TextDyField.data_source('OS License', 'data.os.os_license'),
+    TextDyField.data_source('OS Type', 'data.OS.os_type'),
+    TextDyField.data_source('OS Distribution', 'data.OS.os_distro'),
+    TextDyField.data_source('OS Architecture', 'data.OS.os_arch'),
+    TextDyField.data_source('OS Version Details', 'data.OS.details'),
+    # TextDyField.data_source('OS License', 'data.os.os_license'),
 ])
 
-hardware_manager = ItemDynamicLayout.set_fields('Hardware', root_path='data.hardware', fields=[
+hardware_manager = ItemDynamicLayout.set_fields('Hardware', root_path='data.Hardware', fields=[
     TextDyField.data_source('Core', 'core'),
     TextDyField.data_source('Memory', 'memory'),
     TextDyField.data_source('CPU Model', 'cpu_model'),
 ])
 
-ssh_keys = SimpleTableDynamicLayout.set_tags('SSH Keys', root_path='data.naver_cloud.ssh_keys.ssh_keys',fields=[
+ssh_keys = SimpleTableDynamicLayout.set_tags('SSH Keys', root_path='data.NaverCloud.ssh_keys.SSHKey',fields=[
     TextDyField.data_source('User Name', 'user_name'),
     MoreField.data_source('Overview', 'display_name',
     options={
@@ -95,11 +95,11 @@ ssh_keys = SimpleTableDynamicLayout.set_tags('SSH Keys', root_path='data.naver_c
     }
     })
     ])
-ssh_options = ItemDynamicLayout.set_fields('SSH Key Options', root_path='data.naver_cloud.ssh_keys', fields=[
+ssh_options = ItemDynamicLayout.set_fields('SSH Key Options', root_path='data.NaverCloud.ssh_keys', fields=[
     TextDyField.data_source('Block project-wide SSH keys', 'block_project_ssh_keys')
 ])
 
-service_accounts = TableDynamicLayout.set_fields('API and Identity Management',root_path='data.naver_cloud.service_accounts',fields=[
+service_accounts = TableDynamicLayout.set_fields('API and Identity Management',root_path='data.NaverCloud.service_accounts',fields=[
     TextDyField.data_source('Service Account', 'service_account'),
     MoreField.data_source('Cloud API access scopes', 'display_name',
     options={
@@ -127,8 +127,8 @@ service_accounts = TableDynamicLayout.set_fields('API and Identity Management',r
 
 server_engine = ListDynamicLayout.set_layouts('server engine', layouts=[server_instance, naver_cloud_vpc, ssh_keys, ssh_options, service_accounts, instance_group_manager])
 
-storage = TableDynamicLayout.set_fields('Storage', root_path='data.storage', fields=[
-    TextDyField.data_source('Index', 'device_index'),
+storage = TableDynamicLayout.set_fields('Storage', root_path='data.Storage', fields=[
+    TextDyField.data_source('Index', 'device_index'), #어디꺼를 가져오는거지?
     TextDyField.data_source('Name', 'tags.disk_name'),
     SizeField.data_source('Size', 'size'),
     TextDyField.data_source('Disk ID', 'tags.disk_id'),
@@ -143,14 +143,14 @@ storage = TableDynamicLayout.set_fields('Storage', root_path='data.storage', fie
     }),
 ])
 
-nic = TableDynamicLayout.set_fields('NIC', root_path='data.nics', fields=[
+nic = TableDynamicLayout.set_fields('NIC', root_path='data.NIC', fields=[
     TextDyField.data_source('Index', 'device_index'),
     ListDyField.data_source('IP Addresses', 'ip_addresses', options={'delimiter': '<br>'}),
     TextDyField.data_source('CIDR', 'cidr'),
     TextDyField.data_source('Public IP', 'public_ip_address')
 ])
 
-firewall = TableDynamicLayout.set_fields('Firewalls', root_path='data.security_group', fields=[
+firewall = TableDynamicLayout.set_fields('Firewalls', root_path='data.securityGroup', fields=[
     TextDyField.data_source('Priority', 'priority'),
     EnumDyField.data_source('Direction', 'direction', default_badge={
         'indigo.500': ['ingress'], 'coral.600': ['egress']
@@ -166,7 +166,7 @@ firewall = TableDynamicLayout.set_fields('Firewalls', root_path='data.security_g
     TextDyField.data_source('Description', 'description'),
 ])
 
-lb = TableDynamicLayout.set_fields('LB', root_path='data.load_balancers', fields=[
+lb = TableDynamicLayout.set_fields('LB', root_path='data.loadBalancer', fields=[
     TextDyField.data_source('Name', 'name'),
     EnumDyField.data_source('Type', 'type', default_badge={
         'primary': ['HTTP', 'HTTPS'], 'indigo.500': ['TCP'], 'coral.600': ['UDP']
@@ -178,12 +178,12 @@ lb = TableDynamicLayout.set_fields('LB', root_path='data.load_balancers', fields
     }),
 ])
 
-labels = TableDynamicLayout.set_fields('Labels', root_path='data.naver_cloud.labels', fields=[
+labels = TableDynamicLayout.set_fields('Labels', root_path='data.NaverCloud.labels', fields=[
     TextDyField.data_source('Key', 'key'),
     TextDyField.data_source('Value', 'value'),
 ])
 
-tags = TableDynamicLayout.set_fields('Tags', root_path='data.naver_cloud.tags', fields=[
+tags = TableDynamicLayout.set_fields('Tags', root_path='data.NaverCloud.tags', fields=[
     TextDyField.data_source('Item', 'key')
 ])
 

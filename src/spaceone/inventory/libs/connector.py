@@ -1,5 +1,6 @@
 from __future__ import print_function
 import ncloud_server
+from ncloud_server.api.v2_api import V2Api
 from ncloud_server.rest import ApiException
 import ncloud_apikey
 import logging
@@ -8,6 +9,7 @@ from spaceone.core.connector import BaseConnector
 
 _DEFAULT_SCHEMA = 'naver_cloud_oauth_client_id'
 _LOGGER = logging.getLogger(__name__)
+
 
 class NaverCloudConnector(BaseConnector):
     naver_client_service = 'compute'
@@ -20,38 +22,24 @@ class NaverCloudConnector(BaseConnector):
             - options
             - secret_data
 
-        secret_data(dict)
-            - type: ..
-            - access_key: ...
-            - secret_key: ...
-            - ...
+        secret_data = {
+            'ncloud_access_key_id': AKI,
+            'ncloud_secret_key': SK
+        }
         """
 
         super().__init__(*args, **kwargs)
         secret_data = kwargs.get('secret_data')
 
-        # create an instance of the API class
-       # configuration = ncloud_server.Configuration()
-        #configuration.access_key = "access_key"
+        self.configuration = ncloud_server.Configuration()
 
-        #configuration.secret_key = "secret_key"
+        self.configuration.access_key = secret_data['ncloud_access_key_id']
+        self.configuration.secret_key = secret_data['ncloud_secret_key']
 
-
-        self.credentials = ncloud_apikey.Credentials
-
-        self.client = ncloud_server.V2Api(ncloud_server.ApiClient(credentials=self.credentials))
-        get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
-        #add_nas_volume_access_control_request = ncloud_server.AddNasVolumeAccessControlRequest()  # AddNasVolumeAccessControlRequest | addNasVolumeAccessControlRequest
-
-        try:
-            api_response = self.client.get_server_instance_list(get_server_instance_list_request)
-            print(api_response)
-        except ApiException as e:
-            print("Exception when calling V2Api->add_nas_volume_access_control: %s\n" % e)
-
+        self.naverClient = V2Api(ncloud_server.ApiClient(self.configuration))
 
     def verify(self, **kwargs):
-        if self.client is None:
+        if self.naverClient is None:
             self.set_connect(**kwargs)
 
     def generate_query(self, **query):

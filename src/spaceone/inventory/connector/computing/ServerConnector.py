@@ -52,17 +52,6 @@ class ServerConnector(NaverCloudConnector):
 
         return zone_list
 
-    def getServerProductList(self, **query):
-        product_list = []
-        query.update({'project': self.project_id})
-        get_server_product_list_request = ncloud_server.GetServerProductListRequest()
-
-        try:
-            api_response = self.v2_api.get_server_product_list(get_server_product_list_request)
-            for product in api_response.serverProductList:
-                product_list.append(product['productCode'])
-        except ApiException as e:
-            print("Exception when calling V2Api->get_server_product_list: %s\n" % e)
 
         return product_list
 
