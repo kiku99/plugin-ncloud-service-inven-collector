@@ -1,11 +1,11 @@
 from schematics.types import ModelType, StringType, PolyModelType
 
-from src.spaceone.inventory.model.compute.server.data import ServerInstance
-from src.spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, EnumDyField, ListDyField, \
+from spaceone.inventory.model.compute.server.data import ServerInstance
+from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, EnumDyField, ListDyField, \
     DateTimeDyField, SizeField, MoreField
-from src.spaceone.inventory.libs.schema.metadata.dynamic_layout import ItemDynamicLayout, TableDynamicLayout, \
+from spaceone.inventory.libs.schema.metadata.dynamic_layout import ItemDynamicLayout, TableDynamicLayout, \
     ListDynamicLayout, SimpleTableDynamicLayout
-from src.spaceone.inventory.libs.schema.cloud_service import CloudServiceMeta, CloudServiceResource, \
+from spaceone.inventory.libs.schema.cloud_service import CloudServiceMeta, CloudServiceResource, \
     CloudServiceResponse
 
 '''
@@ -193,6 +193,7 @@ server_instance_meta = CloudServiceMeta.set_layouts([server_engine, labels, tags
 
 class ComputeResource(CloudServiceResource):
     cloud_service_group = StringType(default='Compute')
+
 
 
 class ServerInstanceResource(ComputeResource):

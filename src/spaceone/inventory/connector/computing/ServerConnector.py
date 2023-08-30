@@ -1,10 +1,10 @@
-from src.spaceone.inventory.libs.connector import NaverCloudConnector
+from spaceone.inventory.libs.connector import NaverCloudConnector
 import ncloud_server
 from ncloud_server.rest import ApiException
 
 class ServerConnector(NaverCloudConnector):
     service = 'compute'
-
+##all add
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -44,7 +44,7 @@ class ServerConnector(NaverCloudConnector):
         get_zone_list_request = ncloud_server.GetZoneListRequest()
 
         try:
-            api_response = self.v2_api.get_zone_list(get_zone_list_request)
+            api_response = self.client.get_zone_list(get_zone_list_request)
             for zone in api_response.zoneList:
                 zone_list.append(zone['zoneCode'])
         except ApiException as e:
@@ -52,7 +52,21 @@ class ServerConnector(NaverCloudConnector):
 
         return zone_list
 
+    def getServerInstanceList(self, **query):
 
-        return product_list
+        instance_list = []
+        query.update({'project': self.project_id})
+        get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
+
+        try:
+            api_response = self.client.get_server_instance_list(get_server_instance_list_request)
+            for instance in api_response.serverInstanceList:
+                instance_list.append(instance['serverInstanceNo'])  # Replace with the correct key
+        except ApiException as e:
+            print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
+
+        return instance_list
+
+
 
 

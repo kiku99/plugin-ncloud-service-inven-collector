@@ -1,1 +1,1 @@
-from spaceone.inventory.service.collector_service import CollectorService
+from src.spaceone.inventory.service.collector_service import CollectorService

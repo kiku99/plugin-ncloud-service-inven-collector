@@ -10,7 +10,7 @@ _LOGGER = logging.getLogger(__name__)
 
 class NaverCloudConnector(BaseConnector):
     naver_client_service = 'compute'
-    version = 'v2'
+    version = ''
 
     def __init__(self, *args, **kwargs):
         """
@@ -32,10 +32,10 @@ class NaverCloudConnector(BaseConnector):
         self.configuration.access_key = secret_data['ncloud_access_key_id']
         self.configuration.secret_key = secret_data['ncloud_secret_key']
 
-        self.naverClient = V2Api(ncloud_server.ApiClient(self.configuration))
+        self.client = V2Api(ncloud_server.ApiClient(self.configuration))
 
     def verify(self, **kwargs):
-        if self.naverClient is None:
+        if self.client is None:
             self.set_connect(**kwargs)
 
 
