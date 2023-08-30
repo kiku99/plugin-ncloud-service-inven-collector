@@ -100,70 +100,69 @@ hardware_manager = ItemDynamicLayout.set_fields('Hardware', root_path='data.Hard
 
 
 
-storage = TableDynamicLayout.set_fields('Storage', root_path='data.Storage', fields=[
-    TextDyField.data_source('Index', 'device_index'),  # 어디꺼를 가져오는거지?
-    TextDyField.data_source('Name', 'tags.disk_name'),
-    SizeField.data_source('Size', 'size'),
-    TextDyField.data_source('Disk ID', 'tags.disk_id'),
-    EnumDyField.data_source('Disk Type', 'tags.disk_type',
+storage = TableDynamicLayout.set_fields('Storage', fields=[
+    # TextDyField.data_source('Index', ''),  # 어디꺼를 가져오는거지?
+    TextDyField.data_source('Name', 'data.Storage.storageName'),
+    SizeField.data_source('Size', 'data.Storage.StorageSize'),
+    # TextDyField.data_source('Disk ID', 'tags.disk_id'),
+    EnumDyField.data_source('Disk Type', 'data.Storage.storageDiskType',
                             default_outline_badge=['local-ssd', 'pd-balanced', 'pd-ssd', 'pd-standard']),
-    TextDyField.data_source('Read IOPS', 'tags.read_iops'),
-    TextDyField.data_source('Write IOPS', 'tags.write_iops'),
-    TextDyField.data_source('Read Throughput(MB/s)', 'tags.read_throughput'),
-    TextDyField.data_source('Write Throughput(MB/s)', 'tags.write_throughput'),
-    EnumDyField.data_source('Encrypted', 'tags.encrypted', default_badge={
-        'indigo.500': ['true'], 'coral.600': ['false']
-    }),
+    # TextDyField.data_source('Read IOPS', 'tags.read_iops'),
+    # TextDyField.data_source('Write IOPS', 'tags.write_iops'),
+    # TextDyField.data_source('Read Throughput(MB/s)', 'tags.read_throughput'),
+    # TextDyField.data_source('Write Throughput(MB/s)', 'tags.write_throughput'),
+    # EnumDyField.data_source('Encrypted', 'tags.encrypted', default_badge={
+    #     'indigo.500': ['true'], 'coral.600': ['false']
+    # }),
 ])
 
 nic = TableDynamicLayout.set_fields('NIC', root_path='data.NIC', fields=[
     TextDyField.data_source('Index', 'device_index'),
     ListDyField.data_source('IP Addresses', 'ip_addresses', options={'delimiter': '<br>'}),
     TextDyField.data_source('CIDR', 'cidr'),
-    TextDyField.data_source('Public IP', 'public_ip_address')
+    TextDyField.data_source('Public IP', 'public_ip_address'),
+    TextDyField.data_source('Device', 'device'),
+    TextDyField.data_source('Mac Addresses', 'mac_address')
 ])
 
-firewall = TableDynamicLayout.set_fields('Firewalls', root_path='data.securityGroup', fields=[
-    TextDyField.data_source('Priority', 'priority'),
-    EnumDyField.data_source('Direction', 'direction', default_badge={
-        'indigo.500': ['ingress'], 'coral.600': ['egress']
-    }),
-    EnumDyField.data_source('Action', 'action', default_badge={
-        'indigo.500': ['allow'], 'coral.600': ['deny']
-    }),
-    TextDyField.data_source('Name', 'security_group_name'),
-    TextDyField.data_source('Firewall ID', 'security_group_id'),
-    TextDyField.data_source('Protocol', 'protocol'),
-    TextDyField.data_source('Port Min.', 'port_range_min'),
-    TextDyField.data_source('Port MAx.', 'port_range_max'),
-    TextDyField.data_source('Description', 'description'),
+# firewall = TableDynamicLayout.set_fields('Firewalls', root_path='data.securityGroup', fields=[
+#     TextDyField.data_source('Priority', 'priority'),
+#     EnumDyField.data_source('Direction', 'direction', default_badge={
+#         'indigo.500': ['ingress'], 'coral.600': ['egress']
+#     }),
+#     EnumDyField.data_source('Action', 'action', default_badge={
+#         'indigo.500': ['allow'], 'coral.600': ['deny']
+#     }),
+#     TextDyField.data_source('Name', 'security_group_name'),
+#     TextDyField.data_source('Firewall ID', 'security_group_id'),
+#     TextDyField.data_source('Protocol', 'protocol'),
+#     TextDyField.data_source('Port Min.', 'port_range_min'),
+#     TextDyField.data_source('Port MAx.', 'port_range_max'),
+#     TextDyField.data_source('Description', 'description'),
+# ])
+
+# lb = TableDynamicLayout.set_fields('LB', root_path='data.loadBalancer', fields=[
+#     TextDyField.data_source('Name', 'name'),
+#     EnumDyField.data_source('Type', 'type', default_badge={
+#         'primary': ['HTTP', 'HTTPS'], 'indigo.500': ['TCP'], 'coral.600': ['UDP']
+#     }),
+#     ListDyField.data_source('Protocol', 'protocol', options={'delimiter': '<br>'}),
+#     ListDyField.data_source('Port', 'port', options={'delimiter': '<br>'}),
+#     EnumDyField.data_source('Scheme', 'scheme', default_badge={
+#         'indigo.500': ['EXTERNAL'], 'coral.600': ['INTERNAL']
+#     }),
+# ])
+
+Tags = TableDynamicLayout.set_fields('Labels', root_path='data.InstanceTag', fields=[
+    TextDyField.data_source('Key', 'tagkey'),
+    TextDyField.data_source('Value', 'tagValue'),
 ])
 
-lb = TableDynamicLayout.set_fields('LB', root_path='data.loadBalancer', fields=[
-    TextDyField.data_source('Name', 'name'),
-    EnumDyField.data_source('Type', 'type', default_badge={
-        'primary': ['HTTP', 'HTTPS'], 'indigo.500': ['TCP'], 'coral.600': ['UDP']
-    }),
-    ListDyField.data_source('Protocol', 'protocol', options={'delimiter': '<br>'}),
-    ListDyField.data_source('Port', 'port', options={'delimiter': '<br>'}),
-    EnumDyField.data_source('Scheme', 'scheme', default_badge={
-        'indigo.500': ['EXTERNAL'], 'coral.600': ['INTERNAL']
-    }),
-])
-
-labels = TableDynamicLayout.set_fields('Labels', root_path='data.NaverCloud.labels', fields=[
-    TextDyField.data_source('Key', 'key'),
-    TextDyField.data_source('Value', 'value'),
-])
-
-tags = TableDynamicLayout.set_fields('Tags', root_path='data.NaverCloud.tags', fields=[
-    TextDyField.data_source('Item', 'key')
-])
 
 server_engine = ListDynamicLayout.set_layouts('server engine',
                                               layouts=[server_instance, naver_cloud_vpc])
 
-server_instance_meta = CloudServiceMeta.set_layouts([server_engine, labels, tags, storage, nic, firewall, lb])
+server_instance_meta = CloudServiceMeta.set_layouts([server_engine, Tags, storage, nic])
 
 
 class ComputeResource(CloudServiceResource):
