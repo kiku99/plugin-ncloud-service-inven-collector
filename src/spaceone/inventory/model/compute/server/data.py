@@ -98,11 +98,17 @@ class Storage(Model):  # 블록스토리지인스턴스
     #     read_throughput = FloatType(serialize_when_none=False)
     #     write_throughput = FloatType(serialize_when_none=False)
 
+class OS(Model):
+    os_type = StringType()
+    os_distro = StringType()
+    os_arch = StringType()
+    details = StringType()
 
 class Compute(Model):
+    account = StringType()
     serverImageName = StringType()
     serverInstanceStatus = StringType(
-        choices=('INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'))
+        choices=('INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL','SUS'))
     serverInstanceOperation = StringType(choices=(
         'START', 'SHTDN', 'RESTA', 'TERMT', 'NULL', 'MIGRA', 'COPY', 'SETUP', 'HREST', 'HSHTD', 'CHNG', 'CREAT'))
     serverInstanceStatusName = StringType()
