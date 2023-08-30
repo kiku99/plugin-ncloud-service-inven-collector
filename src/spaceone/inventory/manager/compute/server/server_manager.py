@@ -7,7 +7,8 @@ from spaceone.inventory.connector.computing.ServerConnector import ServerConnect
 from spaceone.inventory.model.compute.server.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.model.compute.server.cloud_service import server_instance, \
     ServerInstanceResponse, ServerInstanceResource
-from spaceone.inventory.model.compute.server.data import InstanceTag
+from spaceone.inventory.model.compute.server.data import InstanceTag, InstanceTagList\
+
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -37,7 +38,7 @@ class ServerManager(NaverCloudManager):
         secret_data = params['secret_data']
         project_id = secret_data['project_id']
         ## Server connector
-        instance_group_conn: Server = self.locator.get_connector(self.connector_name, **params)
+        instance_group_conn: ServerConnector = self.locator.get_connector(self.connector_name, **params)
 
         ##################################
         # 0. Gather All Related Resources
@@ -79,7 +80,7 @@ class ServerManager(NaverCloudManager):
                     ##################################
                     instance_group.update({
                         'instance_group_type': instance_group_type,
-                        'instance_group_manager': InstanceGroupManagers(match_instance_group_manager, strict=False)
+                        'instance_group_manager': instance_group(match_instance_group_manager, strict=False)
                     })
 
                     if match_autoscaler := self.match_autoscaler(autoscalers, match_instance_group_manager):
@@ -87,11 +88,11 @@ class ServerManager(NaverCloudManager):
                             self._get_auto_policy_for_scheduler(match_autoscaler)
                         )
 
-                        instance_group.update({
-                            'autoscaler': AutoScaler(match_autoscaler, strict=False),
-                            'autoscaling_display': self._get_autoscaling_display(
-                                match_autoscaler.get('autoscalingPolicy', {}))
-                        })
+                        # instance_group.update({
+                        #     'autoscaler': AutoScaler(match_autoscaler, strict=False),
+                        #     'autoscaling_display': self._get_autoscaling_display(
+                        #         match_autoscaler.get('autoscalingPolicy', {}))
+                        # })
 
                     match_instance_template = \
                         self.match_instance_template(instance_templates,
@@ -128,12 +129,12 @@ class ServerManager(NaverCloudManager):
                 })
                 # No labels
                 _name = instance_group.get('name', '')
-                instance_group_data = InstanceGroup(instance_group, strict=False)
+                instance_group_data = InstanceTagList(instance_group, strict=False)
 
                 ##################################
                 # 3. Make Return Resource
                 ##################################
-                instance_group_resource = InstanceGroupResource({
+                instance_group_resource = ServerInstanceResource({
                     'name': _name,
                     'account': project_id,
                     'region_code': region,
@@ -150,7 +151,7 @@ class ServerManager(NaverCloudManager):
                 # 5. Make Resource Response Object
                 # List of LoadBalancingResponse Object
                 ##################################
-                collected_cloud_services.append(InstanceGroupResponse({'resource': instance_group_resource}))
+                collected_cloud_services.append(ServerInstanceResponse({'resource': instance_group_resource}))
             except Exception as e:
                 _LOGGER.error(f'[collect_cloud_service] => {e}', exc_info=True)
                 error_response = self.generate_resource_error_response(e, 'ComputeEngine', 'InstanceGroup', instance_group_id)
