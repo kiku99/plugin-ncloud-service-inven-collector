@@ -70,35 +70,6 @@ hardware_manager = ItemDynamicLayout.set_fields('Hardware', root_path='data.Hard
     TextDyField.data_source('Memory', 'memorySize'),
     TextDyField.data_source('CPU Model', 'cpu_machine_type'),
 ])
-#
-# service_accounts = TableDynamicLayout.set_fields('API and Identity Management',
-#                                                  root_path='data.NaverCloud.service_accounts', fields=[
-#         TextDyField.data_source('Service Account', 'service_account'),
-#         MoreField.data_source('Cloud API access scopes', 'display_name',
-#                               options={
-#                                   'layout': {
-#                                       'name': 'Details',
-#                                       'options': {
-#                                           'type': 'popup',
-#                                           'layout': {
-#                                               'type': 'simple-table',
-#                                               'options': {
-#                                                   'root_path': 'scopes',
-#                                                   'fields': [
-#                                                       {
-#                                                           "type": "text",
-#                                                           "key": "description",
-#                                                           "name": "Scope Description"
-#                                                       }
-#                                                   ]
-#                                               }
-#                                           }
-#                                       }
-#                                   }
-#                               })
-#     ])
-
-
 
 storage = TableDynamicLayout.set_fields('Storage', fields=[
     # TextDyField.data_source('Index', ''),  # 어디꺼를 가져오는거지?
@@ -124,34 +95,6 @@ nic = TableDynamicLayout.set_fields('NIC', root_path='data.NIC', fields=[
     TextDyField.data_source('Device', 'device'),
     TextDyField.data_source('Mac Addresses', 'mac_address')
 ])
-
-# firewall = TableDynamicLayout.set_fields('Firewalls', root_path='data.securityGroup', fields=[
-#     TextDyField.data_source('Priority', 'priority'),
-#     EnumDyField.data_source('Direction', 'direction', default_badge={
-#         'indigo.500': ['ingress'], 'coral.600': ['egress']
-#     }),
-#     EnumDyField.data_source('Action', 'action', default_badge={
-#         'indigo.500': ['allow'], 'coral.600': ['deny']
-#     }),
-#     TextDyField.data_source('Name', 'security_group_name'),
-#     TextDyField.data_source('Firewall ID', 'security_group_id'),
-#     TextDyField.data_source('Protocol', 'protocol'),
-#     TextDyField.data_source('Port Min.', 'port_range_min'),
-#     TextDyField.data_source('Port MAx.', 'port_range_max'),
-#     TextDyField.data_source('Description', 'description'),
-# ])
-
-# lb = TableDynamicLayout.set_fields('LB', root_path='data.loadBalancer', fields=[
-#     TextDyField.data_source('Name', 'name'),
-#     EnumDyField.data_source('Type', 'type', default_badge={
-#         'primary': ['HTTP', 'HTTPS'], 'indigo.500': ['TCP'], 'coral.600': ['UDP']
-#     }),
-#     ListDyField.data_source('Protocol', 'protocol', options={'delimiter': '<br>'}),
-#     ListDyField.data_source('Port', 'port', options={'delimiter': '<br>'}),
-#     EnumDyField.data_source('Scheme', 'scheme', default_badge={
-#         'indigo.500': ['EXTERNAL'], 'coral.600': ['INTERNAL']
-#     }),
-# ])
 
 Tags = TableDynamicLayout.set_fields('Labels', root_path='data.InstanceTag', fields=[
     TextDyField.data_source('Key', 'tagkey'),
