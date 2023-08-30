@@ -13,39 +13,41 @@ Server Instance
 '''
 server_instance = ItemDynamicLayout.set_fields('Server Instance', fields=[
     TextDyField.data_source('Account', 'data.compute.account'),
-    TextDyField.data_source('Instance ID', 'data.compute.instance_id'),
-    TextDyField.data_source('Instance Name', 'data.compute.instance_name'),
-    EnumDyField.data_source('Instance State', 'data.compute.instance_state', default_state={
-        'safe': ['RUNNING'],
-        'warning': ['STAGING', 'PROVISIONING', 'REPAIRING', 'STOPPING', 'SUSPENDING'],
+    TextDyField.data_source('Instance ID', 'data.serverInstance.serverInstanceNo'),
+    TextDyField.data_source('Instance Name', 'data.serverInstance.serverInstanceName'),
+    EnumDyField.data_source('Instance State', 'data.compute.serverInstanceStatus', default_state={
+        'safe': ['RUN'],
+        'warning': ['NSTOP', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'],
         'disable': [],
-        'alert': ['SUSPENDED', 'TERMINATED']
+        'alert': ['SUSPENDED', 'TERMT']
     }),
-    # EnumDyField.data_source('Preemptible', 'data.NaverCloud.scheduling', default_badge={
-    #     'indigo.500': ['true'], 'coral.600': ['false']
-    # }),
-    TextDyField.data_source('Instance Type', 'data.compute.instance_type'),
+    TextDyField.data_source('Instance Type', 'data.compute.serverInstancetype'),
     EnumDyField.data_source('Has GPU', 'data.display.has_gpu', default_badge={
         'indigo.500': ['True'], 'coral.600': ['False']}),
-    TextDyField.data_source('Total GPU Count', 'data.total_gpu_count'),
-    ListDyField.data_source('GPUs', 'data.display.gpus',
+    TextDyField.data_source('Total GPU Count', 'data.Hardware.gpu_count'),
+    ListDyField.data_source('GPUs', 'data.Hardware.gpu_machine_type',
                             default_badge={'type': 'outline', 'delimiter': '<br>'}),
-    TextDyField.data_source('Image', 'data.compute.image'),
-    # TextDyField.data_source('Region', 'region_code'),
-    TextDyField.data_source('Availability Zone', 'data.compute.az'),
-    TextDyField.data_source('Public IP', 'data.compute.public_ip_address'),
+    TextDyField.data_source('Image', 'data.compute.serverImageName'),
+    TextDyField.data_source('Region', 'data.Compute.region'),
+    # TextDyField.data_source('Availability Zone', 'data.compute.az'),
+    # TextDyField.data_source('Reservation Affinity', 'data.NaverCloud.reservation_affinity'),
+    TextDyField.data_source('Self link', 'data.NPC.self_link'),
+    # EnumDyField.data_source('Deletion Protection', 'data.NaverCloud.deletion_protection', default_badge={
+    #     'indigo.500': ['true'], 'coral.600': ['false']
+    # }),
+    TextDyField.data_source('Public IP', 'data.NIC.public_ip_address'),
     ListDyField.data_source('IP Addresses', 'NIC.ip_addresses',
                             default_badge={'type': 'outline', 'delimiter': '<br>'}),
-    ListDyField.data_source('Affected Rules', 'data.compute.security_groups',
-                            default_badge={'type': 'outline', 'delimiter': '<br>'}),
-    DateTimeDyField.data_source('Launched At', 'data.compute.launched_at'),
+    # ListDyField.data_source('Affected Rules', 'data.compute.security_groups',
+    #                         default_badge={'type': 'outline', 'delimiter': '<br>'}),
+    #     DateTimeDyField.data_source('Launched At', 'data.compute.launched_at'),
 ])
 
 naver_cloud_vpc = ItemDynamicLayout.set_fields('VPC', fields=[
-    TextDyField.data_source('VPC ID', 'data.vpc.vpc_id'),
-    TextDyField.data_source('VPC Name', 'data.vpc.vpc_name'),
-    TextDyField.data_source('Subnet ID', 'data.subnet.subnet_id'),
-    TextDyField.data_source('Subnet Name', 'data.subnet.subnet_name'),
+    TextDyField.data_source('VPC ID', 'data.VPC.vpc_id'),
+    TextDyField.data_source('VPC Name', 'data.VPC.vpc_name'),
+    TextDyField.data_source('Subnet ID', 'data.Subnet.subnet_id'),
+    TextDyField.data_source('Subnet Name', 'data.Subnet.subnet_name'),
 ])
 
 # instance_group_manager = ItemDynamicLayout.set_fields('InstanceGroupManager', fields=[
@@ -64,40 +66,42 @@ operating_system_manager = ItemDynamicLayout.set_fields('Operating System', fiel
 ])
 
 hardware_manager = ItemDynamicLayout.set_fields('Hardware', root_path='data.Hardware', fields=[
-    TextDyField.data_source('Memory', 'memory'),
-    TextDyField.data_source('CPU Model', 'cpu_model'),
-])
-
-service_accounts = TableDynamicLayout.set_fields('API and Identity Management',root_path='data.NaverCloud.service_accounts',fields=[
-    TextDyField.data_source('Service Account', 'service_account'),
-    MoreField.data_source('Cloud API access scopes', 'display_name',
-    options={
-    'layout': {
-    'name': 'Details',
-    'options': {
-    'type': 'popup',
-    'layout': {
-    'type': 'simple-table',
-    'options': {
-    'root_path': 'scopes',
-    'fields': [
-    {
-    "type": "text",
-    "key": "description",
-    "name": "Scope Description"
-        }
-        ]
-        }
-        }
-    }
-    }
-    })
+    # Te=xtDyField.data_source('Core', 'core'),
+    TextDyField.data_source('Memory', 'memorySize'),
+    TextDyField.data_source('CPU Model', 'cpu_machine_type'),
 ])
 #
-# server_engine = ListDynamicLayout.set_layouts('server engine', layouts=[server_instance, naver_cloud_vpc, ssh_keys, ssh_options, service_accounts, instance_group_manager])
+# service_accounts = TableDynamicLayout.set_fields('API and Identity Management',
+#                                                  root_path='data.NaverCloud.service_accounts', fields=[
+#         TextDyField.data_source('Service Account', 'service_account'),
+#         MoreField.data_source('Cloud API access scopes', 'display_name',
+#                               options={
+#                                   'layout': {
+#                                       'name': 'Details',
+#                                       'options': {
+#                                           'type': 'popup',
+#                                           'layout': {
+#                                               'type': 'simple-table',
+#                                               'options': {
+#                                                   'root_path': 'scopes',
+#                                                   'fields': [
+#                                                       {
+#                                                           "type": "text",
+#                                                           "key": "description",
+#                                                           "name": "Scope Description"
+#                                                       }
+#                                                   ]
+#                                               }
+#                                           }
+#                                       }
+#                                   }
+#                               })
+#     ])
+
+
 
 storage = TableDynamicLayout.set_fields('Storage', root_path='data.Storage', fields=[
-    TextDyField.data_source('Index', 'device_index'), #어디꺼를 가져오는거지?
+    TextDyField.data_source('Index', 'device_index'),  # 어디꺼를 가져오는거지?
     TextDyField.data_source('Name', 'tags.disk_name'),
     SizeField.data_source('Size', 'size'),
     TextDyField.data_source('Disk ID', 'tags.disk_id'),
@@ -119,29 +123,47 @@ nic = TableDynamicLayout.set_fields('NIC', root_path='data.NIC', fields=[
     TextDyField.data_source('Public IP', 'public_ip_address')
 ])
 
-# lb = TableDynamicLayout.set_fields('LB', root_path='data.loadBalancer', fields=[
-#     TextDyField.data_source('Name', 'name'),
-#     EnumDyField.data_source('Type', 'type', default_badge={
-#         'primary': ['HTTP', 'HTTPS'], 'indigo.500': ['TCP'], 'coral.600': ['UDP']
-#     }),
-#     ListDyField.data_source('Protocol', 'protocol', options={'delimiter': '<br>'}),
-#     ListDyField.data_source('Port', 'port', options={'delimiter': '<br>'}),
-#     EnumDyField.data_source('Scheme', 'scheme', default_badge={
-#         'indigo.500': ['EXTERNAL'], 'coral.600': ['INTERNAL']
-#     }),
-# ])
+firewall = TableDynamicLayout.set_fields('Firewalls', root_path='data.securityGroup', fields=[
+    TextDyField.data_source('Priority', 'priority'),
+    EnumDyField.data_source('Direction', 'direction', default_badge={
+        'indigo.500': ['ingress'], 'coral.600': ['egress']
+    }),
+    EnumDyField.data_source('Action', 'action', default_badge={
+        'indigo.500': ['allow'], 'coral.600': ['deny']
+    }),
+    TextDyField.data_source('Name', 'security_group_name'),
+    TextDyField.data_source('Firewall ID', 'security_group_id'),
+    TextDyField.data_source('Protocol', 'protocol'),
+    TextDyField.data_source('Port Min.', 'port_range_min'),
+    TextDyField.data_source('Port MAx.', 'port_range_max'),
+    TextDyField.data_source('Description', 'description'),
+])
+
+lb = TableDynamicLayout.set_fields('LB', root_path='data.loadBalancer', fields=[
+    TextDyField.data_source('Name', 'name'),
+    EnumDyField.data_source('Type', 'type', default_badge={
+        'primary': ['HTTP', 'HTTPS'], 'indigo.500': ['TCP'], 'coral.600': ['UDP']
+    }),
+    ListDyField.data_source('Protocol', 'protocol', options={'delimiter': '<br>'}),
+    ListDyField.data_source('Port', 'port', options={'delimiter': '<br>'}),
+    EnumDyField.data_source('Scheme', 'scheme', default_badge={
+        'indigo.500': ['EXTERNAL'], 'coral.600': ['INTERNAL']
+    }),
+])
 
 labels = TableDynamicLayout.set_fields('Labels', root_path='data.NaverCloud.labels', fields=[
     TextDyField.data_source('Key', 'key'),
     TextDyField.data_source('Value', 'value'),
 ])
-#
-# tags = TableDynamicLayout.set_fields('Tags', root_path='data.NaverCloud.tags', fields=[
-#     TextDyField.data_source('Item', 'key')
-# ])
 
+tags = TableDynamicLayout.set_fields('Tags', root_path='data.NaverCloud.tags', fields=[
+    TextDyField.data_source('Item', 'key')
+])
 
-# server_instance_meta = CloudServiceMeta.set_layouts([server_engine, labels, tags, storage, nic, firewall, lb])
+server_engine = ListDynamicLayout.set_layouts('server engine',
+                                              layouts=[server_instance, naver_cloud_vpc])
+
+server_instance_meta = CloudServiceMeta.set_layouts([server_engine, labels, tags, storage, nic, firewall, lb])
 
 
 class ComputeResource(CloudServiceResource):
@@ -151,8 +173,10 @@ class ComputeResource(CloudServiceResource):
 class ServerInstanceResource(ComputeResource):
     cloud_service_type = StringType(default='Server')
     data = ModelType(ServerInstance)
-    # _metadata = ModelType(CloudServiceMeta, default=server_instance_meta, serialized_name='metadata')
+    _metadata = ModelType(CloudServiceMeta, default=server_instance_meta, serialized_name='metadata')
 
 
 class ServerInstanceResponse(CloudServiceResponse):
     resource = PolyModelType(ServerInstanceResource)
+
+
