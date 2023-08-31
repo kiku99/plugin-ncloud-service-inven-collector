@@ -7,7 +7,7 @@ from spaceone.inventory.connector.computing.ServerConnector import ServerConnect
 from spaceone.inventory.model.compute.server.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.model.compute.server.cloud_service import server_instance, \
     ServerInstanceResponse, ServerInstanceResource
-from spaceone.inventory.model.compute.server.data import InstanceTag, InstanceTagList\
+from spaceone.inventory.model.compute.server.data import InstanceTag, InstanceTagList, InstanceGroup
 
 
 _LOGGER = logging.getLogger(__name__)
