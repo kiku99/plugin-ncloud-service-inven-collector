@@ -123,11 +123,11 @@ class Compute(Model):
     platformType = StringType(choices=('LNX32', 'WIN64'))
     createDate = DateTimeType()
     uptime = DateTimeType()
-    serverImageProductCode = StringType(ModelType(InstanceGroup))
+    serverImageProductCode = ModelType(InstanceGroup)
     serverProductCode = StringType()
-    serverInstanceType = StringType(ModelType(InstanceGroup))
-    zone = StringType(ModelType(InstanceGroup))
-    region = StringType(ModelType(InstanceGroup))
+    serverInstanceType = ModelType(InstanceGroup)
+    zone = ModelType(InstanceGroup)
+    region = ModelType(InstanceGroup)
     portForwardingRules = ModelType(PortForwardingRules)
 
 

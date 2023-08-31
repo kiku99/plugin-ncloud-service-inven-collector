@@ -3,10 +3,10 @@ import logging
 import json
 import concurrent.futures
 
-from src.spaceone.inventory.libs.manager import NaverCloudManager
+from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.core.service import *
-from src.spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
-from src.spaceone.inventory.conf.cloud_service_conf import *
+from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
+from spaceone.inventory.conf.cloud_service_conf import *
 
 _LOGGER = logging.getLogger(__name__)
 
