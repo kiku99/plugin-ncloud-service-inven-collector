@@ -2,9 +2,11 @@ from spaceone.inventory.libs.connector import NaverCloudConnector
 import ncloud_server
 from ncloud_server.rest import ApiException
 
+
 class ServerConnector(NaverCloudConnector):
     service = 'compute'
-##all add
+
+    ##all add
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -66,7 +68,3 @@ class ServerConnector(NaverCloudConnector):
             print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
 
         return instance_list
-
-
-
-
