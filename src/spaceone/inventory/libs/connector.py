@@ -12,7 +12,7 @@ class NaverCloudConnector(BaseConnector):
     naver_client_service = 'compute'
     version = ''
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: object, **kwargs: object) -> object:
         """
         kwargs
             - schema
