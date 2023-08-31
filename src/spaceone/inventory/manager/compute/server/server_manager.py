@@ -97,15 +97,15 @@ class ServerManager(NaverCloudManager):
 
                     match_server_zone = \
                         self.match_server_zone(server_zone,
-                                                     match_server_region.get('zoneCode'))
+                                               match_server_region.get('zoneCode'))
 
                     if match_server_zone:
-                        instance_server.update({'template': InstanceTemplate(match_instance_template, strict=False)})
+                        instance_server.update({'zone': InstanceTemplate(match_server_zone, strict=False)})
 
                 else:
                     # Unmanaged
-                    instance_server.update({'instance_group_type': 'UNMANAGED'})
-                    scheduler.update({'instance_group_type': 'UNMANAGED'})
+                    instance_server.update({'instance_server_type': 'UNMANAGED'})
+                    scheduler.update({'instance_server_type': 'UNMANAGED'})
 
                 location_type = self._check_instance_server_is_zonal(instance_server)
                 location = self._get_location(instance_server)
@@ -125,7 +125,7 @@ class ServerManager(NaverCloudManager):
                     'display_location': display_loc,
                     'google_cloud_monitoring': self.set_google_cloud_monitoring(project_id,
                                                                                 "compute.googleapis.com/instance_group",
-                                                                                instance_group.get('name'),
+                                                                                instance_server.get('name'),
                                                                                 google_cloud_monitoring_filters)
                 })
                 # No labels
