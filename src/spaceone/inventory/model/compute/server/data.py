@@ -44,6 +44,12 @@ class InstanceTagList(Model):
     pageSize = IntType()
 
 
+class InstanceGroup(Model):
+    region = StringType(serialize_when_none=False)
+    serverImageProduct = StringType()
+    zone = StringType(serialize_when_none=False)
+    serverInstance = StringType(choices=('MICRO', 'COMPT', 'STAND', 'GPU', 'LDISK', 'CHADP', 'BM', 'VDS'))
+
 class ProtectServerTermination(Model):  # 서버반납보호여부
     serverInstanceNo = StringType()
     isProtectServerTermination = BooleanType()
@@ -98,28 +104,30 @@ class Storage(Model):  # 블록스토리지인스턴스
     #     read_throughput = FloatType(serialize_when_none=False)
     #     write_throughput = FloatType(serialize_when_none=False)
 
+
 class OS(Model):
     os_type = StringType()
     os_distro = StringType()
     os_arch = StringType()
     details = StringType()
 
+
 class Compute(Model):
     account = StringType()
     serverImageName = StringType()
     serverInstanceStatus = StringType(
-        choices=('INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL','SUS'))
+        choices=('INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL', 'SUS'))
     serverInstanceOperation = StringType(choices=(
         'START', 'SHTDN', 'RESTA', 'TERMT', 'NULL', 'MIGRA', 'COPY', 'SETUP', 'HREST', 'HSHTD', 'CHNG', 'CREAT'))
     serverInstanceStatusName = StringType()
     platformType = StringType(choices=('LNX32', 'WIN64'))
     createDate = DateTimeType()
     uptime = DateTimeType()
-    serverImageProductCode = StringType()
+    serverImageProductCode = StringType(ModelType(InstanceGroup))
     serverProductCode = StringType()
-    serverInstanceType = StringType(choices=('MICRO', 'COMPT', 'STAND', 'GPU', 'LDISK', 'CHADP', 'BM', 'VDS'))
-    zone = StringType(serialize_when_none=False)
-    region = StringType(serialize_when_none=False)
+    serverInstanceType = StringType(ModelType(InstanceGroup))
+    zone = StringType(ModelType(InstanceGroup))
+    region = StringType(ModelType(InstanceGroup))
     portForwardingRules = ModelType(PortForwardingRules)
 
 
