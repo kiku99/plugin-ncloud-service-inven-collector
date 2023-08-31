@@ -108,7 +108,7 @@ server_instance_meta = CloudServiceMeta.set_layouts([server_engine, Tags, storag
 
 
 class ComputeResource(CloudServiceResource):
-    cloud_service_group = StringType(default='Compute')
+    cloud_service_group = StringType(default='ComputeServer')
 
 
 class ServerInstanceResource(ComputeResource):

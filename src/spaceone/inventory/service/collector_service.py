@@ -90,7 +90,7 @@ class CollectorService(BaseService):
                         yield result.to_primitive()
                 except Exception as e:
                     _LOGGER.error(f'[collect] failed to yield result => {e}', exc_info=True)
-                    error_resource_response = self.generate_error_response(e, '', 'inventory.Error')
+                    error_resource_response = self.generate_error_response(e, 'ComputeEngine1', 'inventory.Error')
                     yield error_resource_response.to_primitive()
 
         _LOGGER.debug(f'TOTAL TIME : {time.time() - start_time} Seconds')

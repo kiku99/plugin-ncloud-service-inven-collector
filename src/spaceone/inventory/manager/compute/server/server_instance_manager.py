@@ -76,7 +76,7 @@ class ServerInstanceManager(NaverCloudManager):
 
             except Exception as e:
                 _LOGGER.error(f'[list_resources] vm_id => {server_id}, error => {e}', exc_info=True)
-                error_response = self.generate_resource_error_response(e, 'Compute', 'Server', server_id)
+                error_response = self.generate_resource_error_response(e, 'ComputeServer', 'Server', server_id)
                 error_responses.append(error_response)
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
