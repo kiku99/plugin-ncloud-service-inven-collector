@@ -1,10 +1,10 @@
 import os
 
-from src.spaceone.inventory.conf.cloud_service_conf import ASSET_URL
-from src.spaceone.inventory.libs.common_parser import *
-from src.spaceone.inventory.libs.schema.metadata.dynamic_widget import CardWidget, ChartWidget
-from src.spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, SearchField, EnumDyField, SizeField
-from src.spaceone.inventory.libs.schema.cloud_service_type import CloudServiceTypeResource, CloudServiceTypeResponse, \
+from spaceone.inventory.conf.cloud_service_conf import ASSET_URL
+from spaceone.inventory.libs.common_parser import *
+from spaceone.inventory.libs.schema.metadata.dynamic_widget import CardWidget, ChartWidget
+from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, SearchField, EnumDyField, SizeField
+from spaceone.inventory.libs.schema.cloud_service_type import CloudServiceTypeResource, CloudServiceTypeResponse, \
     CloudServiceTypeMeta
 from spaceone.inventory.conf.cloud_service_conf import *
 

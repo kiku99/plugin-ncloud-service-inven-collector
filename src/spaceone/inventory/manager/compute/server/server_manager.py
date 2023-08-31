@@ -37,86 +37,87 @@ class ServerManager(NaverCloudManager):
         secret_data = params['secret_data']
         project_id = secret_data['project_id']
         ## Server connector
-        instance_group_conn: Server = self.locator.get_connector(self.connector_name, **params)
+        instance_group_conn: ServerConnector = self.locator.get_connector(self.connector_name, **params)
 
         ##################################
         # 0. Gather All Related Resources
         # List all information through connector
         ##################################
-        instance_groups = instance_group_conn.list_instancel_groups()
-        instance_group_managers = instance_group_conn.list_instance_group_managers()
-        autoscalers = instance_group_conn.list_autoscalers()
-        instance_templates = instance_group_conn.list_instance_templates()
+        instance_servers = instance_group_conn.list_Server_Instance()           #groups
+        server_region = instance_group_conn.list_server_region()                #group_manager
+        server_image_product = instance_group_conn.list_Server_Image_Product()  #auto
+        server_zone = instance_group_conn.list_Server_Zone()                    #template
 
-        for instance_group in instance_groups:
+        for instance_server in instance_servers:
             try:
 
                 ##################################
                 # 1. Set Basic Information
                 ##################################
-                instance_group_id = instance_group.get('id')
+                instance_server_id = instance_server.get('serverInstanceNo') #id
 
-                instance_group.update({
+                instance_server.update({
                     'project': secret_data['project_id']
                 })
 
-                scheduler = {'type': 'zone'} if 'zone' in instance_group else {'type': 'region'}
+                scheduler = {'type': 'zoneCode'} if 'zoneCode' in instance_server else {'type': 'regionCode'}
 
-                if match_instance_group_manager := \
-                        self.match_instance_group_manager(instance_group_managers, instance_group.get('selfLink')):
+                if match_server_region := \
+                        self.match_server_region(server_region, instance_server.get('regionCode')):
 
-                    instance_group_type = self._get_instance_group_type(match_instance_group_manager)
-                    scheduler.update({'instance_group_type': instance_group_type})
+                    instance_server_type = self._get_instance_server_type(match_server_region)
+                    scheduler.update({'instance_server_type': instance_server_type})
 
-                    # Managed
-                    match_instance_group_manager.update({
+                    # Managed 우짜라는거임?
+                    match_server_region.update({
                         'statefulPolicy': {
-                            'preservedState': {'disks': self._get_stateful_policy(match_instance_group_manager)}}
+                            'preservedState': {'disks': self._get_stateful_policy(match_server_region)}}
                     })
 
                     ##################################
                     # 2. Make Base Data
                     ##################################
-                    instance_group.update({
-                        'instance_group_type': instance_group_type,
-                        'instance_group_manager': InstanceGroupManagers(match_instance_group_manager, strict=False)
+                    instance_server.update({
+                        'instance_server_type': instance_server_type,
+                        'instance_server_region': InstanceGroupManagers(match_server_region, strict=False)
                     })
 
-                    if match_autoscaler := self.match_autoscaler(autoscalers, match_instance_group_manager):
+                    if match_server_image_product := self.match_server_image_product(server_image_product, match_server_region):
                         scheduler.update(
-                            self._get_auto_policy_for_scheduler(match_autoscaler)
+                            self._get_auto_policy_for_scheduler(match_server_image_product)
                         )
 
-                        instance_group.update({
-                            'autoscaler': AutoScaler(match_autoscaler, strict=False),
-                            'autoscaling_display': self._get_autoscaling_display(
-                                match_autoscaler.get('autoscalingPolicy', {}))
+                        instance_server.update({
+                            'server_image_product': AutoScaler(match_server_image_product, strict=False),
+                            #고쳐야함
+                            'autoscaling_display': self._get_server_image_product_display(
+                                match_server_image_product.get('productCode', {}))
                         })
 
-                    match_instance_template = \
-                        self.match_instance_template(instance_templates,
-                                                     match_instance_group_manager.get('instanceTemplate'))
+                    match_server_zone = \
+                        self.match_server_zone(server_zone,
+                                                     match_server_region.get('zoneCode'))
 
-                    if match_instance_template:
-                        instance_group.update({'template': InstanceTemplate(match_instance_template, strict=False)})
+                    if match_server_zone:
+                        instance_server.update({'template': InstanceTemplate(match_instance_template, strict=False)})
 
                 else:
                     # Unmanaged
-                    instance_group.update({'instance_group_type': 'UNMANAGED'})
+                    instance_server.update({'instance_group_type': 'UNMANAGED'})
                     scheduler.update({'instance_group_type': 'UNMANAGED'})
 
-                location_type = self._check_instance_group_is_zonal(instance_group)
-                location = self._get_location(instance_group)
+                location_type = self._check_instance_server_is_zonal(instance_server)
+                location = self._get_location(instance_server)
                 region = self.parse_region_from_zone(location) if location_type == 'zone' else location
-                instances = instance_group_conn.list_instances(instance_group.get('name'), location, location_type)
+                instances = instance_group_conn.list_instances(instance_server.get('name'), location, location_type)
 
                 display_loc = {'region': location, 'zone': ''} if location_type == 'region' \
                     else {'region': self.parse_region_from_zone(location), 'zone': location}
 
                 google_cloud_monitoring_filters = [{'key': 'resource.labels.instance_group_name',
-                                                    'value': instance_group.get('name')}]
+                                                    'value': instance_server.get('name')}]
 
-                instance_group.update({
+                instance_server.update({
                     'power_scheduler': scheduler,
                     'instances': self.get_instances(instances),
                     'instance_counts': len(instances),
@@ -127,8 +128,8 @@ class ServerManager(NaverCloudManager):
                                                                                 google_cloud_monitoring_filters)
                 })
                 # No labels
-                _name = instance_group.get('name', '')
-                instance_group_data = InstanceGroup(instance_group, strict=False)
+                _name = instance_server.get('name', '')
+                instance_group_data = InstanceGroup(instance_server, strict=False)
 
                 ##################################
                 # 3. Make Return Resource
@@ -180,28 +181,28 @@ class ServerManager(NaverCloudManager):
         return _instances
 
     @staticmethod
-    def _check_instance_group_is_zonal(instance_group):
+    def _check_instance_server_is_zonal(instance_group):
         instance_group_type = 'zone' if 'zone' in instance_group else 'region'
         return instance_group_type
 
-    @staticmethod
-    def match_instance_template(instance_templates, instance_template_self_link):
+    @staticmethod   #수정해야함
+    def match_server_zone(instance_templates, instance_template_self_link):
         for instance_template in instance_templates:
             if instance_template['selfLink'] == instance_template_self_link:
                 return instance_template
 
         return None
 
-    @staticmethod
-    def match_instance_group_manager(instance_group_managers, instance_group_name):
+    @staticmethod   #수정해야함
+    def match_server_region(instance_group_managers, instance_group_name):
         for instance_group_manager in instance_group_managers:
             if instance_group_manager['instanceGroup'] == instance_group_name:
                 return instance_group_manager
 
         return None
 
-    @staticmethod
-    def match_autoscaler(autoscalers, instance_group_manager):
+    @staticmethod   #수정해야함
+    def match_server_image_product(autoscalers, instance_group_manager):
         match_autoscaler_name = instance_group_manager.get('status', {}).get('autoscaler')
 
         if match_autoscaler_name:
@@ -224,13 +225,14 @@ class ServerManager(NaverCloudManager):
         return disks_vos
 
     @staticmethod
-    def _get_instance_group_type(instance_group_manager):
+    def _get_instance_server_type(instance_group_manager):
         if instance_group_manager.get('status', {}).get('stateful', {}).get('hasStatefulConfig'):
             return 'STATEFUL'
         else:
             return 'STATELESS'
 
-    def _get_autoscaling_display(self, autoscaling_policy):
+    #수정해야함
+    def _get_server_image_product_display(self, autoscaling_policy):
         display_string = f'{autoscaling_policy.get("mode")}: Target '
 
         policy_display_list = []
