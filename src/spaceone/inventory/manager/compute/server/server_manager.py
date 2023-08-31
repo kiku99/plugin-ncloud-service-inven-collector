@@ -5,10 +5,9 @@ from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.computing.ServerConnector import ServerConnector
 from spaceone.inventory.model.compute.server.cloud_service_type import CLOUD_SERVICE_TYPES
-from spaceone.inventory.model.compute.server.cloud_service import InstanceGroupResource, \
-    InstanceGroupResponse
-from spaceone.inventory.model.compute.server.data import InstanceGroupManagers, AutoScaler, \
-    InstanceTemplate, InstanceGroup
+from spaceone.inventory.model.compute.server.cloud_service import server_instance, \
+    ServerInstanceResponse, ServerInstanceResource
+from spaceone.inventory.model.compute.server.data import InstanceTag
 
 _LOGGER = logging.getLogger(__name__)
 
