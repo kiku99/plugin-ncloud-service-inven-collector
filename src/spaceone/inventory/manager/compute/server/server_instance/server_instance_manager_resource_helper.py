@@ -8,7 +8,7 @@ from spaceone.inventory.connector.compute.server_connector import ServerConnecto
 _LOGGER = logging.getLogger(__name__)
 
 
-class VMInstanceManagerResourceHelper(NaverCloudManager):
+class ServerInstanceManagerResourceHelper(NaverCloudManager):
     connector_name = 'ServerInstanceConnector'
     instance_conn = None
 

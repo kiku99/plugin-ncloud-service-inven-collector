@@ -48,7 +48,6 @@ class TestCollector(TestCase):
         print_json(v_info)
 
     def test_collect(self):
-        print(self.secret_data)
         '''
         Options can be selected
         options = {"cloud_service_types": ["SQLWorkspace"]}
@@ -60,7 +59,7 @@ class TestCollector(TestCase):
         '''
         options = {
             # "cloud_service_types": ["CloudFunctions"],
-            # "cloud_service_types": ["Compute"]
+            "cloud_service_types": ["Compute"]
             # "custom_asset_url": 'http://xxxxx.spaceone.dev/icon/google'
         }
         filter = {}

@@ -19,7 +19,7 @@ class CollectorService(BaseService):
         self.execute_managers = []
         '''
         self.execute_managers = [
-            serverManager
+            ServerInstanceManager
         ]
         '''
 
@@ -32,6 +32,7 @@ class CollectorService(BaseService):
             'supported_resource_type': SUPPORTED_RESOURCE_TYPE,
             'supported_features': SUPPORTED_FEATURES,
             'supported_schedules': SUPPORTED_SCHEDULES,
+            'cloud_service_group_map': CLOUD_SERVICE_GROUP_MAP
         }
         return {'metadata': capability}
 
