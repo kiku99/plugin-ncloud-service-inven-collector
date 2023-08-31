@@ -7,7 +7,8 @@ from spaceone.inventory.connector.computing.ServerConnector import ServerConnect
 from spaceone.inventory.model.compute.server.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.model.compute.server.cloud_service import server_instance, \
     ServerInstanceResponse, ServerInstanceResource
-from spaceone.inventory.model.compute.server.data import InstanceTag
+from spaceone.inventory.model.compute.server.data import InstanceTag, InstanceTagList, InstanceGroup
+
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -134,7 +135,7 @@ class ServerManager(NaverCloudManager):
                 ##################################
                 # 3. Make Return Resource
                 ##################################
-                instance_group_resource = InstanceGroupResource({
+                instance_group_resource = ServerInstanceResource({
                     'name': _name,
                     'account': project_id,
                     'region_code': region,
@@ -151,7 +152,7 @@ class ServerManager(NaverCloudManager):
                 # 5. Make Resource Response Object
                 # List of LoadBalancingResponse Object
                 ##################################
-                collected_cloud_services.append(InstanceGroupResponse({'resource': instance_group_resource}))
+                collected_cloud_services.append(ServerInstanceResponse({'resource': instance_group_resource}))
             except Exception as e:
                 _LOGGER.error(f'[collect_cloud_service] => {e}', exc_info=True)
                 error_response = self.generate_resource_error_response(e, 'ComputeEngine', 'InstanceGroup', instance_group_id)
@@ -201,8 +202,8 @@ class ServerManager(NaverCloudManager):
 
         return None
 
-    @staticmethod   #수정해야함
-    def match_server_image_product(autoscalers, instance_group_manager):
+    @staticmethod
+    def match_autoscaler(autoscalers, instance_group_manager):
         match_autoscaler_name = instance_group_manager.get('status', {}).get('autoscaler')
 
         if match_autoscaler_name:
@@ -225,14 +226,13 @@ class ServerManager(NaverCloudManager):
         return disks_vos
 
     @staticmethod
-    def _get_instance_server_type(instance_group_manager):
+    def _get_instance_group_type(instance_group_manager):
         if instance_group_manager.get('status', {}).get('stateful', {}).get('hasStatefulConfig'):
             return 'STATEFUL'
         else:
             return 'STATELESS'
 
-    #수정해야함
-    def _get_server_image_product_display(self, autoscaling_policy):
+    def _get_autoscaling_display(self, autoscaling_policy):
         display_string = f'{autoscaling_policy.get("mode")}: Target '
 
         policy_display_list = []
