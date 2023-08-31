@@ -101,7 +101,6 @@ Tags = TableDynamicLayout.set_fields('Labels', root_path='data.InstanceTag', fie
     TextDyField.data_source('Value', 'tagValue'),
 ])
 
-
 server_engine = ListDynamicLayout.set_layouts('server engine',
                                               layouts=[server_instance, naver_cloud_vpc])
 
@@ -112,7 +111,6 @@ class ComputeResource(CloudServiceResource):
     cloud_service_group = StringType(default='Compute')
 
 
-
 class ServerInstanceResource(ComputeResource):
     cloud_service_type = StringType(default='Server')
     data = ModelType(ServerInstance)
@@ -121,5 +119,3 @@ class ServerInstanceResource(ComputeResource):
 
 class ServerInstanceResponse(CloudServiceResponse):
     resource = PolyModelType(ServerInstanceResource)
-
-

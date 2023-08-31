@@ -6,7 +6,7 @@ SUPPORTED_SCHEDULES = ['hours']
 FILTER_FORMAT = []
 CLOUD_SERVICE_GROUP_MAP = {
     'Compute': [
-        'ServerManager'
+        'ServerInstanceManager'
     ]
 }
 
