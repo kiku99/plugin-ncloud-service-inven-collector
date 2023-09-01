@@ -2,13 +2,14 @@ from spaceone.inventory.libs.connector import NaverCloudConnector
 import ncloud_server
 from ncloud_server.rest import ApiException
 
+__all__ = ['ServerConnector']
+
 
 class ServerConnector(NaverCloudConnector):
 
-    ##all add
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.set_connect(kwargs.get('secret_data'))
 
     def list_server_region(self, **query):
         region_list = []
@@ -55,15 +56,18 @@ class ServerConnector(NaverCloudConnector):
 
     def list_Server_Instance(self, **query):
 
-        instance_list = []
-        query.update({'project': self.project_id})
+        # instance_list = []
+        # query.update({'project': self.project_id})
+        # get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
+        #
+        # try:
+        #     api_response = self.client.get_server_instance_list(get_server_instance_list_request)
+        #     for instance in api_response.serverInstanceList:
+        #         instance_list.append(instance['serverInstance'])  # Replace with the correct key
+        # except ApiException as e:
+        #     print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
+        #
+        # return instance_list
+
         get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
-
-        try:
-            api_response = self.client.get_server_instance_list(get_server_instance_list_request)
-            for instance in api_response.serverInstanceList:
-                instance_list.append(instance['serverInstance'])  # Replace with the correct key
-        except ApiException as e:
-            print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
-
-        return instance_list
+        return list(self.client.get_server_instance_list(get_server_instance_list_request))

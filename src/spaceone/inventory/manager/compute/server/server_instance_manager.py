@@ -47,6 +47,7 @@ class ServerInstanceManager(NaverCloudManager):
         # List all information through connector
         ##################################
         self.instance_conn: ServerConnector = self.locator.get_connector(self.connector_name, **params)
+        self.instance_conn.set_connect(params['secret_data'])
         # all_resources = self.get_all_resources(project_id)
         compute_servers = self.instance_conn.list_Server_Instance()
 
