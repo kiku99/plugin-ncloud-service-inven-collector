@@ -1,8 +1,8 @@
 import time
 import logging
+from typing import Tuple, List
 
 from spaceone.inventory.libs.manager import NaverCloudManager
-from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.compute.server_connector import ServerConnector
 from spaceone.inventory.manager.compute.server.server_instance.instancegroup_manager_resource_helper import \
     InstanceGroupManagerResourceHelper
@@ -10,6 +10,8 @@ from spaceone.inventory.model.compute.server.cloud_service_type import CLOUD_SER
 from spaceone.inventory.model.compute.server.cloud_service import server_instance, \
     ServerInstanceResponse, ServerInstanceResource
 from spaceone.inventory.model.compute.server.data import InstanceTag, InstanceTagList, InstanceGroup
+from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
+from spaceone.inventory.libs.schema.base import ReferenceModel
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -19,7 +21,7 @@ class ServerInstanceManager(NaverCloudManager):
     cloud_service_types = CLOUD_SERVICE_TYPES
     instance_conn = None
 
-    def collect_cloud_service(self, params):
+    def collect_cloud_service(self, params) -> Tuple[List[ServerInstanceResponse], List[ErrorResourceResponse]]:
         _LOGGER.debug(f'** Server START **')
         """
         Args:
@@ -72,7 +74,7 @@ class ServerInstanceManager(NaverCloudManager):
                 # 5. Make Resource Response Object
                 # List of LoadBalancingResponse Object
                 ##################################
-                resource_responses.append(ServerInstanceResponse({'resource': all_resources}))
+                resource_responses.append(all_resources)
 
             except Exception as e:
                 _LOGGER.error(f'[list_resources] vm_id => {server_id}, error => {e}', exc_info=True)
@@ -80,7 +82,7 @@ class ServerInstanceManager(NaverCloudManager):
                 error_responses.append(error_response)
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
-        return resource_responses, error_responses
+        return resource_responses
 
     def get_all_resources(self) -> ServerInstanceResource:
         # instancegroup_manager_helper: InstanceGroupManagerResourceHelper = InstanceGroupManagerResourceHelper(

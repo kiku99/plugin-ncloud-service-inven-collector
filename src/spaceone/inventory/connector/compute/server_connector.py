@@ -4,7 +4,6 @@ from ncloud_server.rest import ApiException
 
 
 class ServerConnector(NaverCloudConnector):
-    service = 'compute'
 
     ##all add
 

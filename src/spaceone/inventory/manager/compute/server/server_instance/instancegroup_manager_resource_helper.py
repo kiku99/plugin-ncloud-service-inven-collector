@@ -7,7 +7,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class InstanceGroupManagerResourceHelper(NaverCloudManager):
-    connector_name = 'ServerInstanceConnector'
+    connector_name = 'ServerConnector'
     instance_conn = None
 
     def __init__(self, ncloud_connector=None, **kwargs):

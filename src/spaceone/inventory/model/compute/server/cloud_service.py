@@ -109,10 +109,10 @@ server_instance_meta = CloudServiceMeta.set_layouts([server_engine, Tags, storag
 
 class ComputeResource(CloudServiceResource):
     cloud_service_group = StringType(default='ComputeServer')
-
+s
 
 class ServerInstanceResource(ComputeResource):
-    cloud_service_type = StringType(default='Server')
+    cloud_service_type = StringType(default='Instance')
     data = ModelType(ServerInstance)
     _metadata = ModelType(CloudServiceMeta, default=server_instance_meta, serialized_name='metadata')
 
