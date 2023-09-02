@@ -5,7 +5,9 @@ import logging
 from spaceone.core.connector import BaseConnector
 
 __all__ = ['NaverCloudConnector']
+
 _LOGGER = logging.getLogger(__name__)
+DEFAULT_SCHEMA = 'azure_client_secret'
 
 
 class NaverCloudConnector(BaseConnector):
