@@ -3,6 +3,7 @@ import logging
 from typing import Tuple, List
 
 from spaceone.inventory.libs.manager import NaverCloudManager
+from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.compute.server_connector import ServerConnector
 from spaceone.inventory.manager.compute.server.server_instance.instancegroup_manager_resource_helper import \
     InstanceGroupManagerResourceHelper
@@ -40,7 +41,7 @@ class ServerInstanceManager(NaverCloudManager):
 
         start_time = time.time()
         secret_data = params['secret_data']
-        project_id = secret_data['project_id']
+        #project_id = secret_data['project_id']
 
         ##################################
         # 0. Gather All Related Resources

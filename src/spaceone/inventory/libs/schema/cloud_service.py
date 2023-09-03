@@ -2,8 +2,8 @@ from schematics import Model
 from schematics.types import ListType, StringType, PolyModelType, DictType, ModelType, FloatType, DateTimeType
 
 from .base import BaseMetaData, BaseResponse, MetaDataView, MetaDataViewSubData, ReferenceModel
-from src.spaceone.inventory.model.compute.server.data import ServerInstance, NIC, Storage
-from src.spaceone.inventory.libs.schema.region import RegionResource
+from spaceone.inventory.model.compute.server.data import ServerInstance, NIC, Storage
+from spaceone.inventory.libs.schema.region import RegionResource
 
 
 class Labels(Model):

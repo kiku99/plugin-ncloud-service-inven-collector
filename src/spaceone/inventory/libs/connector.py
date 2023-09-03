@@ -26,14 +26,15 @@ class NaverCloudConnector(BaseConnector):
         """
 
         super().__init__(*args, **kwargs)
-        self.client = None
-
-    def set_connect(self, secret_data):
+        secret_data = kwargs.get('secret_data')
         configuration = ncloud_server.Configuration()
         configuration.access_key = secret_data['ncloud_access_key_id']
         configuration.secret_key = secret_data['ncloud_secret_key']
 
         self.client = V2Api(ncloud_server.ApiClient(configuration))
+
+    #def set_connect(self, secret_data):
+
 
     def verify(self, **kwargs):
         if self.client is None:

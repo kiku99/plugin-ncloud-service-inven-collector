@@ -6,10 +6,13 @@ __all__ = ['ServerConnector']
 
 
 class ServerConnector(NaverCloudConnector):
+    service = 'compute'
+
+    ##all add
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.set_connect(kwargs.get('secret_data'))
+        #self.set_connect(kwargs.get('secret_data'))
 
     def list_server_region(self, **query):
         region_list = []
@@ -33,7 +36,7 @@ class ServerConnector(NaverCloudConnector):
         try:
             api_response = self.client.get_server_image_product_list(get_server_image_product_list_request)
             for product in api_response.imageProductList:
-                server_image_product_list.append(product['product'])
+                server_image_product_list.append(product['productCode'])
         except ApiException as e:
             print("Exception when calling V2Api->add_server_image_product_list: %s\n" % e)
 
@@ -56,18 +59,24 @@ class ServerConnector(NaverCloudConnector):
 
     def list_Server_Instance(self, **query):
 
-        # instance_list = []
-        # query.update({'project': self.project_id})
-        # get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
-        #
-        # try:
-        #     api_response = self.client.get_server_instance_list(get_server_instance_list_request)
-        #     for instance in api_response.serverInstanceList:
-        #         instance_list.append(instance['serverInstance'])  # Replace with the correct key
-        # except ApiException as e:
-        #     print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
-        #
-        # return instance_list
-
+        instance_list = []
+        #query.update({'project': self.project_id})
         get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
-        return list(self.client.get_server_instance_list(get_server_instance_list_request))
+
+        try:
+            api_response = self.client.get_server_instance_list(get_server_instance_list_request)
+            print(api_response)
+            for instance in api_response.content:
+                instance_list.append(instance['serverInstanceCode'])  # Replace with the correct key
+        except ApiException as e:
+            print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
+
+        return instance_list
+
+'''
+        get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
+        #list(self.client.get_server_instance_list(get_server_instance_list_request))
+        response = 
+
+'''
+
