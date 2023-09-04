@@ -18,7 +18,6 @@ class TestLoadBalancerConnector(unittest.TestCase):
     def setUpClass(cls):
         config.init_conf(package='spaceone.inventory')
         cls.schema = 'naver_client_secret'
-        #cls.server_connector = ServerConnector(transaction=Transaction(), config={}, secret_data=cls.secret_data)
         cls.server_connector = ServerConnector(secret_data=cls.secret_data)
         super().setUpClass()
 

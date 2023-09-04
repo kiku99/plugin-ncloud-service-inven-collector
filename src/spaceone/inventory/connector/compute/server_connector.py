@@ -56,7 +56,7 @@ class ServerConnector(NaverCloudConnector):
 
         return zone_list
 
-    def list_Server_Instance(self, **query):
+    def list_Server_Instance(self):
 
         instance_list = []
         get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
