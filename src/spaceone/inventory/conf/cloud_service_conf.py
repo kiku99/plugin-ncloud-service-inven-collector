@@ -5,9 +5,7 @@ SUPPORTED_FEATURES = ['garbage_collection']
 SUPPORTED_SCHEDULES = ['hours']
 FILTER_FORMAT = []
 CLOUD_SERVICE_GROUP_MAP = {
-    'ComputeServer': [
-        'ServerInstanceManager'
-    ]
+    'ComputeServer'
 }
 
 ASSET_URL = 'https://spaceone-custom-assets.s3.ap-northeast-2.amazonaws.com/console-assets/icons/cloud-services/naver_cloud'

@@ -9,7 +9,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class ServerInstanceManagerResourceHelper(NaverCloudManager):
-    connector_name = 'ServerInstanceConnector'
+    connector_name = 'ServerConnector'
     instance_conn = None
 
     def __init__(self, ncloud_connector=None, **kwargs):
@@ -152,22 +152,22 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
                             'details': 'Google, Container-Optimized OS'})
         return os_data
 
-    def _get_google_cloud_data(self, instance, instance_in_managed_instance_groups):
-        google_cloud = {
-            "self_link": instance.get('selfLink', ''),
-            "fingerprint": instance.get('fingerprint', ''),
-            "reservation_affinity": self._get_reservation_affinity(instance),
-            "deletion_protection": instance.get('deletionProtection', False),
-            "scheduling": self._get_scheduling(instance),
-            "tags": self.get_tag_items(instance.get('tags', {}).get('items', [])),
-            "ssh_keys": self._get_ssh_keys(instance.get('metadata', {}).get('items', [])),
-            "service_accounts": self._list_service_accounts(instance),
-            "labels": self._get_labels(instance.get('labels', {})),
-            'is_managed_instance': True if instance.get('selfLink',
-                                                        '') in instance_in_managed_instance_groups else False,
-        }
-
-        return GoogleCloud(google_cloud, strict=False)
+    # def _get_google_cloud_data(self, instance, instance_in_managed_instance_groups):
+    #     google_cloud = {
+    #         "self_link": instance.get('selfLink', ''),
+    #         "fingerprint": instance.get('fingerprint', ''),
+    #         "reservation_affinity": self._get_reservation_affinity(instance),
+    #         "deletion_protection": instance.get('deletionProtection', False),
+    #         "scheduling": self._get_scheduling(instance),
+    #         "tags": self.get_tag_items(instance.get('tags', {}).get('items', [])),
+    #         "ssh_keys": self._get_ssh_keys(instance.get('metadata', {}).get('items', [])),
+    #         "service_accounts": self._list_service_accounts(instance),
+    #         "labels": self._get_labels(instance.get('labels', {})),
+    #         'is_managed_instance': True if instance.get('selfLink',
+    #                                                     '') in instance_in_managed_instance_groups else False,
+    #     }
+    #
+    #     return GoogleCloud(google_cloud, strict=False)
 
     def _get_hardware_data(self, instance, instance_types, zone_info):
         """

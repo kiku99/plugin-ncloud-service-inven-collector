@@ -5,14 +5,14 @@ import logging
 from spaceone.core.connector import BaseConnector
 
 __all__ = ['NaverCloudConnector']
+
 _LOGGER = logging.getLogger(__name__)
+DEFAULT_SCHEMA = 'azure_client_secret'
 
 
 class NaverCloudConnector(BaseConnector):
-    naver_client_service = 'compute'
-    version = ''
 
-    def __init__(self, *args: object, **kwargs: object) -> object:
+    def __init__(self, *args: object, **kwargs: object):
         """
         kwargs
             - schema
@@ -27,21 +27,22 @@ class NaverCloudConnector(BaseConnector):
 
         super().__init__(*args, **kwargs)
         secret_data = kwargs.get('secret_data')
+        configuration = ncloud_server.Configuration()
+        configuration.access_key = secret_data['ncloud_access_key_id']
+        configuration.secret_key = secret_data['ncloud_secret_key']
 
-        self.configuration = ncloud_server.Configuration()
-        self.configuration.access_key = secret_data['ncloud_access_key_id']
-        self.configuration.secret_key = secret_data['ncloud_secret_key']
+        self.client = V2Api(ncloud_server.ApiClient(configuration))
 
-        self.client = V2Api(ncloud_server.ApiClient(self.configuration))
+    #def set_connect(self, secret_data):
+
 
     def verify(self, **kwargs):
         if self.client is None:
-            self.set_connect(**kwargs)
-
+            self.set_connect(kwargs['secret_data'])
+            return "ACTIVE"
 
     def generate_query(self, **query):
         query.update({
             'project': 'default'
         })
         return query
-
