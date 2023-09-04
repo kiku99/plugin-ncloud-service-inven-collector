@@ -66,6 +66,7 @@ class ServerConnector(NaverCloudConnector):
             # print(api_response)
             for instance in api_response.server_instance_list:
                 instance_list.append(instance)
+
         except ApiException as e:
             print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
 

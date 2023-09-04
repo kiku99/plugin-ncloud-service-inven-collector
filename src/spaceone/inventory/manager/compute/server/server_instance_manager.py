@@ -40,8 +40,7 @@ class ServerInstanceManager(NaverCloudManager):
         instance_id = ""
 
         start_time = time.time()
-        secret_data = params['secret_data']
-        #project_id = secret_data['project_id']
+        # secret_data = params['secret_data']
 
         ##################################
         # 0. Gather All Related Resources
@@ -49,7 +48,7 @@ class ServerInstanceManager(NaverCloudManager):
         ##################################
         self.instance_conn: ServerConnector = self.locator.get_connector(self.connector_name, **params)
         self.instance_conn.set_connect(params['secret_data'])
-        # all_resources = self.get_all_resources(project_id)
+        all_resources = self.get_all_resources()
         compute_servers = self.instance_conn.list_Server_Instance()
 
         for compute_server in compute_servers:
@@ -57,40 +56,52 @@ class ServerInstanceManager(NaverCloudManager):
                 ##################################
                 # 1. Set Basic Information
                 ##################################
-                all_resources = self.get_all_resources()
-                server_id = compute_server.get('id')
-                # zone, region = self._get_zone_and_region(compute_server)
-                # zone_info = {'zone': zone, 'region': region, 'project_id': project_id}
+                server_no = compute_server.server_instance_no
+                zone, region = self._get_zone_and_region(compute_server)
+                zone_info = {'zone': zone, 'region': region}
 
                 ##################################
                 # 2. Make Base Data
                 ##################################
-                # resource = self.get_server_instance_resource(project_id, zone_info, compute_server, all_resources)
+                resource = self.get_server_instance_resource(zone_info, compute_server, all_resources)
 
                 ##################################
                 # 4. Make Collected Region Code
                 ##################################
-                # self.set_region_code(resource.get('region_code', ''))
+                self.set_region_code(resource.get('region_code', ''))
 
                 ##################################
                 # 5. Make Resource Response Object
                 # List of LoadBalancingResponse Object
                 ##################################
-                resource_responses.append(all_resources)
+                resource_responses.append(ServerInstanceResponse({'resource': resource}))
 
             except Exception as e:
-                _LOGGER.error(f'[list_resources] vm_id => {server_id}, error => {e}', exc_info=True)
-                error_response = self.generate_resource_error_response(e, 'ComputeServer', 'Server', server_id)
+                _LOGGER.error(f'[list_resources] vm_id => {compute_server.server_instance_no}, error => {e}', exc_info=True)
+                error_response = self.generate_resource_error_response(e, 'ComputeServer', 'Server', compute_server.server_instance_no)
                 error_responses.append(error_response)
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
-        return resource_responses
+        return resource_responses, error_responses
 
-    def get_all_resources(self) -> ServerInstanceResource:
+    def get_all_resources(self) -> dict:
         # instancegroup_manager_helper: InstanceGroupManagerResourceHelper = InstanceGroupManagerResourceHelper(
         #     self.instance_conn)
-        server_data = self.instance_conn.list_Server_Instance()
-        return ServerInstanceResource(server_data, strict=False)
+        return {
+            'disk': self.instance_conn.list_disks(),
+            'autoscaler': self.instance_conn.list_autoscalers(),
+            'instance_type': self.instance_conn.list_machine_types(),
+            # 'instance_group': self.instance_conn.list_instance_group_managers(),
+            'public_images': self.instance_conn.list_images(),
+            'vpcs': self.instance_conn.list_vpcs(),
+            'subnets': self.instance_conn.list_subnetworks(),
+            'firewalls': self.instance_conn.list_firewall(),
+            'forwarding_rules': self.instance_conn.list_forwarding_rules(),
+            'target_pools': self.instance_conn.list_target_pools(),
+            'url_maps': self.instance_conn.list_url_maps(),
+            'backend_svcs': self.instance_conn.list_back_end_services(),
+            # 'managed_instances_in_instance_groups': instancegroup_manager_helper.list_managed_instances_in_instance_groups()
+        }
 
     # def get_server_instance_resource(self, project_id, zone_info, instance, all_resources) -> ServerInstanceResource:
     #     """ Prepare input params for call manager """
@@ -209,22 +220,12 @@ class ServerInstanceManager(NaverCloudManager):
     #     })
     #     return ServerInstanceResource(server_data, strict=False)
 
-    def _get_location(self, instance_group):
-        if 'zone' in instance_group:
-            url_zone = instance_group.get('zone')
-            location = self.get_param_in_url(url_zone, 'zones')
-        else:
-            # zone or region key must be existed
-            url_region = instance_group.get('region')
-            location = self.get_param_in_url(url_region, 'regions')
+    def _get_zone_and_region(self, instance) -> (str, str):
+        zone_info = instance.get('zone')
+        zone_code = zone_info.get('zone_code')
+        region_info = instance.get('region')
+        region_code = region_info.get('region_code')
+        return zone_code, region_code
 
-        return location
-
-    def get_instances(self, instances):
-        _instances = []
-        for instance in instances:
-            url_instance = instance.get('instance', '')
-            instance.update({'name': self.get_param_in_url(url_instance, 'instances')})
-            _instances.append(instance)
-
-        return _instances
+    # def get_server_instance_resource(self, zone_info, compute_server, all_resources) -> ServerInstanceResource:
+    #     return ServerInstanceResource(server_data, strict=False)
