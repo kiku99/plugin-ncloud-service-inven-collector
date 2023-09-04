@@ -1,8 +1,8 @@
-from spaceone.inventory.libs.manager import GoogleCloudManager
-from spaceone.inventory.model.compute_engine.instance.data import Disk
+from spaceone.inventory.libs.manager import NaverCloudManager
+from spaceone.inventory.model.compute.server.data import Storage
 
 
-class DiskManagerResourceHelper(GoogleCloudManager):
+class DiskManagerResourceHelper(NaverCloudManager):
     connector_name = 'VMInstanceConnector'
 
     def get_disk_info(self, instance, disk_list):

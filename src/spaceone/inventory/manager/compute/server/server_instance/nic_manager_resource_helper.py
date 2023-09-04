@@ -1,8 +1,8 @@
-from spaceone.inventory.libs.manager import GoogleCloudManager
-from spaceone.inventory.model.compute_engine.instance.data import NIC
+from spaceone.inventory.libs.manager import NaverCloudManager
+from spaceone.inventory.model.compute.server.data import NIC
 
 
-class NICManagerResourceHelper(GoogleCloudManager):
+class NICManagerResourceHelper(NaverCloudManager):
 
     connector_name = 'VMInstanceConnector'
 

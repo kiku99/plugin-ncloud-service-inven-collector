@@ -1,8 +1,8 @@
-from spaceone.inventory.libs.manager import GoogleCloudManager
-from spaceone.inventory.model.compute_engine.instance.data import LoadBalancer
+from spaceone.inventory.libs.manager import NaverCloudManager
+from spaceone.inventory.model.compute.server.data import LoadBalancer
 
 
-class LoadBalancerManagerResourceHelper(GoogleCloudManager):
+class LoadBalancerManagerResourceHelper(NaverCloudManager):
     connector_name = 'VMInstanceConnector'
 
     def get_loadbalancer_info(self, instance, instance_groups, backend_svc, url_maps, target_pools, forwarding_rules):

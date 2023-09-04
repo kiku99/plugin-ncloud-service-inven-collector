@@ -1,12 +1,12 @@
 import logging
 
-from spaceone.inventory.libs.manager import GoogleCloudManager
-from spaceone.inventory.model.compute_engine.instance.data import SecurityGroup
+from spaceone.inventory.libs.manager import NaverCloudManager
+from spaceone.inventory.model.compute.server.data import SecurityGroup
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class FirewallManagerResourceHelper(GoogleCloudManager):
+class FirewallManagerResourceHelper(NaverCloudManager):
     connector_name = 'VMInstanceConnector'
 
     def list_firewall_rules_info(self, instance, firewall_rules) -> list:

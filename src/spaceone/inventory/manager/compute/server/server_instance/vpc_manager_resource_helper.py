@@ -1,12 +1,12 @@
 import logging
 
-from spaceone.inventory.libs.manager import GoogleCloudManager
-from spaceone.inventory.model.compute_engine.instance.data import VPC, Subnet
+from spaceone.inventory.libs.manager import NaverCloudManager
+from spaceone.inventory.model.compute.server.data import VPC, Subnet
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class VPCManagerResourceHelper(GoogleCloudManager):
+class VPCManagerResourceHelper(NaverCloudManager):
 
     connector_name = 'VMInstanceConnector'
 
