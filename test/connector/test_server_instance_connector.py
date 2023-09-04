@@ -33,13 +33,9 @@ class TestLoadBalancerConnector(unittest.TestCase):
         super().tearDownClass()
 
     def test_list_load_balancers(self):
-        # self.azure_connector.set_connect(self.azure_credentials)
         server_instances = self.server_connector.list_Server_Instance()
 
-        for server_instance in server_instances:
-            print('=====')
-            print(server_instance)
-            print('=====')
+        print(server_instances)
 
 
 if __name__ == "__main__":
