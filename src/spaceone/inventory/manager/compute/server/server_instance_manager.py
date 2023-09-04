@@ -7,12 +7,12 @@ from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.compute.server_connector import ServerConnector
 from spaceone.inventory.manager.compute.server.server_instance.disk_manager_resource_helper import \
     DiskManagerResourceHelper
-from spaceone.inventory.manager.compute.server.server_instance.firewall_manager_resource_helper import \
-    FirewallManagerResourceHelper
+# from spaceone.inventory.manager.compute.server.server_instance.firewall_manager_resource_helper import \
+#     FirewallManagerResourceHelper
 from spaceone.inventory.manager.compute.server.server_instance.instancegroup_manager_resource_helper import \
     InstanceGroupManagerResourceHelper
-from spaceone.inventory.manager.compute.server.server_instance.loadbalancer_manager_resource_helper import \
-    LoadBalancerManagerResourceHelper
+# from spaceone.inventory.manager.compute.server.server_instance.loadbalancer_manager_resource_helper import \
+#     LoadBalancerManagerResourceHelper
 from spaceone.inventory.manager.compute.server.server_instance.nic_manager_resource_helper import \
     NICManagerResourceHelper
 from spaceone.inventory.manager.compute.server.server_instance.server_instance_manager_resource_helper import \
@@ -153,23 +153,23 @@ class ServerInstanceManager(NaverCloudManager):
             ServerInstanceManagerResourceHelper(self.instance_conn)
         auto_scaler_manager_helper: InstanceGroupManagerResourceHelper = \
             InstanceGroupManagerResourceHelper(self.instance_conn)
-        loadbalancer_manager_helper: LoadBalancerManagerResourceHelper = LoadBalancerManagerResourceHelper()
+        # loadbalancer_manager_helper: LoadBalancerManagerResourceHelper = LoadBalancerManagerResourceHelper()
         disk_manager_helper: DiskManagerResourceHelper = DiskManagerResourceHelper()
         nic_manager_helper: NICManagerResourceHelper = NICManagerResourceHelper()
         vpc_manager_helper: VPCManagerResourceHelper = VPCManagerResourceHelper()
-        firewall_manager_helper: FirewallManagerResourceHelper = FirewallManagerResourceHelper()
+        # firewall_manager_helper: FirewallManagerResourceHelper = FirewallManagerResourceHelper()
         autoscaler_vo = auto_scaler_manager_helper.get_autoscaler_info(instance, instance_group, autoscaler)
-        load_balancer_vos = loadbalancer_manager_helper.get_loadbalancer_info(instance, instance_group, backend_svcs,
-                                                                              url_maps,
-                                                                              target_pools, forwarding_rules)
+        # load_balancer_vos = loadbalancer_manager_helper.get_loadbalancer_info(instance, instance_group, backend_svcs,
+        #                                                                       url_maps,
+        #                                                                       target_pools, forwarding_rules)
         disk_vos = disk_manager_helper.get_disk_info(instance, disks)
         vpc_vo, subnet_vo = vpc_manager_helper.get_vpc_info(instance, vpcs, subnets)
         nic_vos = nic_manager_helper.get_nic_info(instance, subnet_vo)
-        firewall_vos = firewall_manager_helper.list_firewall_rules_info(instance, firewalls)
+        # firewall_vos = firewall_manager_helper.list_firewall_rules_info(instance, firewalls)
 
-        firewall_names = [d.get('name') for d in firewall_vos if d.get('name', '') != '']
+        # firewall_names = [d.get('name') for d in firewall_vos if d.get('name', '') != '']
         server_data = vm_instance_manager_helper.get_server_info(instance, instance_types, disks, zone_info,
-                                                                 public_images, instance_in_managed_instance_groups)
+                                                                 public_images)
         google_cloud_filters = [{'key': 'resource.labels.instance_id', 'value': instance.get('id')}]
         google_cloud = server_data['data'].get('google_cloud', {})
         _google_cloud = google_cloud.to_primitive()
@@ -199,10 +199,10 @@ class ServerInstanceManager(NaverCloudManager):
             'nics': nic_vos,
             'disks': disk_vos,
         })
-        server_data['data']['compute']['security_groups'] = firewall_names
+        # server_data['data']['compute']['security_groups'] = firewall_names
         server_data['data'].update({
-            'load_balancers': load_balancer_vos,
-            'security_group': firewall_vos,
+            # 'load_balancers': load_balancer_vos,
+            # 'security_group': firewall_vos,
             'autoscaler': autoscaler_vo,
             'vpc': vpc_vo,
             'subnet': subnet_vo,

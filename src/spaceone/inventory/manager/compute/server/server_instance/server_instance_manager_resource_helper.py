@@ -16,8 +16,7 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
         super().__init__(**kwargs)
         self.instance_conn: ServerConnector = ncloud_connector
 
-    def get_server_info(self, instance, instance_types, disks, zone_info, public_images,
-                        instance_in_managed_instance_groups):
+    def get_server_info(self, instance, instance_types, disks, zone_info, public_images):
         """
         server_data = {
             "name": '',x
@@ -77,14 +76,14 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
 
         os_data = self._get_os_data(instance, public_images)
         server_dic = self._get_server_dic(instance, zone_info)
-        google_cloud_data = self._get_google_cloud_data(instance, instance_in_managed_instance_groups)
+        # google_cloud_data = self._get_google_cloud_data(instance, instance_in_managed_instance_groups)
         hardware_data = self._get_hardware_data(instance, instance_types, zone_info)
         compute_data = self._get_compute_data(instance, disks, zone_info)
 
         server_dic.update({
             'data': {
                 'os': os_data,
-                'google_cloud': google_cloud_data,
+                'google_cloud': 'google_cloud_data',
                 'hardware': hardware_data,
                 'compute': compute_data,
                 'primary_ip_address': self._get_primary_ip_address(instance)

@@ -2,9 +2,9 @@ CONNECTORS = {
     'NaverCloudConnector': {
             'backend': 'spaceone.inventory.libs.connector.NaverCloudConnector',
         },
-    # 'ServerConnector': {
-    #     'backend': 'spaceone.inventory.connector.compute.ServerConnector'
-    # }
+    'ServerConnector': {
+        'backend': 'spaceone.inventory.connector.compute.ServerConnector'
+    }
 }
 
 LOG = {

@@ -56,7 +56,7 @@ class DiskManagerResourceHelper(NaverCloudManager):
                 'tags': single_disk_tag
             }
 
-            disks.append(Disk(single_disk, strict=False))
+            disks.append(Storage(single_disk, strict=False))
 
         return disks
 

@@ -1,5 +1,6 @@
 import unittest
 import os
+from spaceone.tester import TestCase, print_json
 from spaceone.core.unittest.runner import RichTestRunner
 from spaceone.core import config
 from spaceone.core.transaction import Transaction
@@ -10,7 +11,7 @@ AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
 
 
-class TestServerInstanceManager(unittest.TestCase):
+class TestServerInstanceManager(TestCase):
     secret_data = {
         'ncloud_access_key_id': AKI,
         'ncloud_secret_key': SK
@@ -21,8 +22,8 @@ class TestServerInstanceManager(unittest.TestCase):
         config.init_conf(package='spaceone.inventory')
         cls.schema = 'naver_client_secret'
 
-        cls.server_connector = ServerConnector(secret_data=cls.secret_data)
-        cls.server_manager = ServerInstanceManager()
+        cls.server_connector = ServerConnector(transaction=Transaction(), config={}, secret_data=cls.secret_data)
+        cls.server_manager = ServerInstanceManager(Transaction())
         # cls.server_manager = ServerInstanceManager(Transaction())
 
         super().setUpClass()
