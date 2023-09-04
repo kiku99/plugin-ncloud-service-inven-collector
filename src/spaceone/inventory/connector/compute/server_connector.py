@@ -12,7 +12,6 @@ class ServerConnector(NaverCloudConnector):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        #self.set_connect(kwargs.get('secret_data'))
 
     def list_server_region(self, **query):
         region_list = []
@@ -60,14 +59,14 @@ class ServerConnector(NaverCloudConnector):
     def list_Server_Instance(self, **query):
 
         instance_list = []
-        #query.update({'project': self.project_id})
         get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
 
         try:
             api_response = self.client.get_server_instance_list(get_server_instance_list_request)
-            print(api_response)
-            # for instance in api_response:
-            #     instance_list.append(instance['serverInstanceCode'])  # Replace with the correct key
-            return api_response
+            # print(api_response)
+            for instance in api_response.server_instance_list:
+                instance_list.append(instance)
         except ApiException as e:
             print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
+
+        return instance_list
