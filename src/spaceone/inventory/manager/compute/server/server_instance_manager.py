@@ -4,7 +4,7 @@ from typing import Tuple, List
 
 from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.libs.schema.base import ReferenceModel
-from spaceone.inventory.connector.compute.server_connector import ServerConnector
+from spaceone.inventory.connector.compute.server_instance_connector import ServerConnector
 from spaceone.inventory.manager.compute.server.server_instance.instancegroup_manager_resource_helper import \
     InstanceGroupManagerResourceHelper
 from spaceone.inventory.model.compute.server.cloud_service_type import CLOUD_SERVICE_TYPES
@@ -22,7 +22,7 @@ class ServerInstanceManager(NaverCloudManager):
     cloud_service_types = CLOUD_SERVICE_TYPES
     instance_conn = None
 
-    def collect_cloud_service(self, params) -> Tuple[List[ServerInstanceResponse], List[ErrorResourceResponse]]:
+    def collect_cloud_services(self, params) -> Tuple[List[ServerInstanceResponse], List[ErrorResourceResponse]]:
         _LOGGER.debug(f'** Server START **')
         """
         Args:

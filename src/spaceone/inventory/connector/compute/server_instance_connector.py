@@ -12,6 +12,7 @@ class ServerConnector(NaverCloudConnector):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        #self.set_connect(kwargs.get('secret_data'))
 
     def list_server_region(self, **query):
         region_list = []
@@ -59,6 +60,7 @@ class ServerConnector(NaverCloudConnector):
     def list_Server_Instance(self):
 
         instance_list = []
+        #query.update({'project': self.project_id})
         get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
 
         try:

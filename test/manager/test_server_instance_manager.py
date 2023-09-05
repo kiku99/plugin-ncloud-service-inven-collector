@@ -3,7 +3,7 @@ import os
 from spaceone.core.unittest.runner import RichTestRunner
 from spaceone.core import config
 from spaceone.core.transaction import Transaction
-from spaceone.inventory.connector.compute.server_connector import ServerConnector
+from spaceone.inventory.connector.compute.server_instance_connector import ServerConnector
 from spaceone.inventory.manager.compute.server.server_instance_manager import ServerInstanceManager
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
@@ -35,7 +35,7 @@ class TestServerInstanceManager(unittest.TestCase):
         secret_data = self.secret_data
         params = {'options': {}, 'secret_data': secret_data, 'filter': {}}
 
-        server_instances = self.server_manager.collect_cloud_service(params)
+        server_instances = self.server_manager.collect_cloud_services(params)
 
         for server_instance in server_instances:
             print(server_instance)
