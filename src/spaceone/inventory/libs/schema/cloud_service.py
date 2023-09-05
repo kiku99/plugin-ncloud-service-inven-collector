@@ -43,8 +43,6 @@ class CloudServiceResource(Model):
     name = StringType(default="")
     region_code = StringType()
     data = PolyModelType(Model, default=lambda: {})
-    # tags = ListType(ModelType(Labels), serialize_when_none=False)
-    # reference = ModelType(ReferenceModel)
     _metadata = PolyModelType(CloudServiceMeta, serialize_when_none=False, serialized_name='metadata')
 
 
