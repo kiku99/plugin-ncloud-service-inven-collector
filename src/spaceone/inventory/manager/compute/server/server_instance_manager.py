@@ -7,8 +7,8 @@ from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.compute.server_connector import ServerConnector
 from spaceone.inventory.manager.compute.server.server_instance.storage_manager_resource_helper import \
     StorageManagerResourceHelper
-from spaceone.inventory.manager.compute.server.server_instance.naver_cloud_manager_resource_helper import \
-    NaverCloudManagerResourceHelper
+from spaceone.inventory.manager.compute.server.server_instance.login_key_manager_resource_helper import \
+    LoginKeyManagerResourceHelper
 # from spaceone.inventory.manager.compute.server.server_instance.loadbalancer_manager_resource_helper import \
 #     LoadBalancerManagerResourceHelper
 from spaceone.inventory.manager.compute.server.server_instance.nic_manager_resource_helper import \
@@ -98,7 +98,7 @@ class ServerInstanceManager(NaverCloudManager):
         #     self.instance_conn)
         return {
             'storage': self.instance_conn.list_Storage_Instance(),
-            # 'autoscaler': self.instance_conn.list_autoscalers(),
+            'naver_cloud': self.instance_conn.list_autoscalers(),
             # 'instance_type': self.instance_conn.list_machine_types(),
             # 'instance_group': self.instance_conn.list_instance_group_managers(),
             # 'public_images': self.instance_conn.list_images(),
@@ -149,10 +149,10 @@ class ServerInstanceManager(NaverCloudManager):
         server_instance_manager_helper: ServerInstanceManagerResourceHelper = \
             ServerInstanceManagerResourceHelper(self.instance_conn)
         storage_manager_helper: StorageManagerResourceHelper = StorageManagerResourceHelper()
-        naver_cloud_manager_helper : NaverCloudManagerResourceHelper = NaverCloudManagerResourceHelper()
+        login_key_manager_helper : LoginKeyManagerResourceHelper = LoginKeyManagerResourceHelper()
 
         storage_vos = storage_manager_helper.get_storage_info(instance, storages)
-        naver_cloud = naver_cloud_manager_helper.get_naver_cloud_info(instance)
+        login_key = login_key_manager_helper.get_naver_cloud_info(instance)
         server_data = server_instance_manager_helper.get_server_info(instance, zone_info)
         _name = instance.get('name', '')
 
@@ -166,7 +166,7 @@ class ServerInstanceManager(NaverCloudManager):
         })
         '''
         server_data['data'].update({
-            'naverCloud': naver_cloud,
+            'loginKey': login_key,
             'storage': storage_vos,
         })
 

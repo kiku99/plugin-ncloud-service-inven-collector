@@ -116,11 +116,6 @@ class LoginKey(Model):
     createData = DateTimeType()
 
 
-class NaverCloud(Model):
-    loginKey = ModelType(LoginKey)
-    memberNo = StringType()
-
-
 class IP(Model):
     privateIP = StringType()
     publicIP = StringType()
@@ -135,7 +130,7 @@ class ServerInstance(Model):
     hardware = ModelType(Hardware)
     # vpc = ModelType(VPC)
     # subnet = ModelType(Subnet)
-    naverCloud = ModelType(NaverCloud)
+    loginKey = ModelType(LoginKey)
     # tag = ModelType(InstanceTag)
     # protectServerTermination = ModelType(ProtectServerTermination)
     # accessControlGroupList = ListType(ModelType(AccessControlGroupList))
