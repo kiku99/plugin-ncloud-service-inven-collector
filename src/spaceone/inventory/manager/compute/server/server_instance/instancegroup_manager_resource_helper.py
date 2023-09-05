@@ -1,7 +1,7 @@
 import logging
 
 from spaceone.inventory.libs.manager import NaverCloudManager
-from spaceone.inventory.connector.compute.server_connector import ServerConnector
+from spaceone.inventory.connector.compute.server_instance_connector import ServerConnector
 
 _LOGGER = logging.getLogger(__name__)
 
