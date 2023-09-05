@@ -5,8 +5,8 @@ from typing import Tuple, List
 from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.compute.server_instance_connector import ServerConnector
-from spaceone.inventory.manager.compute.server.server_instance.disk_manager_resource_helper import \
-    DiskManagerResourceHelper
+from spaceone.inventory.manager.compute.server.server_instance.storage_manager_resource_helper import \
+    StorageManagerResourceHelper
 # from spaceone.inventory.manager.compute.server.server_instance.firewall_manager_resource_helper import \
 #     FirewallManagerResourceHelper
 from spaceone.inventory.manager.compute.server.server_instance.instancegroup_manager_resource_helper import \
@@ -100,18 +100,18 @@ class ServerInstanceManager(NaverCloudManager):
         # instancegroup_manager_helper: InstanceGroupManagerResourceHelper = InstanceGroupManagerResourceHelper(
         #     self.instance_conn)
         return {
-            'disk': self.instance_conn.list_disks(),
+            'storage': self.instance_conn.list_Storage_Instance(),
             # 'autoscaler': self.instance_conn.list_autoscalers(),
-            'instance_type': self.instance_conn.list_machine_types(),
+            # 'instance_type': self.instance_conn.list_machine_types(),
             # 'instance_group': self.instance_conn.list_instance_group_managers(),
             # 'public_images': self.instance_conn.list_images(),
             # 'vpcs': self.instance_conn.list_vpcs(),
             # 'subnets': self.instance_conn.list_subnetworks(),
             # 'firewalls': self.instance_conn.list_firewall(),
-            'forwarding_rules': self.instance_conn.list_forwarding_rules(),
-            'target_pools': self.instance_conn.list_target_pools(),
-            'url_maps': self.instance_conn.list_url_maps(),
-            'backend_svcs': self.instance_conn.list_back_end_services(),
+            # 'forwarding_rules': self.instance_conn.list_forwarding_rules(),
+            # 'target_pools': self.instance_conn.list_target_pools(),
+            # 'url_maps': self.instance_conn.list_url_maps(),
+            # 'backend_svcs': self.instance_conn.list_back_end_services(),
             # 'managed_instances_in_instance_groups': instancegroup_manager_helper.list_managed_instances_in_instance_groups()
         }
 
@@ -145,16 +145,16 @@ class ServerInstanceManager(NaverCloudManager):
         autoscaler = all_resources.get('autoscaler', [])
         # instance_in_managed_instance_groups = all_resources.get('managed_instances_in_instance_groups', [])
 
-        # disks
-        disks = all_resources.get('disk', [])
+        # storages
+        storages = all_resources.get('storage', [])
 
         '''Get related resources from managers'''
-        vm_instance_manager_helper: ServerInstanceManagerResourceHelper = \
+        server_instance_manager_helper: ServerInstanceManagerResourceHelper = \
             ServerInstanceManagerResourceHelper(self.instance_conn)
         # auto_scaler_manager_helper: InstanceGroupManagerResourceHelper = \
         #     InstanceGroupManagerResourceHelper(self.instance_conn)
         # loadbalancer_manager_helper: LoadBalancerManagerResourceHelper = LoadBalancerManagerResourceHelper()
-        disk_manager_helper: DiskManagerResourceHelper = DiskManagerResourceHelper()
+        storage_manager_helper: StorageManagerResourceHelper = StorageManagerResourceHelper()
         # nic_manager_helper: NICManagerResourceHelper = NICManagerResourceHelper()
         # vpc_manager_helper: VPCManagerResourceHelper = VPCManagerResourceHelper()
         # firewall_manager_helper: FirewallManagerResourceHelper = FirewallManagerResourceHelper()
@@ -162,13 +162,13 @@ class ServerInstanceManager(NaverCloudManager):
         # load_balancer_vos = loadbalancer_manager_helper.get_loadbalancer_info(instance, instance_group, backend_svcs,
         #                                                                       url_maps,
         #                                                                       target_pools, forwarding_rules)
-        disk_vos = disk_manager_helper.get_disk_info(instance, disks)
+        storage_vos = storage_manager_helper.get_storage_info(instance, storages)
         # vpc_vo, subnet_vo = vpc_manager_helper.get_vpc_info(instance, vpcs, subnets)
         # nic_vos = nic_manager_helper.get_nic_info(instance, subnet_vo)
         # firewall_vos = firewall_manager_helper.list_firewall_rules_info(instance, firewalls)
 
         # firewall_names = [d.get('name') for d in firewall_vos if d.get('name', '') != '']
-        server_data = vm_instance_manager_helper.get_server_info(instance, instance_types, disks, zone_info,
+        server_data = server_instance_manager_helper.get_server_info(instance, instance_types, storages, zone_info,
                                                                  public_images)
         google_cloud_filters = [{'key': 'resource.labels.instance_id', 'value': instance.get('id')}]
         google_cloud = server_data['data'].get('google_cloud', {})
@@ -192,12 +192,12 @@ class ServerInstanceManager(NaverCloudManager):
         '''
         server_data.update({
             'nics': nic_vos,
-            'disks': disk_vos,
+            'storages': storage_vos,
         })
         '''
         server_data['data'].update({
             'nics': 'nic_vos',
-            'disks': disk_vos,
+            'storages': storage_vos,
         })
         # server_data['data']['compute']['security_groups'] = firewall_names
         server_data['data'].update({
@@ -233,11 +233,9 @@ class ServerInstanceManager(NaverCloudManager):
         return ServerInstanceResource(server_data, strict=False)
 
     def _get_zone_and_region(self, instance) -> (str, str):
-        zone_info = instance.get('zone')
-        zone_code = zone_info.get('zone_code')
-        region_info = instance.get('region')
-        region_code = region_info.get('region_code')
-        return zone_code, region_code
+        zone_name = instance.zone.zone_name
+        region_name = instance.region.region_name
+        return zone_name, region_name
 
     # def get_server_instance_resource(self, zone_info, compute_server, all_resources) -> ServerInstanceResource:
     #     return ServerInstanceResource(server_data, strict=False)

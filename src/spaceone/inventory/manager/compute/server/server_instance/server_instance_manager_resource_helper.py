@@ -18,60 +18,46 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
 
     def get_server_info(self, instance, instance_types, disks, zone_info, public_images):
         """
-        server_data = {
-            "name": '',x
-            "server_type": 'VM',
-            "os_type": "LINUX" | "WINDOWS",
-            "provider": "google_cloud",
-            "ip_addresses": [],
-            "primary_ip_address": '',
-            "ip_addresses": '',
-            "region_code": '',
-            "data":  {
-                "os": {
-                    "os_arch": "",
-                    "details": "",
-                    "os_distro": "",
-                },
-                "google_cloud": {
-                    "self_link": "",
-                    "fingerprint": "",
-                    "reservation_affinity": "",
-                    "deletion_protection": "",
-                    "scheduling": {
-                        'on_host_maintenance': '',
-                        'automatic_restart': '',
-                        'preemptible': '',
-                    },
-                    "labels": [{
-                        key: '',
-                        value: ''
-                    }],
-                    "tags": [{
-                        key: '',
-                        value: ''
-                    }]
-                },
-                "hardware": {
-                    "core": 0,
-                    "memory": 0
-                },
-                "compute": {
-                    "eip": [],
-                    "keypair": "",
-                    "availability_zone": "",
-                    "instance_state": "",
-                    "instance_type": "",
-                    "launched_at": "datetime",
-                    "region_name": "",
-                    "instance_id": "",
-                    "instance_name": "",
-                    "security_groups": [],
-                    "image": "",
-                    "account_id": "",
-                },
-            }
-        }
+        server_data = {'access_control_group_list': [],
+                        'base_block_storage_disk_detail_type': {'code': 'HDD', 'code_name': 'HDD'},
+                        'base_block_storage_disk_type': {'code': 'NET', 'code_name': 'Network Storage'},
+                        'base_block_storage_size': 53687091200,
+                        'block_device_partition_list': None,
+                        'cpu_count': 1,
+                        'create_date': '2023-08-13T15:57:59+0900',
+                        'instance_tag_list': [],
+                        'internet_line_type': None,
+                        'is_fee_charging_monitoring': False,
+                        'is_protect_server_termination': False,
+                        'login_key_name': 'test-authkey',
+                        'memory_size': 1073741824,
+                        'platform_type': {'code': 'UBS64',
+                        'code_name': 'Ubuntu Server 64 Bit'},
+                        'port_forwarding_external_port': None,
+                        'port_forwarding_internal_port': None,
+                        'port_forwarding_public_ip': '101.101.165.122',
+                        'private_ip': '10.41.74.229',
+                        'public_ip': '',
+                        'region': {'region_code': 'KR',
+                        'region_name': 'Korea',
+                        'region_no': '1'},
+                        'server_description': '',
+                        'server_image_name': 'ubuntu-18.04',
+                        'server_image_product_code': 'SPSW0LINUX000130',
+                        'server_instance_no': '18935302',
+                        'server_instance_operation': {'code': 'NULL', 'code_name': 'Server NULL OP},
+                        'server_instance_status': {'code': 'RUN', 'code_name': 'Server run state},
+                        'server_instance_status_name': 'running',
+                        'server_instance_type': {'code': 'MICRO', 'code_name': 'Micro Server'},
+                        'server_name': 'test-sever',
+                        'server_product_code': 'SPSVRSTAND000056',
+                        'uptime': '2023-08-13T16:06:16+0900',
+                        'user_data': '',
+                        'zone': {'region_no': '1',
+                                    'zone_code': 'KR-2',
+                                    'zone_description': '평촌 zone',
+                                    'zone_name': 'KR-2',
+                                    'zone_no': '3'}}
         """
 
         os_data = self._get_os_data(instance, public_images)
