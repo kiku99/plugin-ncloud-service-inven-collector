@@ -26,13 +26,12 @@ class TestServerInstanceManager(TestCase):
 
         cls.server_connector = ServerConnector(secret_data=cls.secret_data)
         cls.server_manager = ServerInstanceManager()
-        # cls.server_manager = ServerInstanceManager(Transaction())
 
         super().setUpClass()
 
-    @classmethod
-    def tearDownClass(cls) -> None:
-        super().tearDownClass()
+    # @classmethod
+    # def tearDownClass(cls) -> None:
+    #     super().tearDownClass()
 
     def test_list_Server_Instance(self, *args):
         secret_data = self.secret_data
@@ -41,8 +40,7 @@ class TestServerInstanceManager(TestCase):
         server_instances = self.server_manager.collect_cloud_service(params)
         for server_instance in server_instances:
             print(server_instance)
-
-
+            # print(server_instance.to_primitive())
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)
