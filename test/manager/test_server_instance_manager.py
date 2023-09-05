@@ -38,9 +38,10 @@ class TestServerInstanceManager(TestCase):
         params = {'options': {}, 'secret_data': secret_data, 'filter': {}}
 
         server_instances = self.server_manager.collect_cloud_service(params)
-        for server_instance in server_instances:
-            print(server_instance)
-            # print(server_instance.to_primitive())
+        # for server_instance in server_instances:
+        #     print(server_instance)
+        #     # print(server_instance.to_primitive())
+        print(server_instances[0][0].to_primitive())
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)
