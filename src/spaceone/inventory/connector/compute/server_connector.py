@@ -91,8 +91,7 @@ class ServerConnector(NaverCloudConnector):
 
     def list_login_key(self):
         login_key_list = []
-
-        get_login_key_list_request = ncloud_server.GetLoginKeyListRequest
+        get_login_key_list_request = ncloud_server.GetLoginKeyListRequest()
 
         try:
             api_response = self.client.get_login_key_list(get_login_key_list_request)

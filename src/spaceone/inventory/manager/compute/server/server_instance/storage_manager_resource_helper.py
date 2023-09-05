@@ -48,8 +48,8 @@ class StorageManagerResourceHelper(NaverCloudManager):
             'storageDiskDetailType': single_storage_detail_type
         }
 
-        storages.append(Storage(single_disk, strict=False))
-        return storages
+        # storages.append(Storage(single_disk, strict=False))
+        return Storage(single_disk, strict=False)
 
     def get_iops_rate(self, disk_type, disk_size, flag):
         const = self._get_iops_constant(disk_type, flag)

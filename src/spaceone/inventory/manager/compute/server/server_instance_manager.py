@@ -69,6 +69,7 @@ class ServerInstanceManager(NaverCloudManager):
                 zone, region = self._get_zone_and_region(compute_server)
                 zone_info = {'zone': zone, 'region': region}
 
+
                 ##################################
                 # 2. Make Base Data
                 ##################################
@@ -98,7 +99,7 @@ class ServerInstanceManager(NaverCloudManager):
         #     self.instance_conn)
         return {
             'storage': self.instance_conn.list_Storage_Instance(),
-            'naver_cloud': self.instance_conn.list_autoscalers(),
+            'loginKey': self.instance_conn.list_login_key(),
             # 'instance_type': self.instance_conn.list_machine_types(),
             # 'instance_group': self.instance_conn.list_instance_group_managers(),
             # 'public_images': self.instance_conn.list_images(),
@@ -144,6 +145,7 @@ class ServerInstanceManager(NaverCloudManager):
 
         # storages
         storages = all_resources.get('storage', [])
+        login_keys = all_resources.get('loginKey', [])
 
         '''Get related resources from managers'''
         server_instance_manager_helper: ServerInstanceManagerResourceHelper = \
@@ -152,11 +154,10 @@ class ServerInstanceManager(NaverCloudManager):
         login_key_manager_helper : LoginKeyManagerResourceHelper = LoginKeyManagerResourceHelper()
 
         storage_vos = storage_manager_helper.get_storage_info(instance, storages)
-        login_key = login_key_manager_helper.get_naver_cloud_info(instance)
+        login_key = login_key_manager_helper.get_login_key_info(login_keys)
         server_data = server_instance_manager_helper.get_server_info(instance, zone_info)
-        _name = instance.get('name', '')
 
-        path, instance_type = instance.get('machineType').split('machineTypes/')
+        # path, instance_type = instance.get('machineType').split('machineTypes/')
 
         ''' Gather all resources information '''
         '''
@@ -175,16 +176,10 @@ class ServerInstanceManager(NaverCloudManager):
         # 3. Make Return Resource
         ##################################
         server_data.update({
-            'name': _name,
             'account': 'account',
-            'instance_type': instance_type,
-            'instance_size': server_data.get('data', {}).get('hardware', {}).get('core', 0),
-            'launched_at': server_data.get('data', {}).get('compute', {}).get('launched_at', ''),
-            'tags': 'labels',
-            'reference': ReferenceModel({
-                'resource_id': server_data['data']['google_cloud']['self_link'],
-                'external_link': f"https://console.cloud.google.com/compute/instancesDetail/zones/{zone_info.get('zone')}/instances/{server_data['name']}?project={server_data['data']['compute']['account']}"
-            })
+            'instance_type': 'instance_type',
+            'instance_size': server_data.get('data', {}).get('hardware', {}).get('cpuCount', 0),
+            'launched_at': server_data.get('data', {}).get('compute', {}).get('createDate', '')
         })
         return ServerInstanceResource(server_data, strict=False)
 

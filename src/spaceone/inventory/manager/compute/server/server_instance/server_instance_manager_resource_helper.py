@@ -80,7 +80,7 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
     def _get_server_dic(instance, zone_info):
         server_data = {
             'name': instance.server_name,
-            'server_type': instance.server_instance_type,
+            'instance_type': instance.server_instance_type,
             'provider': 'naver_cloud',
             'region_code': zone_info.get('region', '')
         }
@@ -108,6 +108,7 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
     def _get_compute_data(instance, zone_info):
         # """
         #     {
+        #         'serverName': instance.server_name,
         #         'serverImageName': instance.server_image_name,
         #         'serverInstanceStatus': instance.server_instance_status.code,  # zone_name
         #         'serverInstanceOperation': instance.server_instance_operation,
@@ -124,11 +125,12 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
         # """
 
         compute_data = {
+            'serverName': instance.server_name,
             'serverImageName': instance.server_image_name,
             'serverInstanceStatus': instance.server_instance_status.code,  # zone_name
-            'serverInstanceOperation': instance.server_instance_operation,
+            'serverInstanceOperation': instance.server_instance_operation.code,
             'serverInstanceStatusName': instance.server_instance_status_name,
-            'platformType': instance.platform_type,
+            'platformType': instance.platform_type.code_name,
             'createDate': instance.create_date,
             'uptime': instance.uptime,
             'serverImageProductCode': instance.server_image_product_code,
@@ -157,4 +159,4 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
             'public_ip': instance.public_ip
         }
 
-        return IP(ip_data)
+        return IP(ip_data, strict=False)

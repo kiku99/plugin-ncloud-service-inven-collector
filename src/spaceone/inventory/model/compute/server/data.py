@@ -22,8 +22,8 @@ class AccessControlGroupList(Model):
 
 
 class PortForwardingRules(Model):  # 포트포워딩룰
-    port_forwarding_external_port = StringType()
-    port_forwarding_internal_port = StringType()
+    port_forwarding_external_port = StringType(default=None)
+    port_forwarding_internal_port = StringType(default=None)
     port_forwarding_public_ip = StringType()
 
 
@@ -80,7 +80,7 @@ class Subnet(Model):
 
 class Hardware(Model):
     cpuCount = IntType()
-    memorySize = LongType()
+    memorySize = IntType()
 
 
 class Storage(Model):  # 블록스토리지인스턴스
@@ -96,6 +96,7 @@ class Storage(Model):  # 블록스토리지인스턴스
 
 
 class Compute(Model):
+    serverName = StringType()
     serverImageName = StringType()
     serverInstanceStatus = StringType()
     serverInstanceOperation = StringType()
@@ -111,9 +112,9 @@ class Compute(Model):
 
 
 class LoginKey(Model):
-    fingerprint = StringType()
+    fingerPrint = StringType()
     keyName = StringType()
-    createData = DateTimeType()
+    createDate = DateTimeType()
 
 
 class IP(Model):

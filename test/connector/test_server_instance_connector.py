@@ -35,5 +35,10 @@ class TestLoadBalancerConnector(unittest.TestCase):
 
         print(storage_instances)
 
+    def test_list_login_key(self):
+        login_key = self.server_connector.list_login_key()
+
+        print(login_key)
+
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)
