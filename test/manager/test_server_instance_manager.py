@@ -22,8 +22,8 @@ class TestServerInstanceManager(TestCase):
         config.init_conf(package='spaceone.inventory')
         cls.schema = 'naver_client_secret'
 
-        cls.server_connector = ServerConnector(transaction=Transaction(), config={}, secret_data=cls.secret_data)
-        cls.server_manager = ServerInstanceManager(Transaction())
+        cls.server_connector = ServerConnector(secret_data=cls.secret_data)
+        cls.server_manager = ServerInstanceManager()
         # cls.server_manager = ServerInstanceManager(Transaction())
 
         super().setUpClass()
@@ -36,7 +36,7 @@ class TestServerInstanceManager(TestCase):
         secret_data = self.secret_data
         params = {'options': {}, 'secret_data': secret_data, 'filter': {}}
 
-        server_instances = self.server_manager.collect_cloud_services(params)
+        server_instances = self.server_manager.collect_cloud_service(params)
 
         for server_instance in server_instances:
             print(server_instance)

@@ -2,7 +2,7 @@ import unittest
 import os
 from spaceone.core.unittest.runner import RichTestRunner
 from spaceone.core import config
-from spaceone.inventory.connector.compute.server_connector import ServerConnector
+from spaceone.inventory.connector.compute.server_instance_connector import ServerConnector
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
@@ -25,11 +25,15 @@ class TestLoadBalancerConnector(unittest.TestCase):
     def tearDownClass(cls) -> None:
         super().tearDownClass()
 
-    def test_list_load_balancers(self):
+    def test_list_server_instance(self):
         server_instances = self.server_connector.list_Server_Instance()
 
         print(server_instances)
 
+    def test_list_storage_instance(self):
+        storage_instances = self.server_connector.list_Storage_Instance()
+
+        print(storage_instances)
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)

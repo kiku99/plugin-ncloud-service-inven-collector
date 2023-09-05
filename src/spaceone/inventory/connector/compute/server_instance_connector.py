@@ -73,3 +73,18 @@ class ServerConnector(NaverCloudConnector):
             print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
 
         return instance_list
+
+    def list_Storage_Instance(self):
+        storage_list = []
+
+        get_block_storage_instance_list_request = ncloud_server.GetBlockStorageInstanceListRequest()
+
+        try:
+            api_response = self.client.get_block_storage_instance_list(get_block_storage_instance_list_request)
+            for instance in api_response.block_storage_instance_list:
+                storage_list.append(instance)
+
+        except ApiException as e:
+            print("Exception when calling V2Api->get_block_storage_instance_list: %s\n" % e)
+
+        return storage_list
