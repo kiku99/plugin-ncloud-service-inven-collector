@@ -20,7 +20,7 @@ class NaverCloudManager(BaseManager):
     collected_region_codes = []
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
 
     def verify(self, options, secret_data, **kwargs):
         """ Check collector's status.
