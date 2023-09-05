@@ -3,7 +3,7 @@ from spaceone.inventory.model.compute.server.data import Storage
 
 
 class StorageManagerResourceHelper(NaverCloudManager):
-    connector_name = 'VMInstanceConnector'
+    connector_name = 'ServerConnector'
 
     def get_storage_info(self, instance, storage_list):
         """

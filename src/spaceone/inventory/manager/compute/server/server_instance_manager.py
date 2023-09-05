@@ -4,13 +4,11 @@ from typing import Tuple, List
 
 from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.libs.schema.base import ReferenceModel
-from spaceone.inventory.connector.compute.server_instance_connector import ServerConnector
+from spaceone.inventory.connector.compute.server_connector import ServerConnector
 from spaceone.inventory.manager.compute.server.server_instance.storage_manager_resource_helper import \
     StorageManagerResourceHelper
-# from spaceone.inventory.manager.compute.server.server_instance.firewall_manager_resource_helper import \
-#     FirewallManagerResourceHelper
-from spaceone.inventory.manager.compute.server.server_instance.instancegroup_manager_resource_helper import \
-    InstanceGroupManagerResourceHelper
+from spaceone.inventory.manager.compute.server.server_instance.naver_cloud_manager_resource_helper import \
+    NaverCloudManagerResourceHelper
 # from spaceone.inventory.manager.compute.server.server_instance.loadbalancer_manager_resource_helper import \
 #     LoadBalancerManagerResourceHelper
 from spaceone.inventory.manager.compute.server.server_instance.nic_manager_resource_helper import \
@@ -22,7 +20,6 @@ from spaceone.inventory.manager.compute.server.server_instance.vpc_manager_resou
 from spaceone.inventory.model.compute.server.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.model.compute.server.cloud_service import server_instance, \
     ServerInstanceResponse, ServerInstanceResource
-from spaceone.inventory.model.compute.server.data import InstanceTag, InstanceTagList, InstanceGroup
 from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
 from spaceone.inventory.libs.schema.base import ReferenceModel
 
@@ -151,40 +148,13 @@ class ServerInstanceManager(NaverCloudManager):
         '''Get related resources from managers'''
         server_instance_manager_helper: ServerInstanceManagerResourceHelper = \
             ServerInstanceManagerResourceHelper(self.instance_conn)
-        # auto_scaler_manager_helper: InstanceGroupManagerResourceHelper = \
-        #     InstanceGroupManagerResourceHelper(self.instance_conn)
-        # loadbalancer_manager_helper: LoadBalancerManagerResourceHelper = LoadBalancerManagerResourceHelper()
         storage_manager_helper: StorageManagerResourceHelper = StorageManagerResourceHelper()
-        # nic_manager_helper: NICManagerResourceHelper = NICManagerResourceHelper()
-        # vpc_manager_helper: VPCManagerResourceHelper = VPCManagerResourceHelper()
-        # firewall_manager_helper: FirewallManagerResourceHelper = FirewallManagerResourceHelper()
-        # autoscaler_vo = auto_scaler_manager_helper.get_autoscaler_info(instance, instance_group, autoscaler)
-        # load_balancer_vos = loadbalancer_manager_helper.get_loadbalancer_info(instance, instance_group, backend_svcs,
-        #                                                                       url_maps,
-        #                                                                       target_pools, forwarding_rules)
+        naver_cloud_manager_helper : NaverCloudManagerResourceHelper = NaverCloudManagerResourceHelper()
+
         storage_vos = storage_manager_helper.get_storage_info(instance, storages)
-        # vpc_vo, subnet_vo = vpc_manager_helper.get_vpc_info(instance, vpcs, subnets)
-        # nic_vos = nic_manager_helper.get_nic_info(instance, subnet_vo)
-        # firewall_vos = firewall_manager_helper.list_firewall_rules_info(instance, firewalls)
-
-        # firewall_names = [d.get('name') for d in firewall_vos if d.get('name', '') != '']
-        server_data = server_instance_manager_helper.get_server_info(instance, instance_types, storages, zone_info,
-                                                                 public_images)
-        google_cloud_filters = [{'key': 'resource.labels.instance_id', 'value': instance.get('id')}]
-        google_cloud = server_data['data'].get('google_cloud', {})
-        _google_cloud = google_cloud.to_primitive()
-        labels = _google_cloud.get('labels', [])
+        naver_cloud = naver_cloud_manager_helper.get_naver_cloud_info(instance)
+        server_data = server_instance_manager_helper.get_server_info(instance, zone_info)
         _name = instance.get('name', '')
-
-        # Set GPU info
-        if gpus_info := instance.get('guestAccelerators', []):
-            gpus = self._get_gpu_info(gpus_info)
-            server_data['data'].update({
-                'gpus': gpus,
-                'total_gpu_count': sum([gpu.get('gpu_count', 0) for gpu in gpus]),
-                'has_gpu': True,
-                'display': {'gpus': self._change_human_readable(gpus), 'has_gpu': True}
-            })
 
         path, instance_type = instance.get('machineType').split('machineTypes/')
 
@@ -196,25 +166,11 @@ class ServerInstanceManager(NaverCloudManager):
         })
         '''
         server_data['data'].update({
-            'nics': 'nic_vos',
-            'storages': storage_vos,
+            'naverCloud': naver_cloud,
+            'storage': storage_vos,
         })
-        # server_data['data']['compute']['security_groups'] = firewall_names
-        server_data['data'].update({
-            # 'load_balancers': load_balancer_vos,
-            # 'security_group': firewall_vos,
-            'autoscaler': 'autoscaler_vo',
-            'vpc': 'vpc_vo',
-            'subnet': 'subnet_vo',
-            # 'google_cloud_monitoring': self.set_google_cloud_monitoring(project_id,
-            #                                                             "compute.googleapis.com/instance",
-            #                                                             instance.get('id'),
-            #                                                             google_cloud_filters),
-            # 'google_cloud_logging': self.set_google_cloud_logging(project_id,
-            #                                                       'gce_instance',
-            #                                                       instance.get('id'),
-            #                                                       google_cloud_filters)
-        })
+
+
         ##################################
         # 3. Make Return Resource
         ##################################
@@ -224,7 +180,7 @@ class ServerInstanceManager(NaverCloudManager):
             'instance_type': instance_type,
             'instance_size': server_data.get('data', {}).get('hardware', {}).get('core', 0),
             'launched_at': server_data.get('data', {}).get('compute', {}).get('launched_at', ''),
-            'tags': labels,
+            'tags': 'labels',
             'reference': ReferenceModel({
                 'resource_id': server_data['data']['google_cloud']['self_link'],
                 'external_link': f"https://console.cloud.google.com/compute/instancesDetail/zones/{zone_info.get('zone')}/instances/{server_data['name']}?project={server_data['data']['compute']['account']}"
@@ -232,7 +188,8 @@ class ServerInstanceManager(NaverCloudManager):
         })
         return ServerInstanceResource(server_data, strict=False)
 
-    def _get_zone_and_region(self, instance) -> (str, str):
+    @staticmethod
+    def _get_zone_and_region(instance) -> (str, str):
         zone_name = instance.zone.zone_name
         region_name = instance.region.region_name
         return zone_name, region_name

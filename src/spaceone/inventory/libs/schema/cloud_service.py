@@ -32,18 +32,9 @@ class ServerMetadata(Model):
         return cls({'view': MetaDataView({'sub_data': sub_data})})
 
 
-class BaseResource(Model):
-    id = StringType(serialize_when_none=False)
-    name = StringType(serialize_when_none=False)
-    project = StringType(serialize_when_none=False)
-    region = StringType(serialize_when_none=False)
-    self_link = StringType(deserialize_from='selfLink', serialize_when_none=False)
-
-
 class CloudServiceResource(Model):
     provider = StringType(default="naver_cloud")
     account = StringType()
-    ip_addresses = ListType(StringType())
     instance_type = StringType(serialize_when_none=False)
     instance_size = FloatType(serialize_when_none=False)
     launched_at = DateTimeType(serialize_when_none=False)
@@ -78,27 +69,27 @@ class ErrorResourceResponse(CloudServiceResponse):
     resource_type = StringType(default='inventory.ErrorResource')
     resource = ModelType(ErrorResource, default={})
 
-
-class ServerInstanceResource(Model):
-    server_type = StringType(default='VM')
-    os_type = StringType(choices=('CentOS', 'Ubuntu' 'WINDOWS'))
-    primary_ip_address = StringType()
-    ip_addresses = ListType(StringType())
-    nics = ListType(ModelType(NIC))
-    disks = ListType(ModelType(Storage))
-    provider = StringType(default='naver_cloud')
-    cloud_service_type = StringType(default='Server')
-    cloud_service_group = StringType(default='Compute')
-    name = StringType()
-    account = StringType()
-    instance_type = StringType(serialize_when_none=False)
-    instance_size = StringType(serialize_when_none=False)
-    launched_at = StringType(serialize_when_none=False)
-    region_code = StringType()
-    data = ModelType(ServerInstance)
-    tags = ListType(ModelType(Labels))
-    reference = ModelType(ReferenceModel)
-    _metadata = ModelType(ServerMetadata, serialized_name='metadata')
+#
+# class ServerInstanceResource(Model):
+#     server_type = StringType(default='VM')
+#     os_type = StringType(choices=('CentOS', 'Ubuntu' 'WINDOWS'))
+#     primary_ip_address = StringType()
+#     ip_addresses = ListType(StringType())
+#     nics = ListType(ModelType(NIC))
+#     disks = ListType(ModelType(Storage))
+#     provider = StringType(default='naver_cloud')
+#     cloud_service_type = StringType(default='Server')
+#     cloud_service_group = StringType(default='Compute')
+#     name = StringType()
+#     account = StringType()
+#     instance_type = StringType(serialize_when_none=False)
+#     instance_size = StringType(serialize_when_none=False)
+#     launched_at = StringType(serialize_when_none=False)
+#     region_code = StringType()
+#     data = ModelType(ServerInstance)
+#     tags = ListType(ModelType(Labels))
+#     reference = ModelType(ReferenceModel)
+#     _metadata = ModelType(ServerMetadata, serialized_name='metadata')
 
 
 class RegionResourceResponse(BaseResponse):

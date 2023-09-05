@@ -2,7 +2,7 @@ import unittest
 import os
 from spaceone.core.unittest.runner import RichTestRunner
 from spaceone.core import config
-from spaceone.inventory.connector.compute.server_instance_connector import ServerConnector
+from spaceone.inventory.connector.compute.server_connector import ServerConnector
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)

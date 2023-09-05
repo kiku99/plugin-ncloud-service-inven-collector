@@ -4,7 +4,7 @@ from spaceone.tester import TestCase, print_json
 from spaceone.core.unittest.runner import RichTestRunner
 from spaceone.core import config
 from spaceone.core.transaction import Transaction
-from spaceone.inventory.connector.compute.server_instance_connector import ServerConnector
+from spaceone.inventory.connector.compute.server_connector import ServerConnector
 from spaceone.inventory.manager.compute.server.server_instance_manager import ServerInstanceManager
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
