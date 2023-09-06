@@ -40,6 +40,7 @@ The following is a list of services being collected and service code information
 * Table of Contents
     * [Compute](#compute)
         * [server](#server)
+        * TBD
 
 <br>
 
@@ -47,9 +48,9 @@ The following is a list of services being collected and service code information
 Registered service account on SpaceONE must have certain permissions to collect cloud service data
 Please, set authentication privilege for followings:
 
-#### [Compute](https://api.ncloud-docs.com/docs/compute-server)
+#### Compute
 
-- ##### Server
+- ##### [Server](https://api.ncloud-docs.com/docs/compute-server)
     - Scopes
         - https://api.ncloud-docs.com/docs/compute-server-getserverinstancelist
         - https://api.ncloud-docs.com/docs/compute-server-getblockstorageinstancelist
