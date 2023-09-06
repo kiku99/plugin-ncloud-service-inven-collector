@@ -8,7 +8,7 @@ AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
 
 
-class TestLoadBalancerConnector(unittest.TestCase):
+class TestServerInstanceConnector(unittest.TestCase):
     secret_data = {
         'ncloud_access_key_id': AKI,
         'ncloud_secret_key': SK
@@ -39,6 +39,7 @@ class TestLoadBalancerConnector(unittest.TestCase):
         login_key = self.server_connector.list_login_key()
 
         print(login_key)
+
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)

@@ -15,7 +15,7 @@ _LOGGER = logging.getLogger(__name__)
 class CollectorService(BaseService):
     def __init__(self, metadata):
         super().__init__(metadata)
-        # set google cloud service manager
+        # set naver cloud service manager
         self.execute_managers = []
         '''
         self.execute_managers = [

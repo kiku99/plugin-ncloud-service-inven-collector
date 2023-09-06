@@ -1,6 +1,5 @@
 import logging
 
-from spaceone.inventory.conf.cloud_service_conf import OAUTH_SCOPES
 from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.model.compute.server.data import Compute, Hardware, PortForwardingRules, IP
 from spaceone.inventory.connector.compute.server_connector import ServerConnector
@@ -21,10 +20,10 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
         server_data = {'access_control_group_list': [],
                         'base_block_storage_disk_detail_type': {'code': 'HDD', 'code_name': 'HDD'},
                         'base_block_storage_disk_type': {'code': 'NET', 'code_name': 'Network Storage'},
-                        'base_block_storage_size': 53687091200,
+                        'base_block_storage_size': ,
                         'block_device_partition_list': None,
                         'cpu_count': 1,
-                        'create_date': '2023-08-13T15:57:59+0900',
+                        'create_date': '',
                         'instance_tag_list': [],
                         'internet_line_type': None,
                         'is_fee_charging_monitoring': False,
@@ -35,23 +34,23 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
                         'code_name': 'Ubuntu Server 64 Bit'},
                         'port_forwarding_external_port': None,
                         'port_forwarding_internal_port': None,
-                        'port_forwarding_public_ip': '101.101.165.122',
-                        'private_ip': '10.41.74.229',
+                        'port_forwarding_public_ip': '',
+                        'private_ip': '',
                         'public_ip': '',
                         'region': {'region_code': 'KR',
                         'region_name': 'Korea',
                         'region_no': '1'},
                         'server_description': '',
                         'server_image_name': 'ubuntu-18.04',
-                        'server_image_product_code': 'SPSW0LINUX000130',
-                        'server_instance_no': '18935302',
+                        'server_image_product_code': '',
+                        'server_instance_no': '',
                         'server_instance_operation': {'code': 'NULL', 'code_name': 'Server NULL OP},
                         'server_instance_status': {'code': 'RUN', 'code_name': 'Server run state},
                         'server_instance_status_name': 'running',
                         'server_instance_type': {'code': 'MICRO', 'code_name': 'Micro Server'},
                         'server_name': 'test-sever',
-                        'server_product_code': 'SPSVRSTAND000056',
-                        'uptime': '2023-08-13T16:06:16+0900',
+                        'server_product_code': '',
+                        'uptime': '',
                         'user_data': '',
                         'zone': {'region_no': '1',
                                     'zone_code': 'KR-2',
@@ -106,28 +105,11 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
 
     @staticmethod
     def _get_compute_data(instance, zone_info):
-        # """
-        #     {
-        #         'serverName': instance.server_name,
-        #         'serverImageName': instance.server_image_name,
-        #         'serverInstanceStatus': instance.server_instance_status.code,  # zone_name
-        #         'serverInstanceOperation': instance.server_instance_operation,
-        #         'serverInstanceStatusName': instance.server_instance_status_name,
-        #         'platformType': instance.platform_type,
-        #         'createDate': instance.create_date,
-        #         'uptime': instance.uptime,
-        #         'serverImageProductCode': instance.server_image_product_code,
-        #         'serverProductCode': instance.server_product_code,
-        #         'serverInstanceType': instance.server_instance_type.code,
-        #         'zone': zone_info.get('zone', ''),
-        #         'region': zone_info.get('region', '')
-        #     }
-        # """
 
         compute_data = {
             'serverName': instance.server_name,
             'serverImageName': instance.server_image_name,
-            'serverInstanceStatus': instance.server_instance_status.code,  # zone_name
+            'serverInstanceStatus': instance.server_instance_status.code,
             'serverInstanceOperation': instance.server_instance_operation.code,
             'serverInstanceStatusName': instance.server_instance_status_name,
             'platformType': instance.platform_type.code_name,
@@ -155,8 +137,8 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
     @staticmethod
     def _get_ip(instance):
         ip_data = {
-            'private_ip': instance.private_ip,
-            'public_ip': instance.public_ip
+            'privateIP': instance.private_ip,
+            'publicIP': instance.public_ip
         }
 
         return IP(ip_data, strict=False)

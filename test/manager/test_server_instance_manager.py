@@ -3,11 +3,8 @@ import os
 from spaceone.tester import TestCase
 from spaceone.core.unittest.runner import RichTestRunner
 from spaceone.core import config
-from spaceone.core import utils
-from spaceone.core.transaction import Transaction
 from spaceone.inventory.connector.compute.server_connector import ServerConnector
 from spaceone.inventory.manager.compute.server.server_instance_manager import ServerInstanceManager
-
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
@@ -29,19 +26,19 @@ class TestServerInstanceManager(TestCase):
 
         super().setUpClass()
 
-    # @classmethod
-    # def tearDownClass(cls) -> None:
-    #     super().tearDownClass()
+    @classmethod
+    def tearDownClass(cls) -> None:
+        super().tearDownClass()
 
-    def test_list_Server_Instance(self, *args):
+    def test_server_instance_manager(self):
         secret_data = self.secret_data
         params = {'options': {}, 'secret_data': secret_data, 'filter': {}}
 
         server_instances = self.server_manager.collect_cloud_service(params)
         # for server_instance in server_instances:
-        #     print(server_instance)
-        #     # print(server_instance.to_primitive())
+        #     print(server_instance.to_primitive())
         print(server_instances[0][0].to_primitive())
+
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)
