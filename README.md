@@ -13,7 +13,7 @@
 **Plugin to collect Naver Cloud**
 
 > SpaceONE's [plugin-naver-cloud-inven-collector](https://github.com/kiku99/plugin-naver-cloud-service-inven-collector) is a convenient tool to
-get cloud service data from Google Cloud platform.
+get cloud service data from Naver Cloud platform.
 
 
 
