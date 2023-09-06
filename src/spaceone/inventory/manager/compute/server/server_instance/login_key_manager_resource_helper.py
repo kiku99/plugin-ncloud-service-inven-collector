@@ -23,5 +23,4 @@ class LoginKeyManagerResourceHelper(NaverCloudManager):
                 'createDate': login_key.create_date
             }
 
-        # login_key_data.append(LoginKey(login_key_info, strict=False))
         return LoginKey(login_key_info, strict=False)

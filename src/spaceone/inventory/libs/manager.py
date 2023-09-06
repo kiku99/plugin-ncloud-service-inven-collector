@@ -1,8 +1,5 @@
-import math
 import json
 import logging
-import ipaddress
-from urllib.parse import urlparse
 
 from spaceone.core.manager import BaseManager
 from spaceone.inventory.libs.connector import NaverCloudConnector
@@ -51,7 +48,6 @@ class NaverCloudManager(BaseManager):
     def collect_cloud_service(self, params) -> list:
         raise NotImplemented
 
-    # 여기 완성해야 함
     def collect_resources(self, params) -> list:
         total_resources = []
 
@@ -89,68 +85,6 @@ class NaverCloudManager(BaseManager):
 
         if region not in self.collected_region_codes:
             self.collected_region_codes.append(region)
-
-    # @staticmethod
-    # def set_google_cloud_monitoring(project_id, metric_type, resource_id, filters):
-    #     return {
-    #         'name': f'projects/{project_id}',
-    #         'resource_id': resource_id,
-    #         'filters': [{
-    #             'metric_type': metric_type,
-    #             'labels': filters
-    #         }]
-    #     }
-
-        # metric_filter = f"metric.type = starts_with('{metric_type}')"
-        #
-        # filter_list = []
-        # for _filter in filters:
-        #     filter_list.append(f"{_filter['key']} = {_filter['value']}")
-        #
-        # or_merge_filter = ' OR '.join(filter_list)
-        # merge_filter = ' AND '.join([metric_filter, or_merge_filter])
-        #
-        # return {
-        #     'name': f'projects/{project_id}',
-        #     'filters': [merge_filter]
-        # }
-
-    @staticmethod
-    def set_google_cloud_logging(project_id, resource_type, resource_id, filters):
-        return {
-            'name': f'projects/{project_id}',
-            'resource_id': resource_id,
-            'filters': [{
-                'resource_type': resource_type,
-                'labels': filters
-            }]
-        }
-
-    @staticmethod
-    def get_param_in_url(url, key):
-        param = ""
-        raw_path = urlparse(url).path
-        list_path = raw_path.split('/')
-        # Google cloud resource representation rules is /{key}/{value}/{key}/{value}
-        if key in list_path:
-            index_key = list_path.index(key)
-            index_value = index_key + 1
-            param = list_path[index_value]
-        return param
-
-    @staticmethod
-    def check_is_ipaddress(string_to_check):
-        try:
-            ip = ipaddress.ip_address(string_to_check)
-            return True
-        except ValueError:
-            return False
-
-    def get_region(self, resource_info):
-        if 'region' in resource_info:
-            return self.get_param_in_url(resource_info.get('region', ''), 'regions')
-        else:
-            return 'global'
 
     @staticmethod
     def generate_error_response(e, cloud_service_group, cloud_service_type):
@@ -204,45 +138,3 @@ class NaverCloudManager(BaseManager):
 
         return None
 
-    @staticmethod
-    def convert_labels_format(labels):
-        convert_labels = []
-        for k, v in labels.items():
-            convert_labels.append({
-                'key': k,
-                'value': v
-            })
-        return convert_labels
-
-    @staticmethod
-    def _convert_size(size_bytes):
-        if size_bytes == 0:
-            return "0 B"
-        size_name = ("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB")
-        i = int(math.floor(math.log(size_bytes, 1024)))
-        p = math.pow(1024, i)
-        s = round(size_bytes / p, 2)
-        return "%s %s" % (s, size_name[i])
-
-    @staticmethod
-    def parse_region_from_zone(zone):
-        '''
-        EX> zone = 'ap-northeast2-a'
-        '''
-        parsed_zone = zone.split('-')
-        if len(parsed_zone) >= 2:
-            return f'{parsed_zone[0]}-{parsed_zone[1]}'
-
-        else:
-            return ''
-
-    @staticmethod
-    def get_disk_encryption_type(dict_encryption_info):
-        encryption_type = 'Google managed'
-        if dict_encryption_info:
-            if 'kmsKeyName' in dict_encryption_info or 'kmsKeyServiceAccount' in dict_encryption_info:
-                encryption_type = 'Customer managed'
-            else:
-                encryption_type = 'Customer supplied'
-
-        return encryption_type

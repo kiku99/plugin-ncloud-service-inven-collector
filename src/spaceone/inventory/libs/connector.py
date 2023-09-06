@@ -39,9 +39,3 @@ class NaverCloudConnector(BaseConnector):
         if self.client is None:
             self.set_connect(kwargs['secret_data'])
             return "ACTIVE"
-
-    def generate_query(self, **query):
-        query.update({
-            'project': 'default'
-        })
-        return query

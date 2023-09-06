@@ -27,7 +27,7 @@ setup(
     long_description='',
     url='https://www.spaceone.dev/',
     author='Naevis',
-    author_email='elsd0326@naver.com',
+    author_email='elsd0326@gmail.com',
     license='Apache License 2.0',
     packages=find_packages(),
     install_requires=[
