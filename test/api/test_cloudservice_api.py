@@ -37,12 +37,11 @@ class TestCollector(TestCase):
     }
 
     def test_init(self):
-        print(self.secret_data)
         v_info = self.inventory.Collector.init({'options': {}})
         print_json(v_info)
 
     def test_verify(self):
-        print(self.secret_data)
+        # print(self.secret_data)
         options = {}
         v_info = self.inventory.Collector.verify({'options': options, 'secret_data': self.secret_data})
         print_json(v_info)
