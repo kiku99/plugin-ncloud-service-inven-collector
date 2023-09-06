@@ -38,8 +38,8 @@ The following is a list of services being collected and service code information
 ### Content details
 
 * Table of Contents
-    * [Compute Engine](#compute-engine)
-        * [VM Instance](#vm-instance)
+    * [Compute](#compute)
+        * [server](#server)
 
 <br>
 
@@ -47,7 +47,7 @@ The following is a list of services being collected and service code information
 Registered service account on SpaceONE must have certain permissions to collect cloud service data
 Please, set authentication privilege for followings:
 
-#### [Compute Engine](https://cloud.google.com/compute/docs/apis)
+#### [Compute](https://api.ncloud-docs.com/docs/compute-server)
 
 - ##### Server
     - Scopes
