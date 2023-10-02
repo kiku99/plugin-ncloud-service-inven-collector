@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import ncloud_autoscaling
 import ncloud_clouddb
 import ncloud_server
 from ncloud_server.api.v2_api import V2Api
@@ -30,6 +31,7 @@ class NaverCloudConnector(BaseConnector):
         super().__init__(*args, **kwargs)
         self.server_client = None
         self.clouddb_client = None
+        self.autoscaling_client = None
         self.set_connect(kwargs['secret_data'])
 
     def set_connect(self, secret_data: object) -> object:
@@ -42,6 +44,11 @@ class NaverCloudConnector(BaseConnector):
         configuration_db.access_key = secret_data['ncloud_access_key_id']
         configuration_db.secret_key = secret_data['ncloud_secret_key']
         self.clouddb_client = V2Api(ncloud_clouddb.ApiClient(configuration_db))
+
+        configuration_autoscaling = ncloud_autoscaling.Configuration()
+        configuration_autoscaling.access_key = secret_data['ncloud_access_key_id']
+        configuration_autoscaling.secret_key = secret_data['ncloud_secret_key']
+        self.autoscaling_client = V2Api(ncloud_autoscaling.ApiClient(configuration_autoscaling))
 
 
     def verify(self, **kwargs):
