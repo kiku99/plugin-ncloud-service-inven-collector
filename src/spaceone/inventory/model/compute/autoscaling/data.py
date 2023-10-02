@@ -82,3 +82,14 @@ class ScheduledUpdateGroupAction(Model):
     startTime = DateTimeType()
     endTime = DateTimeType(default=None)
     recurrenceInKST = DateTimeType(default=None)
+
+
+class AutoScalingInstance(Model):
+    autoScalingGroup = ModelType(AutoScalingGroup)
+    activityLog = ModelType(ActivityLog)
+    adjustmentType = ModelType(AdjustmentType)
+    configurationLog = ModelType(ConfigurationLog)
+    scalingPolicy = ModelType(ScalingPolicy)
+    launchConfiguration = ModelType(LaunchConfiguration)
+    process = ModelType(Process)
+    scheduledUpdateGroupAction = ModelType(ScheduledUpdateGroupAction)
