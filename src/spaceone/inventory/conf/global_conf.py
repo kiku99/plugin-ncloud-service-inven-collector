@@ -8,6 +8,10 @@ CONNECTORS = {
     'AutoscalingConnector': {
         'backend': 'spaceone.inventory.connector.compute.AutoscalingConnector'
     },
+    },
+    'CloudDBConnector': {
+        'backend': 'spaceone.inventory.connector.database.CloudDBConnector'
+    }
 }
 
 LOG = {
