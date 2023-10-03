@@ -12,7 +12,7 @@ class AutoscalingConnector(NaverCloudConnector):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def list_Adjustment_Type(self):
+    def List_Adjustment_Type(self):
 
         instance_list = []
         get_adjustment_type_list_request = ncloud_autoscaling.GetAdjustmentTypeListRequest()
@@ -28,7 +28,7 @@ class AutoscalingConnector(NaverCloudConnector):
 
         return instance_list
 
-    def list_Autoscaling_Activity_Log(self):
+    def List_Autoscaling_Activity_Log(self):
 
         instance_list = []
         get_auto_scaling_activity_log_list_request = ncloud_autoscaling.GetAutoScalingActivityLogListRequest()
@@ -41,7 +41,7 @@ class AutoscalingConnector(NaverCloudConnector):
 
         return instance_list
 
-    def list_Autoscaling_Configuration_Log(self):
+    def List_Autoscaling_Configuration_Log(self):
 
         instance_list = []
         get_auto_scaling_configuration_log_list_request = ncloud_autoscaling.GetAutoScalingConfigurationLogListRequest()
@@ -55,7 +55,7 @@ class AutoscalingConnector(NaverCloudConnector):
 
         return instance_list
 
-    def list_Autoscaling_Group(self):
+    def List_Autoscaling_Group(self):
 
         instance_list = []
         get_auto_scaling_group_list_request = ncloud_autoscaling.GetAutoScalingGroupListRequest()
@@ -70,7 +70,7 @@ class AutoscalingConnector(NaverCloudConnector):
 
         return instance_list
 
-    def list_Autoscaling_Policy(self):
+    def List_Autoscaling_Policy(self):
 
         instance_list = []
         get_auto_scaling_policy_list_request = ncloud_autoscaling.GetAutoScalingPolicyListRequest()
@@ -84,7 +84,7 @@ class AutoscalingConnector(NaverCloudConnector):
 
         return instance_list
 
-    def list_Launch_Configuration(self):
+    def List_Launch_Configuration(self):
 
         instance_list = []
         get_launch_configuration_list_request = ncloud_autoscaling.GetLaunchConfigurationListRequest()
@@ -98,7 +98,7 @@ class AutoscalingConnector(NaverCloudConnector):
 
         return instance_list
 
-    def list_Scaling_Process_Type_List(self):
+    def List_Scaling_Process_Type(self):
 
         instance_list = []
         get_scaling_process_type_list_request = ncloud_autoscaling.GetScalingProcessTypeListRequest()
@@ -112,7 +112,7 @@ class AutoscalingConnector(NaverCloudConnector):
 
         return instance_list
 
-    def list_Scheduled_Action_List(self):
+    def List_Scheduled_Action(self):
 
         instance_list = []
         get_scheduled_action_list_request = ncloud_autoscaling.GetScheduledActionListRequest()
