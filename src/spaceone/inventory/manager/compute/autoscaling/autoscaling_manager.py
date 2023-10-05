@@ -46,26 +46,26 @@ class AutoscalingManager(NaverCloudManager):
         self.instance_conn: AutoscalingConnector = self.locator.get_connector(self.connector_name, **params)
         self.instance_conn.set_connect(params['secret_data'])
         all_resources = self.get_all_resources()
-        compute_servers = self.instance_conn.list_Server_Instance()
+        autoscaling_groups = self.instance_conn.list_autoscaling_group()
 
-        for compute_server in compute_servers:
+        for autoscaling_group in autoscaling_groups:
             try:
                 ##################################
                 # 1. Set Basic Information
                 ##################################
-                server_no = compute_server.server_instance_no
-                zone, region = self._get_zone_and_region(compute_server)
-                zone_info = {'zone': zone, 'region': region}
+                autoscaling_group_name = autoscaling_group.auto_scaling_group_name
+                zone = self._get_zone(autoscaling_group)
+                zone_info = {'zone': zone}
 
                 ##################################
                 # 2. Make Base Data
                 ##################################
-                resource = self.get_server_instance_resource(zone_info, compute_server, all_resources)
+                resource = self.get_autoscaling_resource(zone_info, autoscaling_group, all_resources)
 
                 ##################################
                 # 3. Make Collected Region Code
                 ##################################
-                self.set_region_code(resource.get('region', ''))
+                # self.set_region_code(resource.get('region', ''))
 
                 ##################################
                 # 4. Make Resource Response Object
@@ -73,9 +73,9 @@ class AutoscalingManager(NaverCloudManager):
                 resource_responses.append(ServerInstanceResponse({'resource': resource}))
 
             except Exception as e:
-                _LOGGER.error(f'[list_resources] vm_id => {compute_server.server_instance_no}, error => {e}',
+                _LOGGER.error(f'[list_resources] autoscaling_group_name => {autoscaling_group.auto_scaling_group_name}, error => {e}',
                               exc_info=True)
-                error_response = self.generate_resource_error_response(e, 'ComputeServer', 'Server', server_no)
+                error_response = self.generate_resource_error_response(e, 'ComputeServer', 'Autoscaling', autoscaling_group_name)
                 error_responses.append(error_response)
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
@@ -84,11 +84,16 @@ class AutoscalingManager(NaverCloudManager):
     def get_all_resources(self) -> dict:
 
         return {
-            'storage': self.instance_conn.list_Storage_Instance(),
-            'loginKey': self.instance_conn.list_login_key(),
+            'adjustmentType': self.instance_conn.list_adjustment_type(),
+            'activityLogList': self.instance_conn.list_autoscaling_activity_log(),
+            'configurationLogList': self.instance_conn.list_autoscaling_configuration_log(),
+            'scalingPolicyList': self.instance_conn.list_scaling_process_type(),
+            'launchConfigurationList': self.instance_conn.list_launch_configuration(),
+            'processList': self.instance_conn.list_scaling_process_type(),
+            'scheduledUpdateGroupActionList': self.instance_conn.list_scheduled_action()
         }
 
-    def get_server_instance_resource(self, zone_info, instance, all_resources) -> ServerInstanceResource:
+    def get_autoscaling_resource(self, zone_info, instance, all_resources) -> ServerInstanceResource:
         """ Prepare input params for call manager """
 
         ################## TBD ######################
@@ -158,7 +163,6 @@ class AutoscalingManager(NaverCloudManager):
         return ServerInstanceResource(server_data, strict=False)
 
     @staticmethod
-    def _get_zone_and_region(instance) -> (str, str):
-        zone_name = instance.zone.zone_name
-        region_name = instance.region.region_name
-        return zone_name, region_name
+    def _get_zone(instance) -> str:
+        zone_name = instance.zone_list.zone_name
+        return zone_name

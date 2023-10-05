@@ -8,7 +8,7 @@ from spaceone.inventory.libs.schema.cloud_service import CloudServiceMeta, Cloud
     CloudServiceResponse
 
 '''
-Autoscaling Instance
+Autoscaling
 '''
 server_instance = ItemDynamicLayout.set_fields('Autoscaling Instance')
 
@@ -21,11 +21,11 @@ class ComputeResource(CloudServiceResource):
     cloud_service_group = StringType(default='ComputeServer')
 
 
-class AutoscalingInstanceResource(ComputeResource):
+class AutoscalingResource(ComputeResource):
     cloud_service_type = StringType(default='Autoscaling')
     data = ModelType(AutoScalingInstance)
     _metadata = ModelType(CloudServiceMeta, default=autoscaling_instance_meta, serialized_name='metadata')
 
 
-class ServerInstanceResponse(CloudServiceResponse):
-    resource = PolyModelType(AutoscalingInstanceResource)
+class AutoscalingResponse(CloudServiceResponse):
+    resource = PolyModelType(AutoscalingResource)
