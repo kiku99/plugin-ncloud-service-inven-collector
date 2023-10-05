@@ -84,8 +84,7 @@ class ScheduledUpdateGroupAction(Model):
     recurrenceInKST = DateTimeType(default=None)
 
 
-class AutoScalingInstance(Model):
-    autoScalingGroup = ModelType(AutoScalingGroup)
+class AutoScalingResource(Model):
     activityLog = ModelType(ActivityLog)
     adjustmentType = ModelType(AdjustmentType)
     configurationLog = ModelType(ConfigurationLog)
