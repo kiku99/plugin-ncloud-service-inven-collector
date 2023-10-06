@@ -11,10 +11,10 @@ class CloudDBConnector(NaverCloudConnector):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def list_cloud_db_instance(self):
+    def list_cloud_db_instance(self, db_kind_code):
 
         instance_list = []
-        get_cloud_db_instance_list_request = ncloud_clouddb.GetCloudDBInstanceListRequest()
+        get_cloud_db_instance_list_request = ncloud_clouddb.GetCloudDBInstanceListRequest(db_kind_code=db_kind_code)
 
         try:
             api_response = self.clouddb_client.get_cloud_db_instance_list(get_cloud_db_instance_list_request)
@@ -27,10 +27,10 @@ class CloudDBConnector(NaverCloudConnector):
 
         return instance_list
 
-    def list_backup(self):
+    def list_backup(self, cloudDBInstanceNo):
         backup_list = []
 
-        get_backup_list_request = ncloud_clouddb.GetBackupListRequest()
+        get_backup_list_request = ncloud_clouddb.GetBackupListRequest(cloud_db_instance_no=cloudDBInstanceNo)
 
         try:
             api_response = self.clouddb_client.get_block_storage_instance_list(get_backup_list_request)
@@ -42,12 +42,13 @@ class CloudDBConnector(NaverCloudConnector):
 
         return backup_list
 
-    def list_object_storage_backup(self):
+    def list_object_storage_backup(self, cloudDBInstanceNo, folderName):
         object_storage_backup_list = []
-        get_object_storage_backup_list_request = ncloud_clouddb.GetObjectStorageBackupListRequest()
+        get_object_storage_backup_list_request = ncloud_clouddb.GetObjectStorageBackupListRequest(cloud_db_instance_no=cloudDBInstanceNo, folder_name=folderName)
 
         try:
-            api_response = self.client.get_object_storage_backup_list(get_object_storage_backup_list_request)
+            api_response = self.clouddb_client.get_object_storage_backup_list(get_object_storage_backup_list_request)
+
             for instance in api_response.dms_file_list:
                 object_storage_backup_list.append(instance)
 

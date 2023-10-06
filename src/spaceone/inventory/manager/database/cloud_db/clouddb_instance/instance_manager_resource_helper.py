@@ -14,36 +14,49 @@ class InstanceManagerResourceHelper(NaverCloudManager):
 
     def get_cloud_db_info(self, instance, zone_info):
 
+        cloud_db_dic = {}
         config_data = self._get_config(instance)
         config_group_data = self._get_config_group(instance)
         access_control_group_data = self._get_access_control_group(instance)
         cloud_db_server_data = self._get_cloud_db_server_data(instance)
 
-        cloud_db_data = {
-            'cloud_db_serviceName': instance.cloud_db_service_name,
-            'db_kindCode': instance.db_kind_code,
-            'engineVersion': instance.engine_version,
-            'cpuCount': instance.cpu_count,
-            'memorySize': instance.memory_size,
-            'dataStorageType': instance.data_storage_type.code,
-            'licenseCode': instance.license_code,
-            'cloud_db_port': instance.cloud_db_port,
-            'isHa': instance.is_ha,
-            'backupTime': instance.backup_time,
-            'backupFileRetentionPeriod': instance.backup_file_retention_period,
-            'cloud_db_instanceStatusName': instance.cloud_db_instance_status_name,
-            'collation': instance.collation,
-            'createDate': instance.create_date,
-            'zone': zone_info.get('zone', ''),
-            'region_code': zone_info.get('region', ''),
-            'cloud_db_config':config_data,
-            'cloud_db_configGroup':config_group_data,
-            'access_control_group':access_control_group_data,
-            'cloud_db_serverInstance':cloud_db_server_data,
+        cloud_db_dic.update({
+            'data': {
+                'cloud_db_serviceName': instance.cloud_db_service_name,
+                'db_kindCode': instance.db_kind_code,
+                'engineVersion': instance.engine_version,
+                'cpuCount': instance.cpu_count,
+                'memorySize': instance.memory_size,
+                'dataStorageType': instance.data_storage_type.code,
+                'licenseCode': instance.license_code,
+                'cloud_db_port': instance.cloud_db_port,
+                'isHa': instance.is_ha,
+                'backupTime': instance.backup_time,
+                'backupFileRetentionPeriod': instance.backup_file_retention_period,
+                'cloud_db_instanceStatusName': instance.cloud_db_instance_status_name,
+                'collation': instance.collation,
+                'createDate': instance.create_date,
+                'zone': zone_info.get('zone', ''),
+                'region_code': zone_info.get('region', ''),
+                'cloud_db_config': config_data,
+                'cloud_db_configGroup': config_group_data,
+                'access_control_group': access_control_group_data,
+                'cloud_db_serverInstance': cloud_db_server_data,
+            }
+        })
 
-        }
+        return cloud_db_dic
 
-        return CloudDBInstance(cloud_db_data, strict=False)
+    # @staticmethod
+    # def _get_cloud_db_dic(instance, zone_info):
+    #     cloud_db_data = {
+    #         'name': instance.server_name,
+    #         'instance_type': instance.server_instance_type,
+    #         'provider': 'naver_cloud',
+    #         'region_code': zone_info.get('region', '')
+    #     }
+    #
+    #     return cloud_db_data
 
     @staticmethod
     def _get_cloud_db_server_data(instance):

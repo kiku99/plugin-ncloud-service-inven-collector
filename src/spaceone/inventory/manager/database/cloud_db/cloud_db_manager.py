@@ -119,7 +119,7 @@ class CloudDBeManager(NaverCloudManager):
         autoscaler = all_resources.get('autoscaler', [])
 
         # storages
-        storages = all_resources.get('object_storage_backup', [])
+        storage_backups = all_resources.get('object_storage_backup', [])
 
         # login keys
         backups = all_resources.get('backup', [])
@@ -131,17 +131,12 @@ class CloudDBeManager(NaverCloudManager):
             ObjectStorageBackupManagerResourceHelper()
         backup_manager_helper: BackUpManagerResourceHelper = BackUpManagerResourceHelper()
 
-        object_storage_backup = object_storage_backup_manager_helper.get_object_storage_backup_info(instance, storages)
+        object_storage_backup = object_storage_backup_manager_helper.get_object_storage_backup_info(storage_backups)
         backup = backup_manager_helper.get_backup_info(backups)
         cloud_db_data = cloud_db_instance_manager_helper.get_cloud_db_info(instance, zone_info)
 
         ''' Gather all resources information '''
-        '''
-        server_data.update({
-            'nics': nic_vos,
-            'storages': storage_vos,
-        })
-        '''
+
         cloud_db_data['data'].update({
             'loginKey': backup,
             'storage': object_storage_backup,
@@ -153,7 +148,7 @@ class CloudDBeManager(NaverCloudManager):
             'instance_size': cloud_db_data.get('data', {}).get('hardware', {}).get('cpuCount', 0),
             'launched_at': cloud_db_data.get('data', {}).get('compute', {}).get('createDate', '')
         })
-        return CloudDBResource(get_cloud_db_info, strict=False)
+        return CloudDBResource(cloud_db_data, strict=False)
 
     @staticmethod
     def _get_zone_and_region(instance) -> (str, str):
