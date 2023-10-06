@@ -33,7 +33,7 @@ class CloudDBConnector(NaverCloudConnector):
         get_backup_list_request = ncloud_clouddb.GetBackupListRequest(cloud_db_instance_no=cloudDBInstanceNo)
 
         try:
-            api_response = self.clouddb_client.get_block_storage_instance_list(get_backup_list_request)
+            api_response = self.clouddb_client.get_backup_list(get_backup_list_request)
             for instance in api_response.backup_file_list:
                 backup_list.append(instance)
 
