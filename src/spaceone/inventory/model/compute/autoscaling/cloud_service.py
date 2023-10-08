@@ -10,11 +10,14 @@ from spaceone.inventory.libs.schema.cloud_service import CloudServiceMeta, Cloud
 '''
 Autoscaling
 '''
-server_instance = ItemDynamicLayout.set_fields('Autoscaling Instance')
+autoscaling_instance = ItemDynamicLayout.set_fields('Autoscaling Instance', fields=[
 
+])
 
+server_engine = ListDynamicLayout.set_layouts('server engine',
+                                              layouts=[autoscaling_instance])
 
-autoscaling_instance_meta = CloudServiceMeta.set_layouts([''])
+autoscaling_instance_meta = CloudServiceMeta.set_layouts([server_engine])
 
 
 class ComputeResource(CloudServiceResource):
