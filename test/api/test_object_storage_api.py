@@ -92,7 +92,7 @@ class S3Client:
         response = self.s3.get_bucket_acl(Bucket=bucket_name)
         print(f'Completion of bucket acl')
 
-    #ACL 생성 얘 안됨
+    # ACL 생성 얘 안됨
     # def set_object_acl(self, bucket_name, object_name, owner_id, target_id, permission):
     #     self.s3.put_object_acl(Bucket=bucket_name, Key=object_name,
     #                           AccessControlPolicy={
