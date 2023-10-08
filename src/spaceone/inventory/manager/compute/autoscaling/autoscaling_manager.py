@@ -55,26 +55,27 @@ class AutoscalingManager(NaverCloudManager):
                 # 1. Set Basic Information
                 ##################################
                 autoscaling_group_name = autoscaling_group.auto_scaling_group_name
+                autoscaling_group_create_date = autoscaling_group.create_date
                 launch_configuration_name = autoscaling_group.launch_configuration_name
                 matched_activity_log_list = self._get_matched_activity_log_list(activity_log_list, autoscaling_group_name)
                 matched_configuration_log_list = self._get_matched_configuration_log_list(configuration_log_list, autoscaling_group_name)
                 matched_launch_configuration_list = self._get_matched_launch_configuration_list(launch_configuration_list, launch_configuration_name)
 
-                autoscaling_group.update({
+                autoscaling_group = {
                     'autoscalingGroup': {
                         'defaultCooldown': autoscaling_group.default_cooldown,
                         'desiredCapacity': autoscaling_group.desired_capacity,
                         'healthCheckGracePeriod': autoscaling_group.health_check_grace_period,
-                        'healthCheckType': autoscaling_group.health_check_type,
-                        'inAutoScalingGroupServerInstanceList': autoscaling_group.in_auto_scaling_group_server_instance_list,
-                        'loadBalancerInstanceSummaryList': autoscaling_group.load_balancer_instance_summary_list,
+                        'healthCheckType': autoscaling_group.health_check_type.code,
+                        # 'inAutoScalingGroupServerInstanceList': autoscaling_group.in_auto_scaling_group_server_instance_list,
+                        # 'loadBalancerInstanceSummaryList': autoscaling_group.load_balancer_instance_summary_list,
                         'maxSize': autoscaling_group.max_size,
                         'minSize': autoscaling_group.min_size
                     },
                     'activityLogList': matched_activity_log_list,
                     'configurationLogList': matched_configuration_log_list,
                     'launchConfigurationList': matched_launch_configuration_list
-                })
+                }
 
                 ##################################
                 # 2. Make Base Data
@@ -86,7 +87,7 @@ class AutoscalingManager(NaverCloudManager):
                 ##################################
                 autoscaling_resource = AutoscalingResource({
                     'name': autoscaling_group_name,
-                    'launched_at': autoscaling_group.create_date,
+                    'launched_at': autoscaling_group_create_date,
                     'data': autoscaling_data
                 })
                 ##################################
@@ -110,14 +111,14 @@ class AutoscalingManager(NaverCloudManager):
 
         for activity_log in activity_log_list:
             if autoscaling_group == activity_log.auto_scaling_group_name:
-                activity_log.update({
+                activity_log = {
                     'activityNo': activity_log.activity_no,
                     'description': activity_log.description,
                     'details': activity_log.details,
                     'startTime': activity_log.start_time,
                     'endTime': activity_log.end_time,
-                    'status': activity_log.status
-                })
+                    'status': activity_log.status.code
+                }
                 activity_log_list_info.append(activity_log)
 
         return activity_log_list_info
@@ -128,13 +129,13 @@ class AutoscalingManager(NaverCloudManager):
 
         for configuration_log in configuration_log_list:
             if autoscaling_group == configuration_log.auto_scaling_group_name:
-                configuration_log.update({
+                configuration_log = {
                     'configurationActionName': configuration_log.configuration_action_name,
                     'configurationNo': configuration_log.configuration_no,
                     'launchConfigurationName': configuration_log.launch_configuration_name,
                     'scheduledActionName': configuration_log.scheduled_action_name,
                     'settingTime': configuration_log.setting_time
-                })
+                }
                 configuration_log_list_info.append(configuration_log)
 
         return configuration_log_list_info
@@ -145,11 +146,11 @@ class AutoscalingManager(NaverCloudManager):
 
         for launch_configuration in launch_configuration_list:
             if launch_configuration_name == launch_configuration.launch_configuration_name:
-                launch_configuration.update({
+                launch_configuration = {
                     'launchConfigurationName': launch_configuration.launch_configuration_name,
                     'loginKeyName': launch_configuration.login_key_name,
-                    'accessControlGroupList': launch_configuration.access_control_group_list
-                })
+                    # 'accessControlGroupList': launch_configuration.access_control_group_list
+                }
                 launch_configuration_list_info.append(launch_configuration)
 
         return launch_configuration_list_info

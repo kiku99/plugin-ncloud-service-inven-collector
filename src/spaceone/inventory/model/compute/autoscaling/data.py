@@ -86,10 +86,10 @@ class ScheduledUpdateGroupAction(Model):
 
 class AutoScalingInfo(Model):
     autoscalingGroup = ModelType(AutoScalingGroup)
-    activityLog = ModelType(ActivityLog)
-    adjustmentType = ModelType(AdjustmentType)
-    configurationLog = ModelType(ConfigurationLog)
-    scalingPolicy = ModelType(ScalingPolicy)
-    launchConfiguration = ModelType(LaunchConfiguration)
-    process = ModelType(Process)
-    scheduledUpdateGroupAction = ModelType(ScheduledUpdateGroupAction)
+    activityLogList = ListType(ModelType(ActivityLog))
+    # adjustmentType = ModelType(AdjustmentType)
+    configurationLogList = ListType(ModelType(ConfigurationLog))
+    # scalingPolicy = ModelType(ScalingPolicy)
+    launchConfigurationList = ListType(ModelType(LaunchConfiguration))
+    # process = ModelType(Process)
+    # scheduledUpdateGroupAction = ModelType(ScheduledUpdateGroupAction)
