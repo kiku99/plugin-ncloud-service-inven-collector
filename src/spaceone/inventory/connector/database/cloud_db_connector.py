@@ -63,7 +63,7 @@ class CloudDBConnector(NaverCloudConnector):
         try:
             api_response = self.clouddb_client.get_cloud_db_product_list(get_product_request)
 
-            for instance in api_response.dms_file_list:
+            for instance in api_response.product_list:
                 product_list.append(instance)
 
         except ApiException as e:
