@@ -31,7 +31,7 @@ class TestCloudDBInstanceConnector(unittest.TestCase):
         print(cloud_db_instances)
 
     def test_list_object_storage_backup_instance(self):
-        storage_backup_instances = self.cloud_db_connector.list_object_storage_backup(1010059, "/")
+        storage_backup_instances = self.cloud_db_connector.list_object_storage_backup(1057304, "/")
 
         print(storage_backup_instances)
 
@@ -39,6 +39,26 @@ class TestCloudDBInstanceConnector(unittest.TestCase):
         back_up = self.cloud_db_connector.list_backup(1057304)
 
         print(back_up)
+
+    def test_list_product(self):
+        product = self.cloud_db_connector.list_product(self.cloud_db_connector.list_img_product("MSSQL"))
+
+        print(product)
+
+    def test_list_dms_operation(self):
+        operation = self.cloud_db_connector.list_dms_operation(782063)
+
+        print(operation)
+
+    def test_list_img_product(self):
+        img_product = self.cloud_db_connector.list_img_product("MSSQL")
+
+        print(img_product)
+
+    def test_list_config_group(self):
+        group = self.cloud_db_connector.list_config_group("MSSQL")
+
+        print(group)
 
 
 if __name__ == "__main__":
