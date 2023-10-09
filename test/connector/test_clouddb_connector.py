@@ -41,7 +41,7 @@ class TestCloudDBInstanceConnector(unittest.TestCase):
         print(back_up)
 
     def test_list_product(self):
-        product = self.cloud_db_connector.list_product(self.cloud_db_connector.list_img_product("MSSQL"))
+        product = self.cloud_db_connector.list_product("SPSWMSSQLWINNT01")
 
         print(product)
 
