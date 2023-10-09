@@ -10,7 +10,7 @@ CLOUD_SERVICE_GROUP_MAP = {
         'ServerInstanceManager',
         'AutoscalingManager'
     ],
-    'database': [
+    'Database': [
       'CloudDBManager'
 
     ],

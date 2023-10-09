@@ -26,6 +26,7 @@ class CloudDBConfig(Model):
 
 
 class CloudDBConfigGroup(Model):
+    config_group_no = StringType()
     config_group_type = StringType()
     config_group_name = StringType()
 
@@ -48,7 +49,24 @@ class CloudDBServerInstance(Model):
     uptime = StringType()
 
 
+class Product(Model):
+    add_block_storage_size = IntType()
+    base_block_storage_size = IntType()
+    db_kind_code = StringType()
+    cpu_count = IntType()
+    disk_type = StringType()
+    infra_resource_type = StringType()
+    memory_size = IntType()
+    os_information = StringType()
+    platform_type = StringType()
+    product_code = StringType()
+    product_description = StringType()
+    product_name = StringType()
+    product_type = StringType()
+
+
 class CloudDBInstance(Model):
+    cloud_db_instance_no = StringType()
     cloud_db_service_name = StringType()
     db_kind_code = StringType()
     cpu_count = IntType()

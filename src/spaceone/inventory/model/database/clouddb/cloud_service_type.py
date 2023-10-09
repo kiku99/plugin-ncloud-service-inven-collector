@@ -16,10 +16,10 @@ count_by_project_conf = os.path.join(current_dir, 'widget/count_by_project.yml')
 
 cst_cloud_db_instance = CloudServiceTypeResource()
 cst_cloud_db_instance.name = 'Instance'
-cst_cloud_db_instance.provider = 'google_cloud'
-cst_cloud_db_instance.group = 'cloud_db'
+cst_cloud_db_instance.provider = 'naver_cloud'
+cst_cloud_db_instance.group = 'Database'
 cst_cloud_db_instance.service_code = 'Cloud DB'
-cst_cloud_db_instance.labels = ['Database']
+cst_cloud_db_instance.labels = ['database']
 cst_cloud_db_instance.is_primary = True
 cst_cloud_db_instance.is_major = True
 cst_cloud_db_instance.tags = {
