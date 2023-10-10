@@ -1,6 +1,6 @@
 from schematics.types import ModelType, StringType, PolyModelType
 
-from spaceone.inventory.model.compute.autoscaling.data import AutoScalingInfo
+from spaceone.inventory.model.compute.autoscaling.data import AutoScalingGroup
 from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, EnumDyField, ListDyField, SizeField
 from spaceone.inventory.libs.schema.metadata.dynamic_layout import ItemDynamicLayout, TableDynamicLayout, \
     ListDynamicLayout
@@ -26,7 +26,7 @@ class ComputeResource(CloudServiceResource):
 
 class AutoscalingResource(ComputeResource):
     cloud_service_type = StringType(default='Autoscaling')
-    data = ModelType(AutoScalingInfo)
+    data = ModelType(AutoScalingGroup)
     _metadata = ModelType(CloudServiceMeta, default=autoscaling_instance_meta, serialized_name='metadata')
 
 

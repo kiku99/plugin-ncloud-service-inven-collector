@@ -5,7 +5,7 @@ from typing import Tuple, List
 from spaceone.inventory.connector import AutoscalingConnector
 from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.model.compute.autoscaling.cloud_service import AutoscalingResource, AutoscalingResponse
-from spaceone.inventory.model.compute.autoscaling.data import AutoScalingInfo
+from spaceone.inventory.model.compute.autoscaling.data import AutoScalingGroup
 from spaceone.inventory.model.compute.autoscaling.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
 
@@ -57,21 +57,25 @@ class AutoscalingManager(NaverCloudManager):
                 autoscaling_group_name = autoscaling_group.auto_scaling_group_name
                 autoscaling_group_create_date = autoscaling_group.create_date
                 launch_configuration_name = autoscaling_group.launch_configuration_name
-                matched_activity_log_list = self._get_matched_activity_log_list(activity_log_list, autoscaling_group_name)
-                matched_configuration_log_list = self._get_matched_configuration_log_list(configuration_log_list, autoscaling_group_name)
-                matched_launch_configuration_list = self._get_matched_launch_configuration_list(launch_configuration_list, launch_configuration_name)
+                zone_list = self._get_zone_list(autoscaling_group.zone_list)
+                access_control_group_list = self._get_matched_access_control_group_list(launch_configuration_list.access_control_group_list)
+                matched_activity_log_list = self._get_matched_activity_log_list(activity_log_list,
+                                                                                autoscaling_group_name)
+                matched_configuration_log_list = self._get_matched_configuration_log_list(configuration_log_list,
+                                                                                          autoscaling_group_name)
+                matched_launch_configuration_list = self._get_matched_launch_configuration_list(
+                    launch_configuration_list, launch_configuration_name)
 
                 autoscaling_group = {
-                    'autoscalingGroup': {
-                        'defaultCooldown': autoscaling_group.default_cooldown,
-                        'desiredCapacity': autoscaling_group.desired_capacity,
-                        'healthCheckGracePeriod': autoscaling_group.health_check_grace_period,
-                        'healthCheckType': autoscaling_group.health_check_type.code,
-                        # 'inAutoScalingGroupServerInstanceList': autoscaling_group.in_auto_scaling_group_server_instance_list,
-                        # 'loadBalancerInstanceSummaryList': autoscaling_group.load_balancer_instance_summary_list,
-                        'maxSize': autoscaling_group.max_size,
-                        'minSize': autoscaling_group.min_size
-                    },
+                    'defaultCooldown': autoscaling_group.default_cooldown,
+                    'desiredCapacity': autoscaling_group.desired_capacity,
+                    'healthCheckGracePeriod': autoscaling_group.health_check_grace_period,
+                    'healthCheckType': autoscaling_group.health_check_type.code,
+                    'zoneList': zone_list,
+                    # 'inAutoScalingGroupServerInstanceList': autoscaling_group.in_auto_scaling_group_server_instance_list,
+                    # 'loadBalancerInstanceSummaryList': autoscaling_group.load_balancer_instance_summary_list,
+                    'maxSize': autoscaling_group.max_size,
+                    'minSize': autoscaling_group.min_size,
                     'activityLogList': matched_activity_log_list,
                     'configurationLogList': matched_configuration_log_list,
                     'launchConfigurationList': matched_launch_configuration_list
@@ -80,7 +84,11 @@ class AutoscalingManager(NaverCloudManager):
                 ##################################
                 # 2. Make Base Data
                 ##################################
-                autoscaling_data = AutoScalingInfo(autoscaling_group, strict=False)
+                autoscaling_data = AutoScalingGroup(autoscaling_group, strict=False)
+
+                autoscaling_data['launchConfigurationList'].update({
+                    'accessControlGroupList': access_control_group_list
+                })
 
                 ##################################
                 # 3. Make Return Resource
@@ -99,7 +107,8 @@ class AutoscalingManager(NaverCloudManager):
                 _LOGGER.error(
                     f'[list_resources] autoscaling_group_name => {autoscaling_group.auto_scaling_group_name}, error => {e}',
                     exc_info=True)
-                error_response = self.generate_resource_error_response(e, 'ComputeServer', 'Autoscaling', autoscaling_group_name)
+                error_response = self.generate_resource_error_response(e, 'ComputeServer', 'Autoscaling',
+                                                                       autoscaling_group_name)
                 error_responses.append(error_response)
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
@@ -143,14 +152,43 @@ class AutoscalingManager(NaverCloudManager):
     @staticmethod
     def _get_matched_launch_configuration_list(launch_configuration_list, launch_configuration_name):
         launch_configuration_list_info = []
+        matched_access_control_group_list = []
 
         for launch_configuration in launch_configuration_list:
             if launch_configuration_name == launch_configuration.launch_configuration_name:
                 launch_configuration = {
                     'launchConfigurationName': launch_configuration.launch_configuration_name,
                     'loginKeyName': launch_configuration.login_key_name,
-                    # 'accessControlGroupList': launch_configuration.access_control_group_list
                 }
                 launch_configuration_list_info.append(launch_configuration)
 
         return launch_configuration_list_info
+
+    @staticmethod
+    def _get_matched_access_control_group_list(launch_configuration):
+        access_control_group_list_info = []
+
+        for access_control_group in launch_configuration:
+            access_control_group = {
+                'accessControlGroupConfigurationNo': access_control_group.access_control_group_configuration_no,
+                'accessControlGroupDescription': access_control_group.access_control_group_description,
+                'accessControlGroupName': access_control_group.access_control_group_name,
+                'isDefaultGroup': access_control_group.is_default_group
+            }
+            access_control_group_list_info.append(access_control_group)
+
+        return access_control_group_list_info
+
+    @staticmethod
+    def _get_zone_list(zone_list):
+        zone_list_info = []
+
+        for zone in zone_list:
+            zone = {
+                'zoneDescription': zone.zone_description,
+                'zoneName': zone.zone_name,
+                'zoneNo': zone.zone_no
+            }
+        zone_list_info.append(zone)
+
+        return zone_list_info
