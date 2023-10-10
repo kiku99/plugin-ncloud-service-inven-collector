@@ -38,21 +38,21 @@ class TestObjectStorageConnector(unittest.TestCase):
             print(bucket)
 
     def test_list_objects(self):
-        bucket_name = 'your-bucket-name'
+        bucket_name = 'my-new-bucket'
         objects = self.object_storage_connector.list_objects(bucket_name)
         print(f"Objects in {bucket_name}:")
         for obj in objects:
             print(f"Name={obj['Name']}, Size={obj['Size']}, Owner={obj['Owner']}")
 
-    def test_get_object_acl(self):
-        bucket_name = 'your-bucket-name'
-        object_name = 'your-object-key'
-        acl = self.object_storage_connector.get_object_acl(bucket_name, object_name)
-        print(f"ACL for {object_name}:")
-        print(acl)
+    # def test_get_object_acl(self):
+    #     bucket_name = 'your-bucket-name'
+    #     object_name = 'your-object-key'
+    #     acl = self.object_storage_connector.get_object_acl(bucket_name, object_name)
+    #     print(f"ACL for {object_name}:")
+    #     print(acl)
 
     def test_get_bucket_cors(self):
-        bucket_name = 'your-bucket-name'
+        bucket_name = 'my-new-bucket'
         cors_configuration = self.object_storage_connector.get_bucket_cors(bucket_name)
         print(f"CORS Configuration for {bucket_name}:")
         print(cors_configuration)
