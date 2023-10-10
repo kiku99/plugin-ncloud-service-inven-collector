@@ -50,19 +50,20 @@ class CloudDBServerInstance(Model):
 
 
 class Product(Model):
-    add_block_storage_size = IntType()
-    base_block_storage_size = IntType()
-    db_kind_code = StringType()
-    cpu_count = IntType()
-    disk_type = StringType()
-    infra_resource_type = StringType()
-    memory_size = IntType()
-    os_information = StringType()
-    platform_type = StringType()
-    product_code = StringType()
-    product_description = StringType()
-    product_name = StringType()
-    product_type = StringType()
+    baseStorageSize = IntType()
+    #dbKindCode = StringType()
+    cpuCount = IntType()
+    #disk_type = StringType()
+    infraType = StringType()
+    memorySize = IntType()
+    #osInfo = StringType()
+   # platformType = StringType()
+    productCode = StringType()
+    productDescription = StringType()
+    productName = StringType()
+    productType = StringType()
+
+
 
 
 class CloudDBInstance(Model):
@@ -85,6 +86,12 @@ class CloudDBInstance(Model):
     cloud_db_config_group_list = ModelType(CloudDBConfigGroup)
     access_control_group_list = ModelType(AccessControlGroup)
     cloud_db_server_instance_list = ModelType(CloudDBServerInstance)
+
+
+class Clouddbinstance(Model):
+    productGroup = ModelType(Product)
+    #configGroupList = ListType(ModelType(CloudDBConfigGroup))
+
 
 
 

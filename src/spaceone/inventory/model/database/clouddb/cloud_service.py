@@ -1,6 +1,6 @@
 from schematics.types import ModelType, StringType, PolyModelType
 
-from spaceone.inventory.model.database.clouddb.data import Product
+from spaceone.inventory.model.database.clouddb.data import Product, Clouddbinstance
 from spaceone.inventory.model.database.clouddb.data import CloudDBInstance
 from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, EnumDyField, ListDyField, SizeField
 from spaceone.inventory.libs.schema.metadata.dynamic_layout import ItemDynamicLayout, TableDynamicLayout, \
@@ -27,7 +27,7 @@ class ProductResource(CloudServiceResource):
 
 class CloudDBResource(ProductResource):
     cloud_service_type = StringType(default='CloudDB')
-    data = ModelType(Product)
+    data = ModelType(Clouddbinstance)
     _metadata = ModelType(CloudServiceMeta, default=cloud_db_instance_meta, serialized_name='metadata')
 
 
