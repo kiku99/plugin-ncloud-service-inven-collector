@@ -45,9 +45,9 @@ class ObjectStorageConnector:
             })
         return objects
 
-    def get_object_acl(self, bucket_name, object_name):
-        response = self.client.get_object_acl(Bucket=bucket_name, Key=object_name)
-        return response
+    # def get_object_acl(self, bucket_name, object_name):
+    #     response = self.client.get_object_acl(Bucket=bucket_name, Key=object_name)
+    #     return response
 
     def get_bucket_cors(self, bucket_name):
         response = self.client.get_bucket_cors(Bucket=bucket_name)
