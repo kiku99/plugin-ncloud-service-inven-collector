@@ -58,7 +58,6 @@ class AutoscalingManager(NaverCloudManager):
                 autoscaling_group_create_date = autoscaling_group.create_date
                 launch_configuration_name = autoscaling_group.launch_configuration_name
                 zone_list = self._get_zone_list(autoscaling_group.zone_list)
-                access_control_group_list = self._get_matched_access_control_group_list(launch_configuration_list.access_control_group_list)
                 matched_activity_log_list = self._get_matched_activity_log_list(activity_log_list,
                                                                                 autoscaling_group_name)
                 matched_configuration_log_list = self._get_matched_configuration_log_list(configuration_log_list,
@@ -85,10 +84,6 @@ class AutoscalingManager(NaverCloudManager):
                 # 2. Make Base Data
                 ##################################
                 autoscaling_data = AutoScalingGroup(autoscaling_group, strict=False)
-
-                autoscaling_data['launchConfigurationList'].update({
-                    'accessControlGroupList': access_control_group_list
-                })
 
                 ##################################
                 # 3. Make Return Resource
@@ -155,29 +150,24 @@ class AutoscalingManager(NaverCloudManager):
         matched_access_control_group_list = []
 
         for launch_configuration in launch_configuration_list:
+            for access_control_group in launch_configuration.access_control_group_list:
+                access_control_group = {
+                    'accessControlGroupConfigurationNo': access_control_group.access_control_group_configuration_no,
+                    'accessControlGroupDescription': access_control_group.access_control_group_description,
+                    'accessControlGroupName': access_control_group.access_control_group_name,
+                    'isDefaultGroup': access_control_group.is_default_group
+                }
+                matched_access_control_group_list.append(access_control_group)
+
             if launch_configuration_name == launch_configuration.launch_configuration_name:
                 launch_configuration = {
                     'launchConfigurationName': launch_configuration.launch_configuration_name,
                     'loginKeyName': launch_configuration.login_key_name,
+                    'accessControlGroupList': matched_access_control_group_list
                 }
                 launch_configuration_list_info.append(launch_configuration)
 
         return launch_configuration_list_info
-
-    @staticmethod
-    def _get_matched_access_control_group_list(launch_configuration):
-        access_control_group_list_info = []
-
-        for access_control_group in launch_configuration:
-            access_control_group = {
-                'accessControlGroupConfigurationNo': access_control_group.access_control_group_configuration_no,
-                'accessControlGroupDescription': access_control_group.access_control_group_description,
-                'accessControlGroupName': access_control_group.access_control_group_name,
-                'isDefaultGroup': access_control_group.is_default_group
-            }
-            access_control_group_list_info.append(access_control_group)
-
-        return access_control_group_list_info
 
     @staticmethod
     def _get_zone_list(zone_list):
