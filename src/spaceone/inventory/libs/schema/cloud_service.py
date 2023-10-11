@@ -17,14 +17,14 @@ class CloudServiceMeta(BaseMetaData):
 
 class CloudServiceResource(Model):
     provider = StringType(default="naver_cloud")
-    account = StringType()
+    account = StringType(default="")
     instance_type = StringType(serialize_when_none=False)
     instance_size = FloatType(serialize_when_none=False)
     launched_at = DateTimeType(serialize_when_none=False)
     cloud_service_type = StringType()
     cloud_service_group = StringType()
     name = StringType(default="")
-    region_code = StringType()
+    region_code = StringType(default="")
     data = PolyModelType(Model, default=lambda: {})
     _metadata = PolyModelType(CloudServiceMeta, serialize_when_none=False, serialized_name='metadata')
 
