@@ -22,3 +22,4 @@ EXPOSE ${SPACEONE_PORT}
 
 ENTRYPOINT ["spaceone"]
 CMD ["grpc", "spaceone.inventory"]
+
