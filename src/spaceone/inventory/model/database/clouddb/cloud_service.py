@@ -21,13 +21,13 @@ database = ListDynamicLayout.set_layouts('database',
 cloud_db_instance_meta = CloudServiceMeta.set_layouts([database])
 
 
-class ProductResource(CloudServiceResource):
+class CloudDBInstancetResource(CloudServiceResource):
     cloud_service_group = StringType(default='Database')
 
 
-class CloudDBResource(ProductResource):
+class CloudDBResource(CloudDBInstancetResource):
     cloud_service_type = StringType(default='CloudDB')
-    data = ModelType(Clouddbinstance)
+    data = ModelType(CloudDBInstance)
     _metadata = ModelType(CloudServiceMeta, default=cloud_db_instance_meta, serialized_name='metadata')
 
 
