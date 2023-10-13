@@ -4,7 +4,10 @@ CONNECTORS = {
         },
     'ServerConnector': {
         'backend': 'spaceone.inventory.connector.compute.ServerConnector'
-    }
+    },
+    'AutoscalingConnector': {
+        'backend': 'spaceone.inventory.connector.compute.AutoscalingConnector'
+    },
 }
 
 LOG = {

@@ -7,7 +7,8 @@ FILTER_FORMAT = []
 
 CLOUD_SERVICE_GROUP_MAP = {
     'ComputeServer': [
-        'ServerInstanceManager'
+        'ServerInstanceManager',
+        'AutoscalingManager'
     ]
 }
 
