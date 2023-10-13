@@ -33,9 +33,9 @@ class TestObjectStorageConnector(unittest.TestCase):
 
     def test_list_buckets(self):
         list_buckets = self.object_storage_connector.list_buckets()
-        print("Buckets:")
-        for bucket in list_buckets:
-            print(bucket)
+        print(list_buckets)
+        #for bucket in list_buckets:
+        #    print(bucket)
 
     def test_list_objects(self):
         bucket_name = 'my-new-bucket'

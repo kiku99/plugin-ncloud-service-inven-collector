@@ -49,3 +49,12 @@ class ErrorResourceResponse(CloudServiceResponse):
     state = StringType(default='FAILURE')
     resource_type = StringType(default='inventory.ErrorResource')
     resource = ModelType(ErrorResource, default={})
+
+class BaseResource(Model):
+    id = StringType(serialize_when_none=False)
+    name = StringType(serialize_when_none=False)
+    project = StringType(serialize_when_none=False)
+    region = StringType(serialize_when_none=False)
+    self_link = StringType(deserialize_from='selfLink', serialize_when_none=False)
+    #google_cloud_monitoring = ModelType(GoogleCloudMonitoringModel, serialize_when_none=False)
+    #google_cloud_logging = ModelType(GoogleCloudLoggingModel, serialize_when_none=False)
