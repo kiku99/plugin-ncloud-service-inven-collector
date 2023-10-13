@@ -9,7 +9,11 @@ CLOUD_SERVICE_GROUP_MAP = {
     'ComputeServer': [
         'ServerInstanceManager',
         'AutoscalingManager'
-    ]
+    ],
+    'Database': [
+      'CloudDBManager'
+
+    ],
 }
 
 # not use
