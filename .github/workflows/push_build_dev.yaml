@@ -26,8 +26,6 @@ jobs:
         run: |
           echo "VERSION=$(cat src/VERSION | cut -c 2-).${{ env.TIME }}" >> $GITHUB_OUTPUT
           echo "::set-output name=VERSION::$(cat src/VERSION | cut -c 2-).${{ env.TIME }}"
-
-
   docker:
       if: github.repository_owner == 'kiku99'
       needs: versioning
