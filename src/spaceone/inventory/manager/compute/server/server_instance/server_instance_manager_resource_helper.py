@@ -16,48 +16,7 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
         self.instance_conn: ServerConnector = ncloud_connector
 
     def get_server_info(self, instance, zone_info):
-        """
-        server_data = {'access_control_group_list': [],
-                        'base_block_storage_disk_detail_type': {'code': 'HDD', 'code_name': 'HDD'},
-                        'base_block_storage_disk_type': {'code': 'NET', 'code_name': 'Network Storage'},
-                        'base_block_storage_size': ,
-                        'block_device_partition_list': None,
-                        'cpu_count': 1,
-                        'create_date': '',
-                        'instance_tag_list': [],
-                        'internet_line_type': None,
-                        'is_fee_charging_monitoring': False,
-                        'is_protect_server_termination': False,
-                        'login_key_name': 'test-authkey',
-                        'memory_size': 1073741824,
-                        'platform_type': {'code': 'UBS64',
-                        'code_name': 'Ubuntu Server 64 Bit'},
-                        'port_forwarding_external_port': None,
-                        'port_forwarding_internal_port': None,
-                        'port_forwarding_public_ip': '',
-                        'private_ip': '',
-                        'public_ip': '',
-                        'region': {'region_code': 'KR',
-                        'region_name': 'Korea',
-                        'region_no': '1'},
-                        'server_description': '',
-                        'server_image_name': 'ubuntu-18.04',
-                        'server_image_product_code': '',
-                        'server_instance_no': '',
-                        'server_instance_operation': {'code': 'NULL', 'code_name': 'Server NULL OP},
-                        'server_instance_status': {'code': 'RUN', 'code_name': 'Server run state},
-                        'server_instance_status_name': 'running',
-                        'server_instance_type': {'code': 'MICRO', 'code_name': 'Micro Server'},
-                        'server_name': 'test-sever',
-                        'server_product_code': '',
-                        'uptime': '',
-                        'user_data': '',
-                        'zone': {'region_no': '1',
-                                    'zone_code': 'KR-2',
-                                    'zone_description': '평촌 zone',
-                                    'zone_name': 'KR-2',
-                                    'zone_no': '3'}}
-        """
+
 
         server_dic = self._get_server_dic(instance, zone_info)
         hardware_data = self._get_hardware_data(instance)

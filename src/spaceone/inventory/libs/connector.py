@@ -1,6 +1,8 @@
 from __future__ import print_function
+
+import ncloud_autoscaling
+import ncloud_clouddb
 import ncloud_server
-from ncloud_server.api.v2_api import V2Api
 import logging
 from spaceone.core.connector import BaseConnector
 
@@ -26,16 +28,32 @@ class NaverCloudConnector(BaseConnector):
         """
 
         super().__init__(*args, **kwargs)
-        self.client = None
+        self.server_client = None
+        self.clouddb_client = None
+        self.autoscaling_client = None
         self.set_connect(kwargs['secret_data'])
 
     def set_connect(self, secret_data: object) -> object:
-        configuration = ncloud_server.Configuration()
-        configuration.access_key = secret_data['ncloud_access_key_id']
-        configuration.secret_key = secret_data['ncloud_secret_key']
-        self.client = V2Api(ncloud_server.ApiClient(configuration))
+        configuration_server = ncloud_server.Configuration()
+        configuration_server.access_key = secret_data['ncloud_access_key_id']
+        configuration_server.secret_key = secret_data['ncloud_secret_key']
+        self.server_client = ncloud_server.V2Api(ncloud_server.ApiClient(configuration_server))
+
+        configuration_db = ncloud_clouddb.Configuration()
+        configuration_db.access_key = secret_data['ncloud_access_key_id']
+        configuration_db.secret_key = secret_data['ncloud_secret_key']
+        self.clouddb_client = ncloud_clouddb.V2Api(ncloud_clouddb.ApiClient(configuration_db))
+
+        configuration_autoscaling = ncloud_autoscaling.Configuration()
+        configuration_autoscaling.access_key = secret_data['ncloud_access_key_id']
+        configuration_autoscaling.secret_key = secret_data['ncloud_secret_key']
+        self.autoscaling_client = ncloud_autoscaling.V2Api(ncloud_autoscaling.ApiClient(configuration_autoscaling))
 
     def verify(self, **kwargs):
-        if self.client is None:
+        if self.server_client is None:
+            self.set_connect(kwargs['secret_data'])
+            return "ACTIVE"
+
+        if self.clouddb_client is None:
             self.set_connect(kwargs['secret_data'])
             return "ACTIVE"
