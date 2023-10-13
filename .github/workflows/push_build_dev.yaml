@@ -28,30 +28,24 @@ jobs:
           echo "::set-output name=VERSION::$(cat src/VERSION | cut -c 2-).${{ env.TIME }}"
 
 
-#  docker:
-#      if: github.repository_owner == 'cloudforet-io'
-#      needs: versioning
-#      runs-on: ubuntu-latest
-#      env:
-#        VERSION: ${{ needs.versioning.outputs.version }}
-#      steps:
-#        - uses: actions/checkout@v2
-#        - name: get service name
-#          run: |
-#            echo "SERVICE=$(echo ${{ github.repository }} | cut -d '/' -f2)" >> $GITHUB_ENV
-#        - name: Upload docker
-#          uses: docker/build-push-action@v1
-#          with:
-#            path: .
-#            repository: pyengine/${{ env.SERVICE }}
-#            username: ${{ secrets.DOCKER_USERNAME }}
-#            password: ${{ secrets.DOCKER_PASSWORD }}
-#            tags: ${{ env.VERSION }}
-#        - name: Notice when job fails
-#          if: failure()
-#          uses: 8398a7/action-slack@v3.2.0
-#          with:
-#            status: ${{job.status}}
-#            fields: repo,workflow,job
-#            author_name: Github Action Slack
+  docker:
+      if: github.repository_owner == 'kiku99'
+      needs: versioning
+      runs-on: ubuntu-latest
+      env:
+        VERSION: ${{ needs.versioning.outputs.version }}
+      steps:
+        - uses: actions/checkout@v2
+        - name: get service name
+          run: |
+            echo "SERVICE=$(echo ${{ github.repository }} | cut -d '/' -f2)" >> $GITHUB_ENV
+
+        - name: Upload docker
+          uses: docker/build-push-action@v1
+          with:
+            path: .
+            repository: ncloud/${{ env.SERVICE }}
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+            tags: ${{ env.VERSION }}
 
