@@ -4,6 +4,7 @@ import ncloud_autoscaling
 import ncloud_clouddb
 import ncloud_server
 import ncloud_monitoring
+import ncloud_cdn
 import logging
 from spaceone.core.connector import BaseConnector
 
@@ -33,6 +34,7 @@ class NaverCloudConnector(BaseConnector):
         self.clouddb_client = None
         self.autoscaling_client = None
         self.monitoring_client = None
+        self.cdn_client = None
         self.set_connect(kwargs['secret_data'])
 
     def set_connect(self, secret_data: object) -> object:
@@ -55,6 +57,11 @@ class NaverCloudConnector(BaseConnector):
         configuration_monitoring.access_key = secret_data['ncloud_access_key_id']
         configuration_monitoring.secret_key = secret_data['ncloud_secret_key']
         self.monitoring_client = ncloud_monitoring.V2Api(ncloud_monitoring.ApiClient(configuration_monitoring))
+
+        configuration_cdn = ncloud_cdn.Configuration()
+        configuration_cdn.access_key = secret_data['ncloud_access_key_id']
+        configuration_cdn.secret_key = secret_data['ncloud_secret_key']
+        self.cdn_client = ncloud_cdn.V2Api(ncloud_cdn.ApiClient(configuration_cdn))
 
     def verify(self, **kwargs):
         if self.server_client is None:
