@@ -1,21 +1,45 @@
-from test.connector.test_object_storage_connector import NCloudObjectStorageConnector
+import unittest
+import os
+from spaceone.tester import TestCase
+from spaceone.core.unittest.runner import RichTestRunner
+from spaceone.core import config
+from spaceone.inventory.connector.storage.object_storage_connector import ObjectStorageConnector
+from spaceone.inventory.manager.storage.object_storage_manager import ObjectStorageManager
 
-class NCloudObjectStorageManager:
+AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
+SK = os.environ.get('NCLOUD_SECRET_KEY', None)
 
-    def __init__(self, access_key=None, secret_key=None):
-        self.connector = NCloudObjectStorageConnector(access_key, secret_key)
 
-    def list_buckets(self):
-        return self.connector.list_buckets()
+class TestServerInstanceManager(TestCase):
+    secret_data = {
+        'ncloud_access_key_id': AKI,
+        'ncloud_secret_key': SK
+    }
+    @classmethod
+    def setUpClass(cls):
+        config.init_conf(package='spaceone.inventory')
+        cls.object_storage_connector = ObjectStorageConnector(
+                    endpoint_url='https://kr.object.ncloudstorage.com',
+                    ncloud_access_key_id = cls.secret_data['ncloud_access_key_id'],
+                    ncloud_secret_access_key=cls.secret_data['ncloud_secret_key']
+                )
+        cls.object_storage_manager = ObjectStorageManager()
+        super().setUpClass()
 
-    def list_objects(self, bucket_name, prefix=None, delimiter=None, encoding_type=None, max_keys=None, marker=None):
-        return self.connector.list_objects(bucket_name, prefix, delimiter, encoding_type, max_keys, marker)
+    @classmethod
+    def tearDownClass(cls) -> None:
+        super().tearDownClass()
 
-    def get_object(self, bucket_name, object_name, local_file_path):
-        return self.connector.get_object(bucket_name, object_name, local_file_path)
+    def test_object_storage_manager(self):
+        secret_data = self.secret_data
+        params = {'option': {},'secret_data': secret_data, 'filter': {}, 'bucket_name':"bucket-a"}
 
-    def get_object_acl(self, bucket_name, object_name):
-        return self.connector.get_object_acl(bucket_name, object_name)
+        object_storage_instances = self.object_storage_manager.collect_cloud_service(params)
+        # for server_instance in server_instances:
+        #     print(server_instance.to_primitive())
+        print(object_storage_instances[0][0].to_primitive())
 
-    def get_bucket_cors(self, bucket_name):
-        return self.connector.get_bucket_cors(bucket_name)
+if __name__ == "__main__":
+    unittest.main(testRunner=RichTestRunner)
+
+
