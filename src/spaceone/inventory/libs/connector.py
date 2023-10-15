@@ -31,6 +31,7 @@ class NaverCloudConnector(BaseConnector):
         self.server_client = None
         self.clouddb_client = None
         self.autoscaling_client = None
+        self.object_storage_client = None
         self.set_connect(kwargs['secret_data'])
 
     def set_connect(self, secret_data: object) -> object:
@@ -55,5 +56,9 @@ class NaverCloudConnector(BaseConnector):
             return "ACTIVE"
 
         if self.clouddb_client is None:
+            self.set_connect(kwargs['secret_data'])
+            return "ACTIVE"
+
+        if self.object_storage_client is None:
             self.set_connect(kwargs['secret_data'])
             return "ACTIVE"

@@ -14,49 +14,33 @@ count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 count_by_project_conf = os.path.join(current_dir, 'widget/count_by_project.yml')
 
 cst_bucket = CloudServiceTypeResource()
-cst_bucket.name = 'Bucket'
-cst_bucket.provider = 'google_cloud'
-cst_bucket.group = 'CloudStorage'
+cst_bucket.name = 'Instance'
+cst_bucket.provider = 'naver_cloud'
+cst_bucket.group = 'Bucket'
 cst_bucket.service_code = 'CloudStorage'
+cst_bucket.labels = ['bucket']
+#cst_bucket.labels = ['Storage', 'Volume']
 cst_bucket.is_primary = True
 cst_bucket.is_major = True
-cst_bucket.labels = ['Storage', 'Volume']
 cst_bucket.tags = {
     'spaceone:icon': f'{ASSET_URL}/Cloud_Storage.svg',
-    'spaceone:display_name': 'CloudStorage'
 }
 
 cst_bucket._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
-        TextDyField.data_source('Location Type', 'data.location.location_type'),
-        TextDyField.data_source('Location', 'data.location.location_display'),
-        EnumDyField.data_source('Default Storage Class', 'data.default_storage_class',
-                                default_outline_badge=['Standard', 'Nearline', 'Coldline', 'Archive']),
         EnumDyField.data_source('Public Access', 'data.public_access', default_state={
             'safe': ['Subject to object ACLs', 'Not public'],
             'warning': ['Not authorized'],
             'alert': ['Public to internet'],
         }),
+
+
         TextDyField.data_source('Object Total Counts', 'data.object_count'),
         SizeField.data_source('Object Size', 'data.object_total_size'),
         TextDyField.data_source('Access Control', 'data.access_control'),
         TextDyField.data_source('Lifecycle rules', 'data.lifecycle_rule.lifecycle_rule_display'),
         EnumDyField.data_source('Requester Pays', 'data.requester_pays', default_badge={
             'indigo.500': ['OFF'], 'coral.600': ['ON']
-        }),
-        TextDyField.data_source('Retention Policy', 'data.retention_policy_display'),
-        TextDyField.data_source('Encryption', 'data.encryption'),
-        DateTimeDyField.data_source('Creation Time', 'data.creation_timestamp'),
-
-        # is_optional - Default
-        TextDyField.data_source('Link URL', 'data.links.link_url', options={
-            'is_optional': True
-        }),
-        TextDyField.data_source('Link for gsutil', 'data.links.gsutil_link', options={
-            'is_optional': True
-        }),
-        TextDyField.data_source('Retention Period', 'data.retention_policy_display', options={
-            'is_optional': True
         }),
 
     ],

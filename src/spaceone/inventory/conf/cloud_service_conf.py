@@ -14,6 +14,9 @@ CLOUD_SERVICE_GROUP_MAP = {
       'CloudDBManager'
 
     ],
+    'Storage': [
+        'ObjectStorageManager'
+    ]
 }
 
 # not use
