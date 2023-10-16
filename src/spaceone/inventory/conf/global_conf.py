@@ -11,6 +11,16 @@ CONNECTORS = {
 
     'CloudDBConnector': {
         'backend': 'spaceone.inventory.connector.database.CloudDBConnector'
+    },
+
+    'ObjectStorageConnector' : {
+        'backend': 'spaceone.inventory.connector.storage.ObjectStorageConnector'
+    },
+    'ManagementConnector': {
+        'backend': 'spaceone.inventory.connector.management.ManagementConnector'
+    },
+    'CdnConnector': {
+        'backend': 'spaceone.inventory.connector.content_delivery.CdnConnector'
     }
 }
 
