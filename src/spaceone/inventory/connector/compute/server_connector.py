@@ -17,7 +17,7 @@ class ServerConnector(NaverCloudConnector):
         get_server_instance_list_request = ncloud_server.GetServerInstanceListRequest()
 
         try:
-            api_response = self.client.get_server_instance_list(get_server_instance_list_request)
+            api_response = self.server_client.get_server_instance_list(get_server_instance_list_request)
             # print(api_response)
             for instance in api_response.server_instance_list:
                 instance_list.append(instance)
@@ -33,7 +33,7 @@ class ServerConnector(NaverCloudConnector):
         get_block_storage_instance_list_request = ncloud_server.GetBlockStorageInstanceListRequest()
 
         try:
-            api_response = self.client.get_block_storage_instance_list(get_block_storage_instance_list_request)
+            api_response = self.server_client.get_block_storage_instance_list(get_block_storage_instance_list_request)
             for instance in api_response.block_storage_instance_list:
                 storage_list.append(instance)
 
@@ -47,7 +47,7 @@ class ServerConnector(NaverCloudConnector):
         get_login_key_list_request = ncloud_server.GetLoginKeyListRequest()
 
         try:
-            api_response = self.client.get_login_key_list(get_login_key_list_request)
+            api_response = self.server_client.get_login_key_list(get_login_key_list_request)
             for instance in api_response.login_key_list:
                 login_key_list.append(instance)
 
