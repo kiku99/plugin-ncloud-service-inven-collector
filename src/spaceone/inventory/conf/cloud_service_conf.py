@@ -12,7 +12,9 @@ CLOUD_SERVICE_GROUP_MAP = {
     ],
     'Database': [
       'CloudDBManager'
-
+    ],
+    'Storage': [
+        'ObjectStorageManager'
     ],
     'Management': [
         'MonitoringManager'
