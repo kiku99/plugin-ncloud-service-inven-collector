@@ -1,1 +1,2 @@
 from spaceone.inventory.connector.compute.server_connector import ServerConnector
+from spaceone.inventory.connector.networking.vpc_connector import NetworkingConnector
