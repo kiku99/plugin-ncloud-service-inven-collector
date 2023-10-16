@@ -15,6 +15,9 @@ CONNECTORS = {
     'ManagementConnector': {
         'backend': 'spaceone.inventory.connector.management.ManagementConnector'
     },
+    'CdnConnector': {
+        'backend': 'spaceone.inventory.connector.content_delivery.CdnConnector'
+    },
 }
 
 LOG = {
