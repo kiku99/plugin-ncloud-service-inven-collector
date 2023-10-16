@@ -84,7 +84,7 @@ class ServerInstanceManager(NaverCloudManager):
 
         return {
             'storage': self.instance_conn.list_Storage_Instance(),
-            'loginKey': self.instance_conn.list_login_key(),
+            'login_key': self.instance_conn.list_login_key(),
         }
 
     def get_server_instance_resource(self, zone_info, instance, all_resources) -> ServerInstanceResource:
@@ -123,7 +123,7 @@ class ServerInstanceManager(NaverCloudManager):
         storages = all_resources.get('storage', [])
 
         # login keys
-        login_keys = all_resources.get('loginKey', [])
+        login_keys = all_resources.get('login_key', [])
 
         '''Get related resources from managers'''
         server_instance_manager_helper: ServerInstanceManagerResourceHelper = \
@@ -144,15 +144,15 @@ class ServerInstanceManager(NaverCloudManager):
         })
         '''
         server_data['data'].update({
-            'loginKey': login_key,
+            'login_key': login_key,
             'storage': storage_vos,
         })
 
         server_data.update({
             'account': account,
-            'instance_type': server_data.get('data', {}).get('compute', {}).get('serverInstanceType', {}),
-            'instance_size': server_data.get('data', {}).get('hardware', {}).get('cpuCount', 0),
-            'launched_at': server_data.get('data', {}).get('compute', {}).get('createDate', '')
+            'instance_type': server_data.get('data', {}).get('compute', {}).get('server_instance_type', {}),
+            'instance_size': server_data.get('data', {}).get('hardware', {}).get('cpu_count', 0),
+            'launched_at': server_data.get('data', {}).get('compute', {}).get('create_date', '')
         })
         return ServerInstanceResource(server_data, strict=False)
 
