@@ -11,7 +11,10 @@ CONNECTORS = {
 
     'CloudDBConnector': {
         'backend': 'spaceone.inventory.connector.database.CloudDBConnector'
-    }
+    },
+    'ManagementConnector': {
+        'backend': 'spaceone.inventory.connector.management.ManagementConnector'
+    },
 }
 
 LOG = {
