@@ -1,6 +1,6 @@
 ---
 cloud_service_group: Networking
-cloud_service_type: VPCNetworkConnector
+cloud_service_type: NetworkingConnector
 name: Count by Region
 query:
   aggregate:
