@@ -48,28 +48,28 @@ class NetworkingConnector(NaverCloudConnector):
 
         try:
             api_response = self.vpc_client.get_subnet_list(get_subnet_list_request)
-            for instance in api_response.block_storage_instance_list:
-                subnet_list.append(instance)
+            # for instance in api_response.block_storage_instance_list:
+            #     subnet_list.append(instance)
 
         except ApiException as e:
             print("Exception when calling V2Api->get_block_storage_instance_list: %s\n" % e)
 
-        return subnet_list
+        return api_response
 
-    #
-    # def Subnet_Detail(self):
-    #     subnet_detail = []
-    #     get_subnet_detail_request = ncloud_vpc.GetSubnetDetailRequest()
-    #
-    #     try:
-    #         api_response = self.vpc_client.get_subnet_detail(get_subnet_detail_request)
-    #         # print(api_response)
-    #         for instance in api_response.vpc_list:
-    #             subnet_detail.append(instance)
-    #     except ApiException as e:
-    #         print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
-    #
-    #     return subnet_detail
+
+    def Subnet_Detail(self):
+        subnet_detail = []
+        get_subnet_detail_request = ncloud_vpc.GetSubnetDetailRequest()
+
+        try:
+            api_response = self.vpc_client.get_subnet_detail(get_subnet_detail_request)
+            # print(api_response)
+            for instance in api_response.vpc_list:
+                subnet_detail.append(instance)
+        except ApiException as e:
+            print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
+
+        return subnet_detail
 
     def Network_AclList(self):
         network_aclList = []
@@ -78,13 +78,13 @@ class NetworkingConnector(NaverCloudConnector):
         try:
             api_response = self.vpc_client.get_network_acl_list(get_Network_AclList_request)
             # print(api_response)
-            for instance in api_response.vpc_list:
-                network_aclList.append(instance)
+            # for instance in api_response.vpc_list:
+            #     network_aclList.append(instance)
 
         except ApiException as e:
             print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
 
-        return network_aclList
+        return api_response
 
     def Network_AclDetail(self):
         network_aclDetail = []
@@ -101,21 +101,6 @@ class NetworkingConnector(NaverCloudConnector):
 
         return network_aclDetail
 
-    # def List_Network_Acl_Rule(self):
-    #     Network_AclRule_List = []
-    #     get_Network_AclRule_List_request = ncloud_vpc.GetNetworkAclRuleListRequest()
-    #
-    #     try:
-    #         api_response = self.vpc_client.get_network_acl_rule_list(get_Network_AclRule_List_request)
-    #         # print(api_response)
-    #         for instance in api_response.vpc_list:
-    #             Network_AclRule_List.append(instance)
-    #
-    #     except ApiException as e:
-    #         print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
-    #
-    #     return Network_AclRule_List
-
     def List_Nat_Gateway_Instance(self):
         Nat_Gateway_Instance_List = []
         get_Nat_Gateway_Instance_List_request = ncloud_vpc.GetNatGatewayInstanceListRequest()
@@ -123,13 +108,13 @@ class NetworkingConnector(NaverCloudConnector):
         try:
             api_response = self.vpc_client.get_nat_gateway_instance_list(get_Nat_Gateway_Instance_List_request)
             # print(api_response)
-            for instance in api_response.vpc_list:
-                Nat_Gateway_Instance_List.append(instance)
+            # for instance in api_response.vpc_list:
+            #     Nat_Gateway_Instance_List.append(instance)
 
         except ApiException as e:
             print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
 
-        return Nat_Gateway_Instance_List
+        return api_response
 
     # def Nat_Gateway_Instance_Detail(self):
     #     nat_gateway_instance_detail = []
@@ -146,6 +131,7 @@ class NetworkingConnector(NaverCloudConnector):
     #
     #     return nat_gateway_instance_detail
 
+
     def List_Vpc_Peering_Instance(self):
         Vpc_Peering_Instance_List = []
         get_Vpc_Peering_Instance_List_request = ncloud_vpc.GetVpcPeeringInstanceListRequest()
@@ -153,13 +139,13 @@ class NetworkingConnector(NaverCloudConnector):
         try:
             api_response = self.vpc_client.get_vpc_peering_instance_list(get_Vpc_Peering_Instance_List_request)
             # print(api_response)
-            for instance in api_response.vpc_list:
-                Vpc_Peering_Instance_List.append(instance)
+            # for instance in api_response.vpc_list:
+            #     Vpc_Peering_Instance_List.append(instance)
 
         except ApiException as e:
             print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
 
-        return Vpc_Peering_Instance_List
+        return api_response
 
     # def Vpc_Peering_Instance_Detail(self):
     #     vpc_peering_instance_detail = []
@@ -183,13 +169,13 @@ class NetworkingConnector(NaverCloudConnector):
         try:
             api_response = self.vpc_client.get_route_table_list(get_Route_Table_List_request)
             # print(api_response)
-            for instance in api_response.vpc_list:
-                route_table_list.append(instance)
+            # for instance in api_response.vpc_list:
+            #     route_table_list.append(instance)
 
         except ApiException as e:
             print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
 
-        return route_table_list
+        return api_response
 
     # def Route_Table_Detail(self):
     #     route_table_detail = []
