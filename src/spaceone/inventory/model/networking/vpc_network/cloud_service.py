@@ -89,15 +89,15 @@ instance_template_meta = CloudServiceMeta.set_layouts([vpc_network_detail_meta,
                                                        vpc_network_peering_meta])
 
 
-class ComputeResource(CloudServiceResource):
-    cloud_service_group = StringType(default='ComputeServer')
+class VPCResource(CloudServiceResource):
+    cloud_service_group = StringType(default='Networking')
 
 
-class ServerInstanceResource(ComputeResource):
-    cloud_service_type = StringType(default='Instance')
-    data = ModelType(ServerInstance)
-    _metadata = ModelType(CloudServiceMeta, default=server_instance_meta, serialized_name='metadata')
+class VPCNetworkResource(VPCResource):
+    cloud_service_type = StringType(default='VPCNetwork')
+    data = ModelType(VPC)
+    _metadata = ModelType(CloudServiceMeta, default=instance_template_meta, serialized_name='metadata')
 
 
-class ServerInstanceResponse(CloudServiceResponse):
-    resource = PolyModelType(ServerInstanceResource)
+class VPCNetworkResponse(CloudServiceResponse):
+    resource = PolyModelType(VPCNetworkResource)
