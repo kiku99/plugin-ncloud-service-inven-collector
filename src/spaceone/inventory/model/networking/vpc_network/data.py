@@ -69,11 +69,11 @@ class VPC(Model):
     vpc_status = StringType()
     region_code = StringType()
     create_date = StringType()
-    subnet_list = ListType(StringType())
+    subnet_list = ListType(ModelType(Subnet))
     vpc_peering_list = ListType(ModelType(Peering))
     round_table_list = ListType(ModelType(RouteTable))
     nat_gateway_instance_list = ListType(ModelType(NatGatewayInstance))
-    network_acl_list = ListType(ModelType(Peering))
+    network_acl_list = ListType(ModelType(NetworkAcl))
 
 
 
