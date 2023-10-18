@@ -6,6 +6,7 @@ from spaceone.inventory.libs.schema.cloud_service import CloudServiceResource
 
 class Subnet(Model):
     subnet_no = StringType()
+    vpc_no = StringType()
     zone_code = StringType()
     subnet_name = StringType()
     subnet = StringType()
