@@ -41,6 +41,7 @@ class VPCNetworkManager(NaverCloudManager):
         self.vpc_conn.set_connect(params['secret_data'])
 
         vpc_list = self.vpc_conn.list_vpc()
+        Route_table_list = self.vpc_conn.List_Route_Table()
 
 
         # access_control_group_list = self._get_access_control_group(instance.access_control_group_list)
@@ -53,9 +54,9 @@ class VPCNetworkManager(NaverCloudManager):
                 ##################################
 
                 network_vpc_name = vpc.vpc_name
-                subnet_list = self._get_subnet_list(vpc.subnet_list)
+                # subnet_list = self._get_subnet_list(vpc.subnet_list)
                 # vpc_peering_list = self.(vpc.vpc_peering_list)
-                # round_table_list = self._get_subnet_list(vpc.round_table_list)
+                round_table_list = self._get_subnet_list(vpc.round_table_list)
                 # nat_gateway_instance_list = self._get_subnet_list(vpc.nat_gateway_instance_list)
                 # network_acl_list = self._get_subnet_list(vpc.network_acl_list)
 
@@ -67,9 +68,9 @@ class VPCNetworkManager(NaverCloudManager):
                         'vpc_status': vpc.vpc_status.code,
                         'region_code': vpc.region_code,
                         'create_date': vpc.create_date,
-                        'subnet_list': subnet_list,
+                        # 'subnet_list': subnet_list,
                         # 'vpc_peering_list':  vpc_peering_list,
-                        # 'round_table_list': round_table_list,
+                        'round_table_list': round_table_list,
                         # 'nat_gateway_instance_list': nat_gateway_instance_list,
                         # 'network_acl_list': network_acl_list
 
@@ -111,10 +112,10 @@ class VPCNetworkManager(NaverCloudManager):
     #     }
 
     @staticmethod
-    def _get_subnet_list(subnets):
+    def _get_subnet_list(sub_net_list):
         # Convert database list(dict) -> list(database object)
         subnet_list = []
-        for subnet in subnets:
+        for subnet in sub_net_list:
             subnet_data = {
                 'subnet_no': subnet.subnet_no,
                 'vpc_no': subnet.vpc_no,
@@ -132,6 +133,23 @@ class VPCNetworkManager(NaverCloudManager):
 
         return subnet_list
 
+    @staticmethod
+    def _get_route_table_list(Route_table_list):
+        # Convert database list(dict) -> list(database object)
+        route_table_list = []
+        for route_table in Route_table_list:
+            route_table_data = {
+                'route_table_name': route_table.route_table_name,
+                'route_table_no': route_table.route_table_no,
+                'is_default': route_table.is_default,
+                'supported_subnet_type': route_table.supported_subnet_type,
+                'route_table_status': route_table.route_table_status.code,
+                'route_table_description': route_table.route_table_description,
+
+            }
+            route_table_list.append(route_table_data)
+
+        return route_table_list
     # @staticmethod
     # def _get_vpc_peering_list(peerings):
     #     # Convert database list(dict) -> list(database object)
