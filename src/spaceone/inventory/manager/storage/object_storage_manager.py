@@ -3,18 +3,18 @@ import logging
 from typing import Tuple, List
 
 from datetime import datetime, timedelta
-from spaceone.core.manager import BaseManager
+from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.storage.object_storage_connector import ObjectStorageConnector
 from spaceone.inventory.model.storage.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.model.storage.cloud_service import ObjectStorageResource, ObjectStorageResponse
-from spaceone.inventory.model.storage.data import BucketInstance
+from spaceone.inventory.model.storage.data import BucketGroup
 from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class ObjectStorageManager(BaseManager):
+class ObjectStorageManager(NaverCloudManager):
     connector_name = 'ObjectStorageConnector'
     cloud_service_types = CLOUD_SERVICE_TYPES
     instance_conn = None
@@ -35,46 +35,85 @@ class ObjectStorageManager(BaseManager):
         resource_responses = []
         error_responses = []
         start_time = time.time()
+        bucket_dict = {}
 
         #################################
         # 0. Gather All Related Resources
-        ##################################s
+        ##################################
         self.instance_conn: ObjectStorageConnector = self.locator.get_connector(self.connector_name, **params)
-        self.instance_conn.set_connect(**params)
+        self.instance_conn.storage_connect(params['secret_data'])
 
         buckets = self.instance_conn.list_buckets()
-        objects = self.instance_conn.list_objects(**params)
-        bucket_cors = self.instance_conn.get_bucket_cors(**params)
+        objects = self.instance_conn.list_objects(params['bucket_name'])
+        bucket_cors = self.instance_conn.get_bucket_cors(params['bucket_name'])
+
+        # print(buckets)
+        # print(buckets['Owner']['ID'])
+        # buckets_list = buckets.get('Buckets', [])
+        # print(buckets_list)
+        # print(buckets_list[0])
+        # print("어디서 출력이 되ㅡㄴ거야")
+
+        #버킷 기준으로 다 가져와야지
+        for bucket_info in buckets['Buckets']:
+            bucket_name = bucket_info['Name']
+            creation_date = bucket_info['CreationDate']
+
+            bucket_dict = {
+                'Name': bucket_name,
+                'CreationDate': creation_date
+            }
+            print("출력", bucket_dict)
+        convert_buckets_to_dict(buckets, bucket_dict)
+        print("마지막 경로!", bucket_dict)
 
         for bucket_group in buckets:
+            # print(bucket_group)
+            # request_id = buckets['ResponseMetadata']['RequestId']
+            # print(request_id)
+            # Owner = buckets['Owner']['DisplayName']
+            # print(Owner)
+            # b = bucket_dict['bucket-a']['CreationDate']
+            # print(b)
+            #여기까지 잘됨
             try:
                 ##################################
                 # 1. Set Basic Information
                 ##################################
-                bucket_info = bucket_group.ResponseMetadata.Buckets
-                bucket_name = bucket_group.ResponseMetadata.Buckets.Name
 
-                bucket_group = {
-                    #'Response_Metadata': bucket_group.ResponseMetadata,
-                    'Request_Id': bucket_group.ResponseMetadata.RequestId,
-                    'Host_Id': bucket_group.ResponseMetadata.HostId,
-                    'HTTP_StatusCode': bucket_group.ResponseMetadata.HTTPStatusCode,
-                    #'HTTP_Headers': bucket_group.ResponseMetadata.HTTPHeaders,
-                    'Date': bucket_group.ResponseMetadata.HTTPHeaders.date,
-                    'Bucket_name' : bucket_group.Buckets.Name,
-                    'Bucket_CreationDate': bucket_group.CreationDate,
-                    'Retry_Attempts': bucket_group.ResponseMetadata.RetryAttempts,
-                    'Buckets_info': bucket_group.Buckets,
-                    'Bucket_owner': bucket_group.Buckets.Owner,
-                    'Display_Name': bucket_group.Buckets.Owner.DisplayName,
-                    'ID_': bucket_group.Buckets.Owner.ID
+                data = {
+                    'ResponseMetadata': {
+                        'request_id': buckets['ResponseMetadata']['RequestId'],
+                        'host_id': buckets['ResponseMetadata']['HostId'],
+                        'http_statuscode': buckets['ResponseMetadata']['HTTPStatusCode'],
+                        'http_headers': {
+                            'date': buckets['ResponseMetadata']['HTTPHeaders']['date'],
+                            'x-clv-request-id': buckets['ResponseMetadata']['HTTPHeaders']['x-clv-request-id'],
+                            'x-clv-s3-version': buckets['ResponseMetadata']['HTTPHeaders']['x-clv-s3-version'],
+                            'accept-ranges': buckets['ResponseMetadata']['HTTPHeaders']['accept-ranges'],
+                            'x-amz-request-id': buckets['ResponseMetadata']['HTTPHeaders']['x-amz-request-id'],
+                            'content-type': buckets['ResponseMetadata']['HTTPHeaders']['content-type'],
+                            'content-length': buckets['ResponseMetadata']['HTTPHeaders']['content-length'],
+                        },
+                        'retry_attempts': buckets['ResponseMetadata']['RetryAttempts']
+                    },
+                    'Buckets': {
+                        'name': bucket_dict['bucket-a']['Name'],
+                        'creation_date':  bucket_dict['bucket-a']['CreationDate']
+                    },
+                    'Owner':
+                        {'display_name': buckets['Owner']['DisplayName'],
+                         'id': buckets['Owner']['ID']
+                        }
                 }
-
+                bucket_name = bucket_dict['bucket-a']['Name']
+                print("버킷 네임 :", bucket_name)
 
                 ##################################
                 # 2. Make Base Data
                 ##################################
-                bucket_data = BucketInstance(bucket_group, strict=False)
+                bucket_data = BucketGroup(buckets, strict=False)
+                print("버킷 데이터", bucket_data)
 
                 ##################################
                 # 3. Make Return Resource
@@ -83,17 +122,19 @@ class ObjectStorageManager(BaseManager):
                     'name': bucket_name,
                     'data': bucket_data,
                 })
+                print("버킷 리소스", bucket_resource)
 
                 ##################################
                 # 4. Make Collected Region Code
                 ##################################
                 resource_responses.append(ObjectStorageResponse({'resource': bucket_resource}))
+                print("4번 응답")
 
                 ##################################
                 # 5. Make Resource Response Object
-                # List of LoadBalancingResponse Object
                 ##################################
                 resource_responses.append(ObjectStorageResponse({'resource': bucket_resource}))
+                print("5번 응답")
 
             except Exception as e:
                 _LOGGER.error(
@@ -106,6 +147,18 @@ class ObjectStorageManager(BaseManager):
         return resource_responses, error_responses
 
 
+
+def convert_buckets_to_dict(buckets, bucket_dict):
+
+    for bucket_info in buckets['Buckets']:
+        bucket_name = bucket_info['Name']
+        creation_date = bucket_info['CreationDate']
+
+        bucket_dict[bucket_name] = {
+            'Name': bucket_name,
+            'CreationDate': creation_date
+        }
+        # print(bucket_dict)
 
 
 
