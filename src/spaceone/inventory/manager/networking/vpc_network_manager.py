@@ -117,12 +117,13 @@ class VPCNetworkManager(NaverCloudManager):
         for subnet in subnets:
             subnet_data = {
                 'subnet_no': subnet.subnet_no,
+                'vpc_no': subnet.vpc_no,
                 'zone_code': subnet.zone_code,
                 'subnet_name': subnet.subnet_name,
-                'subnet_status': subnet.subnet_status,
+                'subnet_status': subnet.subnet_status.code,
                 'create_date': subnet.create_date,
-                'subnet_type': subnet.subnet_type,
-                'usage_type': subnet.usage_type,
+                'subnet_type': subnet.subnet_type.code,
+                'usage_type': subnet.usage_type.code,
                 'network_acl_no': subnet.network_acl_no,
 
 
