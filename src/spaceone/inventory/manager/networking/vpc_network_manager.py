@@ -53,7 +53,12 @@ class VPCNetworkManager(NaverCloudManager):
                 ##################################
 
                 network_vpc_name = vpc.vpc_name
-                subnet_list = self._get_subnet_list(vpc.list_Subnet)
+                subnet_list = self._get_subnet_list(vpc.subnet_list)
+                # vpc_peering_list = self.(vpc.vpc_peering_list)
+                # round_table_list = self._get_subnet_list(vpc.round_table_list)
+                # nat_gateway_instance_list = self._get_subnet_list(vpc.nat_gateway_instance_list)
+                # network_acl_list = self._get_subnet_list(vpc.network_acl_list)
+
 
                 vpc_info = {
                         'vpc_no': vpc.vpc_no,
