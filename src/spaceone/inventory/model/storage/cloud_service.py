@@ -28,7 +28,7 @@ class StorageGroupResource(CloudServiceResource):
 
 class ObjectStorageResource(StorageGroupResource):
     cloud_service_type = StringType(default='Bucket')
-    data = ModelType(BucketGroup) #여기 괄호 수정함
+    data = ModelType(BucketGroup)
     _metadata = ModelType(CloudServiceMeta, default=bucket_instance_meta, serialized_name='metadata')
 
 

@@ -47,35 +47,10 @@ class ObjectStorageManager(NaverCloudManager):
         objects = self.instance_conn.list_objects(params['bucket_name'])
         bucket_cors = self.instance_conn.get_bucket_cors(params['bucket_name'])
 
-        # print(buckets)
-        # print(buckets['Owner']['ID'])
-        # buckets_list = buckets.get('Buckets', [])
-        # print(buckets_list)
-        # print(buckets_list[0])
-        # print("어디서 출력이 되ㅡㄴ거야")
-
-        #버킷 기준으로 다 가져와야지
-        for bucket_info in buckets['Buckets']:
-            bucket_name = bucket_info['Name']
-            creation_date = bucket_info['CreationDate']
-
-            bucket_dict = {
-                'Name': bucket_name,
-                'CreationDate': creation_date
-            }
-            print("출력", bucket_dict)
+        #Buckets 형태를 list->dict로 바꾸기
         convert_buckets_to_dict(buckets, bucket_dict)
-        print("마지막 경로!", bucket_dict)
 
         for bucket_group in buckets:
-            # print(bucket_group)
-            # request_id = buckets['ResponseMetadata']['RequestId']
-            # print(request_id)
-            # Owner = buckets['Owner']['DisplayName']
-            # print(Owner)
-            # b = bucket_dict['bucket-a']['CreationDate']
-            # print(b)
-            #여기까지 잘됨
             try:
                 ##################################
                 # 1. Set Basic Information
@@ -107,13 +82,11 @@ class ObjectStorageManager(NaverCloudManager):
                         }
                 }
                 bucket_name = bucket_dict['bucket-a']['Name']
-                print("버킷 네임 :", bucket_name)
 
                 ##################################
                 # 2. Make Base Data
                 ##################################
                 bucket_data = BucketGroup(buckets, strict=False)
-                print("버킷 데이터", bucket_data)
 
                 ##################################
                 # 3. Make Return Resource
@@ -122,19 +95,16 @@ class ObjectStorageManager(NaverCloudManager):
                     'name': bucket_name,
                     'data': bucket_data,
                 })
-                print("버킷 리소스", bucket_resource)
 
                 ##################################
                 # 4. Make Collected Region Code
                 ##################################
                 resource_responses.append(ObjectStorageResponse({'resource': bucket_resource}))
-                print("4번 응답")
 
                 ##################################
                 # 5. Make Resource Response Object
                 ##################################
                 resource_responses.append(ObjectStorageResponse({'resource': bucket_resource}))
-                print("5번 응답")
 
             except Exception as e:
                 _LOGGER.error(
@@ -147,7 +117,6 @@ class ObjectStorageManager(NaverCloudManager):
         return resource_responses, error_responses
 
 
-
 def convert_buckets_to_dict(buckets, bucket_dict):
 
     for bucket_info in buckets['Buckets']:
@@ -158,7 +127,7 @@ def convert_buckets_to_dict(buckets, bucket_dict):
             'Name': bucket_name,
             'CreationDate': creation_date
         }
-        # print(bucket_dict)
+
 
 
 

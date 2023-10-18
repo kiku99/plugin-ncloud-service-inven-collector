@@ -16,11 +16,6 @@ class TestObjectStorageConnector(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         config.init_conf(package='spaceone.inventory')
-        # cls.object_storage_connector = ObjectStorageConnector(
-        #             endpoint_url='https://kr.object.ncloudstorage.com',
-        #             ncloud_access_key_id = cls.secret_data['ncloud_access_key_id'],
-        #             ncloud_secret_access_key=cls.secret_data['ncloud_secret_key']
-        #         )
         cls.schema = 'naver_client_secret'
         cls.object_storage_connector = ObjectStorageConnector(secret_data=cls.secret_data)
         super().setUpClass()

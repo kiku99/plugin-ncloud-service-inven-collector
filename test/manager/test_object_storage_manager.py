@@ -18,7 +18,7 @@ class TestServerInstanceManager(TestCase):
     @classmethod
     def setUpClass(cls):
         config.init_conf(package='spaceone.inventory')
-        # cls.schema = 'naver_client_secret'
+        cls.schema = 'naver_client_secret'
         cls.object_storage_connector = ObjectStorageConnector(secret_data=cls.secret_data)
         cls.object_storage_manager = ObjectStorageManager()
 
