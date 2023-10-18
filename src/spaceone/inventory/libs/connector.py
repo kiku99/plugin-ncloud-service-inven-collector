@@ -4,13 +4,13 @@ import ncloud_autoscaling
 import ncloud_clouddb
 import ncloud_server
 import logging
+import boto3
 from spaceone.core.connector import BaseConnector
 
 __all__ = ['NaverCloudConnector']
 
 _LOGGER = logging.getLogger(__name__)
 DEFAULT_SCHEMA = 'naver_client_secret'
-
 
 class NaverCloudConnector(BaseConnector):
 
@@ -33,6 +33,7 @@ class NaverCloudConnector(BaseConnector):
         self.autoscaling_client = None
         self.object_storage_client = None
         self.set_connect(kwargs['secret_data'])
+        self.storage_connect(kwargs['secret_data'])
 
     def set_connect(self, secret_data: object) -> object:
         configuration_server = ncloud_server.Configuration()
@@ -49,6 +50,16 @@ class NaverCloudConnector(BaseConnector):
         configuration_autoscaling.access_key = secret_data['ncloud_access_key_id']
         configuration_autoscaling.secret_key = secret_data['ncloud_secret_key']
         self.autoscaling_client = ncloud_autoscaling.V2Api(ncloud_autoscaling.ApiClient(configuration_autoscaling))
+
+    def storage_connect(self, secret_data: object) -> object:
+        object_endpoint_url = 'https://kr.object.ncloudstorage.com'
+        object_storage_access_key = secret_data['ncloud_access_key_id']
+        object_storage_secret_key = secret_data['ncloud_secret_key']
+        self.object_storage_client = boto3.client(service_name='s3',
+                                                  endpoint_url=object_endpoint_url,
+                                                  aws_access_key_id=object_storage_access_key,
+                                                  aws_secret_access_key=object_storage_secret_key
+                                                  )
 
     def verify(self, **kwargs):
         if self.server_client is None:
