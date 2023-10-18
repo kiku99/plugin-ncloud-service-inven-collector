@@ -45,7 +45,7 @@ class VPCNetworkManager(NaverCloudManager):
 
         # access_control_group_list = self._get_access_control_group(instance.access_control_group_list)
         # cloud_server_list = self._get_cloud_db_server_info(instance.cloud_db_server_instance_list)
-        #
+
         for vpc in vpc_list:
             try:
                 ##################################
@@ -53,7 +53,7 @@ class VPCNetworkManager(NaverCloudManager):
                 ##################################
 
                 network_vpc_name = vpc.vpc_name
-                subnet_list = self._get_subnet_list(vpc.subnet)
+                subnet_list = self._get_subnet_list(vpc.list_Subnet)
 
                 vpc_info = {
                         'vpc_no': vpc.vpc_no,
