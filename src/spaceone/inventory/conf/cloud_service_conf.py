@@ -7,7 +7,17 @@ FILTER_FORMAT = []
 
 CLOUD_SERVICE_GROUP_MAP = {
     'ComputeServer': [
-        'ServerInstanceManager'
+        'ServerInstanceManager',
+        'AutoscalingManager'
+    ],
+    'Database': [
+      'CloudDBManager'
+    ],
+    'Storage': [
+        'ObjectStorageManager'
+    ],
+    'Management': [
+        'MonitoringManager'
     ]
 }
 
