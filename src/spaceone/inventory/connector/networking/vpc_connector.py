@@ -116,21 +116,6 @@ class NetworkingConnector(NaverCloudConnector):
 
         return Nat_Gateway_Instance_List
 
-    # def Nat_Gateway_Instance_Detail(self):
-    #     nat_gateway_instance_detail = []
-    #     get_Nat_Gateway_Instance_Detail_request = ncloud_vpc.GetNatGatewayInstanceDetailRequest()
-    #
-    #     try:
-    #         api_response = self.vpc_client.get_Nat_Gateway_Instance_Detail(get_Nat_Gateway_Instance_Detail_request)
-    #         # print(api_response)
-    #         for instance in api_response.vpc_list:
-    #             nat_gateway_instance_detail.append(instance)
-    #
-    #     except ApiException as e:
-    #         print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
-    #
-    #     return nat_gateway_instance_detail
-
 
     def List_Vpc_Peering_Instance(self):
         Vpc_Peering_Instance_List = []
@@ -147,35 +132,20 @@ class NetworkingConnector(NaverCloudConnector):
 
         return api_response
 
-    # def Vpc_Peering_Instance_Detail(self):
-    #     vpc_peering_instance_detail = []
-    #     get_Vpc_Peering_Instance_Detail_request = ncloud_vpc.GetVpcPeeringInstanceDetailResponse()
-    #
-    #     try:
-    #         api_response = self.vpc_client.getsubnet_detail(get_Vpc_Peering_Instance_Detail_request)
-    #         # print(api_response)
-    #         for instance in api_response.vpc_list:
-    #             vpc_peering_instance_detail.append(instance)
-    #
-    #     except ApiException as e:
-    #         print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
-    #
-    #     return vpc_peering_instance_detail
-
     def List_Route_Table(self):
         route_table_list = []
         get_Route_Table_List_request = ncloud_vpc.GetRouteTableListRequest()
 
         try:
             api_response = self.vpc_client.get_route_table_list(get_Route_Table_List_request)
-            # print(api_response)
-            # for instance in api_response.vpc_list:
-            #     route_table_list.append(instance)
+            print(api_response)
+            for instance in api_response.route_table_list:
+                route_table_list.append(instance)
 
         except ApiException as e:
-            print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
+            print("Exception when calling V2Api->get_route_table_list: %s\n" % e)
 
-        return api_response
+        return route_table_list
 
     # def Route_Table_Detail(self):
     #     route_table_detail = []
