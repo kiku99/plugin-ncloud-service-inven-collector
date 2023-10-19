@@ -19,7 +19,6 @@ class NetworkingConnector(NaverCloudConnector):
 
         try:
             api_response = self.vpc_client.get_vpc_list(get_vpc_list_request)
-            # print(api_response)
             for instance in api_response.vpc_list:
                 vpc_list.append(instance)
 
@@ -38,7 +37,7 @@ class NetworkingConnector(NaverCloudConnector):
                 vpc_detail.append(instance)
 
         except ApiException as e:
-            print("Exception when calling V2Api->get_block_storage_instance_list: %s\n" % e)
+            print("Exception when calling V2Api->get_vpc_detail_list: %s\n" % e)
 
         return vpc_detail
 
@@ -52,7 +51,7 @@ class NetworkingConnector(NaverCloudConnector):
                 subnet_list.append(instance)
 
         except ApiException as e:
-            print("Exception when calling V2Api->get_block_storage_instance_list: %s\n" % e)
+            print("Exception when calling V2Api->get_subnet_list: %s\n" % e)
 
         return subnet_list
 
@@ -67,7 +66,7 @@ class NetworkingConnector(NaverCloudConnector):
             for instance in api_response.subnet_list:
                 subnet_detail.append(instance)
         except ApiException as e:
-            print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
+            print("Exception when calling V2Api->get_sunet_detail_list: %s\n" % e)
 
         return subnet_detail
 
@@ -82,7 +81,7 @@ class NetworkingConnector(NaverCloudConnector):
                 network_aclList.append(instance)
 
         except ApiException as e:
-            print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
+            print("Exception when calling V2Api->get_network_acl_list: %s\n" % e)
 
         return network_aclList
 
@@ -97,7 +96,7 @@ class NetworkingConnector(NaverCloudConnector):
                 network_aclDetail.append(instance)
 
         except ApiException as e:
-            print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
+            print("Exception when calling V2Api->get_network_acl_detail_list: %s\n" % e)
 
         return network_aclDetail
 
