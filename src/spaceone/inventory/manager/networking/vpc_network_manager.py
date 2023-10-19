@@ -54,11 +54,12 @@ class VPCNetworkManager(NaverCloudManager):
                 ##################################
 
                 network_vpc_name = vpc.vpc_name
+                # vpc_create_date = vpc.create_date
+                matched_route_table_list = self._get_matched_route_table_list(Route_table_list, network_vpc_name)
                 # subnet_list = self._get_subnet_list(vpc.subnet_list)
                 # vpc_peering_list = self.(vpc.vpc_peering_list)
                 # nat_gateway_instance_list = self._get_subnet_list(vpc.nat_gateway_instance_list)
                 # network_acl_list = self._get_subnet_list(vpc.network_acl_list)
-                matched_route_table_list = self._get_matched_route_table_list(Route_table_list, network_vpc_name)
 
                 vpc_info = {
                         'vpc_no': vpc.vpc_no,
@@ -87,6 +88,7 @@ class VPCNetworkManager(NaverCloudManager):
                 ##################################
                 vpc_network_resource = VPCNetworkResource({
                     'name': network_vpc_name,
+                    # 'launched_at': vpc_create_date,
                     'data': vpc_data
                 })
 
@@ -103,34 +105,34 @@ class VPCNetworkManager(NaverCloudManager):
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
         return resource_responses, error_responses
 
-    def get_list_resources(self) -> dict:
-
-        return {
-            'vpc': self.vpc_conn.list_vpc(),
-            'subnet': self.vpc_conn.list_Subnet(),
-        }
-
-    @staticmethod
-    def _get_subnet_list(sub_net_list):
-        # Convert database list(dict) -> list(database object)
-        subnet_list = []
-        for subnet in sub_net_list:
-            subnet_data = {
-                'subnet_no': subnet.subnet_no,
-                'vpc_no': subnet.vpc_no,
-                'zone_code': subnet.zone_code,
-                'subnet_name': subnet.subnet_name,
-                'subnet_status': subnet.subnet_status.code,
-                'create_date': subnet.create_date,
-                'subnet_type': subnet.subnet_type.code,
-                'usage_type': subnet.usage_type.code,
-                'network_acl_no': subnet.network_acl_no,
-
-
-            }
-            subnet_list.append(subnet_data)
-
-        return subnet_list
+    # def get_list_resources(self) -> dict:
+    #
+    #     return {
+    #         'vpc': self.vpc_conn.list_vpc(),
+    #         'subnet': self.vpc_conn.list_Subnet(),
+    #     }
+    #
+    # @staticmethod
+    # def _get_subnet_list(sub_net_list):
+    #     # Convert database list(dict) -> list(database object)
+    #     subnet_list = []
+    #     for subnet in sub_net_list:
+    #         subnet_data = {
+    #             'subnet_no': subnet.subnet_no,
+    #             'vpc_no': subnet.vpc_no,
+    #             'zone_code': subnet.zone_code,
+    #             'subnet_name': subnet.subnet_name,
+    #             'subnet_status': subnet.subnet_status.code,
+    #             'create_date': subnet.create_date,
+    #             'subnet_type': subnet.subnet_type.code,
+    #             'usage_type': subnet.usage_type.code,
+    #             'network_acl_no': subnet.network_acl_no,
+    #
+    #
+    #         }
+    #         subnet_list.append(subnet_data)
+    #
+    #     return subnet_list
 
     @staticmethod
     def _get_matched_route_table_list(Route_table_list, network_vpc_group):
