@@ -56,10 +56,9 @@ class VPCNetworkManager(NaverCloudManager):
                 network_vpc_name = vpc.vpc_name
                 # subnet_list = self._get_subnet_list(vpc.subnet_list)
                 # vpc_peering_list = self.(vpc.vpc_peering_list)
-                round_table_list = self._get_subnet_list(vpc.round_table_list)
                 # nat_gateway_instance_list = self._get_subnet_list(vpc.nat_gateway_instance_list)
                 # network_acl_list = self._get_subnet_list(vpc.network_acl_list)
-
+                matched_route_table_list = self._get_matched_route_table_list(Route_table_list, network_vpc_name)
 
                 vpc_info = {
                         'vpc_no': vpc.vpc_no,
@@ -70,7 +69,7 @@ class VPCNetworkManager(NaverCloudManager):
                         'create_date': vpc.create_date,
                         # 'subnet_list': subnet_list,
                         # 'vpc_peering_list':  vpc_peering_list,
-                        'round_table_list': round_table_list,
+                        'round_table_list': matched_route_table_list,
                         # 'nat_gateway_instance_list': nat_gateway_instance_list,
                         # 'network_acl_list': network_acl_list
 
@@ -104,12 +103,12 @@ class VPCNetworkManager(NaverCloudManager):
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
         return resource_responses, error_responses
 
-    # def get_list_resources(self) -> dict:
-    #
-    #     return {
-    #         'vpc': self.vpc_conn.list_vpc(),
-    #         'subnet': self.vpc_conn.list_Subnet(),
-    #     }
+    def get_list_resources(self) -> dict:
+
+        return {
+            'vpc': self.vpc_conn.list_vpc(),
+            'subnet': self.vpc_conn.list_Subnet(),
+        }
 
     @staticmethod
     def _get_subnet_list(sub_net_list):
@@ -134,22 +133,23 @@ class VPCNetworkManager(NaverCloudManager):
         return subnet_list
 
     @staticmethod
-    def _get_route_table_list(Route_table_list):
+    def _get_matched_route_table_list(Route_table_list, network_vpc_group):
         # Convert database list(dict) -> list(database object)
-        route_table_list = []
+        route_table_list_info = []
         for route_table in Route_table_list:
-            route_table_data = {
-                'route_table_name': route_table.route_table_name,
-                'route_table_no': route_table.route_table_no,
-                'is_default': route_table.is_default,
-                'supported_subnet_type': route_table.supported_subnet_type,
-                'route_table_status': route_table.route_table_status.code,
-                'route_table_description': route_table.route_table_description,
+            if network_vpc_group == route_table.network_vpc_name:
+                route_table = {
+                    'route_table_name': route_table.route_table_name,
+                    'route_table_no': route_table.route_table_no,
+                    'is_default': route_table.is_default,
+                    'supported_subnet_type': route_table.supported_subnet_type,
+                    'route_table_status': route_table.route_table_status.code,
+                    'route_table_description': route_table.route_table_description,
 
             }
-            route_table_list.append(route_table_data)
+            route_table_list_info.append(route_table)
 
-        return route_table_list
+        return route_table_list_info
     # @staticmethod
     # def _get_vpc_peering_list(peerings):
     #     # Convert database list(dict) -> list(database object)
