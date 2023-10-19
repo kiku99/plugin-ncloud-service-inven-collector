@@ -124,13 +124,13 @@ class NetworkingConnector(NaverCloudConnector):
         try:
             api_response = self.vpc_client.get_vpc_peering_instance_list(get_Vpc_Peering_Instance_List_request)
             print(api_response)
-            # for instance in api_response.:
-            #     Vpc_Peering_Instance_List.append(instance)
+            for instance in api_response.vpc_peering_instance_list:
+                Vpc_Peering_Instance_List.append(instance)
 
         except ApiException as e:
             print("Exception when calling V2Api->get_server_instance_list: %s\n" % e)
 
-        return api_response
+        return Vpc_Peering_Instance_List
 
     def List_Route_Table(self):
         route_table_list = []
