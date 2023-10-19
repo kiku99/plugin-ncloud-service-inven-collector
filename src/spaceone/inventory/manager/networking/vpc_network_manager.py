@@ -41,7 +41,7 @@ class VPCNetworkManager(NaverCloudManager):
         self.vpc_conn.set_connect(params['secret_data'])
 
         vpc_list = self.vpc_conn.list_vpc()
-        Route_table_list = self.vpc_conn.List_Route_Table()
+        Route_Table_List = self.vpc_conn.List_Route_Table()
 
 
         # access_control_group_list = self._get_access_control_group(instance.access_control_group_list)
@@ -55,7 +55,7 @@ class VPCNetworkManager(NaverCloudManager):
 
                 network_vpc_name = vpc.vpc_name
                 # vpc_create_date = vpc.create_date
-                matched_route_table_list = self._get_matched_route_table_list(Route_table_list, network_vpc_name)
+                matched_route_table_list = self._get_matched_route_table_list(Route_Table_List, network_vpc_name)
                 # subnet_list = self._get_subnet_list(vpc.subnet_list)
                 # vpc_peering_list = self.(vpc.vpc_peering_list)
                 # nat_gateway_instance_list = self._get_subnet_list(vpc.nat_gateway_instance_list)
@@ -74,8 +74,6 @@ class VPCNetworkManager(NaverCloudManager):
                         # 'nat_gateway_instance_list': nat_gateway_instance_list,
                         # 'network_acl_list': network_acl_list
 
-                    # 'productCodeList': product_list,
-                    # 'configGroupList': config_group_info
                 }
 
                 ##################################
@@ -105,7 +103,8 @@ class VPCNetworkManager(NaverCloudManager):
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
         return resource_responses, error_responses
 
-    # def get_list_resources(self) -> dict:
+
+    #   def get_list_resources(self) -> dict:
     #
     #     return {
     #         'vpc': self.vpc_conn.list_vpc(),
@@ -135,10 +134,10 @@ class VPCNetworkManager(NaverCloudManager):
     #     return subnet_list
 
     @staticmethod
-    def _get_matched_route_table_list(Route_table_list, network_vpc_group):
+    def _get_matched_route_table_list(Route_Table_List, network_vpc_group):
         # Convert database list(dict) -> list(database object)
         route_table_list_info = []
-        for route_table in Route_table_list:
+        for route_table in Route_Table_List:
             if network_vpc_group == route_table.network_vpc_name:
                 route_table = {
                     'route_table_name': route_table.route_table_name,
@@ -152,28 +151,3 @@ class VPCNetworkManager(NaverCloudManager):
             route_table_list_info.append(route_table)
 
         return route_table_list_info
-    # @staticmethod
-    # def _get_vpc_peering_list(peerings):
-    #     # Convert database list(dict) -> list(database object)
-    #     peering_list = []
-    #     for peering in peerings:
-    #         subnet_data = {
-    #             'vpc_peering_instance_no': peering.vpc_peering_instance_no,
-    #             'vpc_peering_name': peering.vpc_peering_name,
-    #             'last_modifiy_date': peering.last_modifiy_date,
-    #             'vpc_peering_instance_status_name': peering.vpc_peering_instance_status_name,
-    #             'vpc_peering_instance_operation': peering.vpc_peering_instance_operation,
-    #             'vpc_peering_instance_status': peering.vpc_peering_instance_status,
-    #             'vpc_peering_instance_status': peering.vpc_peering_instance_status,
-    #             'vpc_peering_instance_status': peering.vpc_peering_instance_status,
-    #             'vpc_peering_instance_status': peering.vpc_peering_instance_status,
-    #             'vpc_peering_instance_status': peering.vpc_peering_instance_status,
-    #             'vpc_peering_instance_status': peering.vpc_peering_instance_status,
-    #             'vpc_peering_instance_status': peering.vpc_peering_instance_status,
-    #             'vpc_peering_instance_status': peering.vpc_peering_instance_status,
-    #             'vpc_peering_instance_status': peering.vpc_peering_instance_status,
-    #
-    #         }
-    #         peering_list.append(subnet_data)
-    #
-    #     return peering_list
