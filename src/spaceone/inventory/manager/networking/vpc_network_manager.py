@@ -42,10 +42,10 @@ class VPCNetworkManager(NaverCloudManager):
 
         vpc_list = self.vpc_conn.list_vpc()
         Route_Table_List = self.vpc_conn.List_Route_Table()
-
-
-        # access_control_group_list = self._get_access_control_group(instance.access_control_group_list)
-        # cloud_server_list = self._get_cloud_db_server_info(instance.cloud_db_server_instance_list)
+        Sub_net_List = self.vpc_conn.list_Subnet()
+        peering_vpc_List = self.vpc_conn.List_Vpc_Peering_Instance()
+        nat_gate_way_instance_List = self.vpc_conn.List_Nat_Gateway_Instance()
+        net_work_acl_List = self.vpc_conn.Network_AclList()
 
         for vpc in vpc_list:
             try:
@@ -54,12 +54,12 @@ class VPCNetworkManager(NaverCloudManager):
                 ##################################
 
                 network_vpc_name = vpc.vpc_name
-                # vpc_create_date = vpc.create_date
-                matched_route_table_list = self._get_matched_route_table_list(Route_Table_List, network_vpc_name)
-                # subnet_list = self._get_subnet_list(vpc.subnet_list)
-                # vpc_peering_list = self.(vpc.vpc_peering_list)
-                # nat_gateway_instance_list = self._get_subnet_list(vpc.nat_gateway_instance_list)
-                # network_acl_list = self._get_subnet_list(vpc.network_acl_list)
+                network_vpc_no = vpc.vpc_no
+                matched_route_table_list = self._get_matched_route_table_list(Route_Table_List, network_vpc_no)
+                matched_subnet_list = self._get_subnet_list(Sub_net_List, network_vpc_no)
+                matched_vpc_peering_list = self._get_vpc_peering_list(peering_vpc_List, network_vpc_no)
+                matched_nat_gateway_instance_list = self._get_nat_gateway_instance_list(nat_gate_way_instance_List, network_vpc_no)
+                matched_network_acl_list = self._get_network_acl_list(net_work_acl_List, network_vpc_no)
 
                 vpc_info = {
                         'vpc_no': vpc.vpc_no,
@@ -68,11 +68,11 @@ class VPCNetworkManager(NaverCloudManager):
                         'vpc_status': vpc.vpc_status.code,
                         'region_code': vpc.region_code,
                         'create_date': vpc.create_date,
-                        # 'subnet_list': subnet_list,
-                        # 'vpc_peering_list':  vpc_peering_list,
-                        'round_table_list': matched_route_table_list,
-                        # 'nat_gateway_instance_list': nat_gateway_instance_list,
-                        # 'network_acl_list': network_acl_list
+                        'subnet_list': matched_subnet_list,
+                        'vpc_peering_list':  matched_vpc_peering_list,
+                        'route_table_list': matched_route_table_list,
+                        'nat_gateway_instance_list': matched_nat_gateway_instance_list,
+                        'network_acl_list': matched_network_acl_list
 
                 }
 
@@ -104,41 +104,102 @@ class VPCNetworkManager(NaverCloudManager):
         return resource_responses, error_responses
 
 
-    #   def get_list_resources(self) -> dict:
-    #
-    #     return {
-    #         'vpc': self.vpc_conn.list_vpc(),
-    #         'subnet': self.vpc_conn.list_Subnet(),
-    #     }
-    #
-    # @staticmethod
-    # def _get_subnet_list(sub_net_list):
-    #     # Convert database list(dict) -> list(database object)
-    #     subnet_list = []
-    #     for subnet in sub_net_list:
-    #         subnet_data = {
-    #             'subnet_no': subnet.subnet_no,
-    #             'vpc_no': subnet.vpc_no,
-    #             'zone_code': subnet.zone_code,
-    #             'subnet_name': subnet.subnet_name,
-    #             'subnet_status': subnet.subnet_status.code,
-    #             'create_date': subnet.create_date,
-    #             'subnet_type': subnet.subnet_type.code,
-    #             'usage_type': subnet.usage_type.code,
-    #             'network_acl_no': subnet.network_acl_no,
-    #
-    #
-    #         }
-    #         subnet_list.append(subnet_data)
-    #
-    #     return subnet_list
+    @staticmethod
+    def _get_subnet_list(Sub_net_List, subnet_group):
+        # Convert database list(dict) -> list(database object)
+        subnet_list = []
+        for subnet in Sub_net_List:
+            if subnet_group == subnet.vpc_no :
+                subnet = {
+                    'subnet_no': subnet.subnet_no,
+                    'zone_code': subnet.zone_code,
+                    'subnet_name': subnet.subnet_name,
+                    'subnet_status': subnet.subnet_status.code,
+                    'create_date': subnet.create_date,
+                    'subnet_type': subnet.subnet_type.code,
+                    'usage_type': subnet.usage_type.code,
+                    'network_acl_no': subnet.network_acl_no,
+
+
+            }
+            subnet_list.append(subnet)
+
+        return subnet_list
+
+    @staticmethod
+    def _get_vpc_peering_list(peering_vpc_List, peering_group):
+        # Convert database list(dict) -> list(database object)
+        vpc_peering_list_info = []
+        for peering in peering_vpc_List:
+            if peering_group == peering.vpc_no:
+                peering = {
+                    'vpc_peering_instance_no': peering.vpc_peering_instance_no,
+                    'vpc_peering_name': peering.vpc_peering_name,
+                    'last_modifiy_date': peering.last_modifiy_date,
+                    'vpc_peering_instance_status': peering.vpc_peering_instance_status.code,
+                    'vpc_peering_instance_status_name': peering.vpc_peering_instance_status_name,
+                    'vpc_peering_instance_operation': peering.vpc_peering_instance_operation.code,
+                    'source_vpc_no': peering.source_vpc_no,
+                    'source_vpc_name': peering.source_vpc_name,
+                    'source_vpc_ipv4_cidr_block': peering.source_vpc_ipv4_cidr_block,
+                    'source_vpc_login_id': peering.source_vpc_login_id,
+                    'target_vpc_no': peering.target_vpc_no,
+                    'target_vpc_name': peering.target_vpc_name,
+                    'target_vpc_ipv4_cidr_block': peering.target_vpc_ipv4_cidr_block,
+                    'target_vpc_login_id': peering.target_vpc_login_id,
+                    'vpc_peering_description': peering.vpc_peering_description,
+                    'has_reverse_vpc_peering': peering.has_reverse_vpc_peering,
+                    'is_between_accounts': peering.is_between_accounts,
+                    'reverse_vpc_peering_instance_no': peering.reverse_vpc_peering_instance_no,
+
+                }
+            vpc_peering_list_info.append(peering)
+
+        return vpc_peering_list_info
+
+    @staticmethod
+    def _get_nat_gateway_instance_list(nat_gate_way_List, network_vpc_group):
+        # Convert database list(dict) -> list(database object)
+        nat_gateway_instance_list_info = []
+        for gateway in nat_gate_way_List:
+            if network_vpc_group == gateway.vpc_no:
+                gateway = {
+                    'nat_gateway_instance_no': gateway.nat_gateway_instance_no,
+                    'nat_gateway_name': gateway.nat_gateway_name,
+                    'public_ip': gateway.public_ip,
+                    'nat_gateway_instance_status': gateway.nat_gateway_instance_status.code,
+                    'nat_gateway_instance_status_name': gateway.nat_gateway_instance_status_name,
+                    'nat_gateway_instance_operation': gateway.nat_gateway_instance_operation.code,
+                    'nat_gateway_description' : gateway.nat_gateway_description
+
+            }
+            nat_gateway_instance_list_info.append(gateway)
+
+        return nat_gateway_instance_list_info
+
+    @staticmethod
+    def _get_network_acl_list(net_work_acl_List, network_vpc_group):
+        # Convert database list(dict) -> list(database object)
+        network_acl_list_info = []
+        for network_acl in net_work_acl_List:
+            if network_vpc_group == network_acl.vpc_no:
+                network_acl = {
+                    'network_acl_no': network_acl.network_acl_no,
+                    'nat_gateway_name': network_acl.network_acl_name,
+                    'network_acl_status': network_acl.network_acl_status.code,
+                    'network_acl_description': network_acl.network_acl_description,
+                    'is_default': network_acl.is_default,
+            }
+            network_acl_list_info.append(network_acl)
+
+        return network_acl_list_info
 
     @staticmethod
     def _get_matched_route_table_list(Route_Table_List, network_vpc_group):
         # Convert database list(dict) -> list(database object)
         route_table_list_info = []
         for route_table in Route_Table_List:
-            if network_vpc_group == route_table.network_vpc_name:
+            if network_vpc_group == route_table.vpc_no:
                 route_table = {
                     'route_table_name': route_table.route_table_name,
                     'route_table_no': route_table.route_table_no,
