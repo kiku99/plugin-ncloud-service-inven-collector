@@ -45,6 +45,7 @@ class RouteTable(Model):
     supported_subnet_type = StringType()
     route_table_status = StringType()
     route_table_description = StringType()
+
 class NatGatewayInstance(Model):
     nat_gateway_instance_no = StringType()
     nat_gateway_name = StringType()
