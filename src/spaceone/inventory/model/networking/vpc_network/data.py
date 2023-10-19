@@ -11,7 +11,7 @@ class Subnet(Model):
     subnet_name = StringType()
     subnet = StringType()
     subnet_status = StringType()
-    create_date = StringType()
+    # create_date = StringType()
     subnet_type = StringType()
     usage_type = StringType()
     network_acl_no = StringType()
