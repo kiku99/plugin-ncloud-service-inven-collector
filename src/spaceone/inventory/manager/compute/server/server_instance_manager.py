@@ -92,33 +92,6 @@ class ServerInstanceManager(NaverCloudManager):
 
         ################## TBD ######################
 
-        # VPC
-        # vpcs = all_resources.get('vpcs', [])
-        subnets = all_resources.get('subnets', [])
-
-        # All Public Images
-        public_images = all_resources.get('public_images', {})
-
-        # URL Maps
-        url_maps = all_resources.get('url_maps', [])
-        backend_svcs = all_resources.get('backend_svcs', [])
-        target_pools = all_resources.get('target_pools', [])
-
-        # Forwarding Rules
-        forwarding_rules = all_resources.get('forwarding_rules', [])
-
-        # Firewall
-        firewalls = all_resources.get('firewalls', [])
-
-        # Get Instance Groups
-        instance_group = all_resources.get('instance_group', [])
-
-        # Get Machine Types
-        instance_types = all_resources.get('instance_type', [])
-
-        # Autoscaling group list
-        autoscaler = all_resources.get('autoscaler', [])
-
         # storages
         storages = all_resources.get('storage', [])
 

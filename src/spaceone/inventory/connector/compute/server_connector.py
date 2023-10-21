@@ -55,7 +55,7 @@ class ServerConnector(NaverCloudConnector):
 
         return login_key_list
 
-    def list_init_script_list(self):
+    def list_init_script(self):
         init_script_list = []
         get_init_script_list_request = ncloud_server.GetInitScriptListRequest()
 

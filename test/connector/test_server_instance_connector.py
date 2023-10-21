@@ -40,6 +40,16 @@ class TestServerInstanceConnector(unittest.TestCase):
 
         print(login_key)
 
+    def test_list_init_script(self):
+        init_script_list = self.server_connector.list_init_script()
+
+        print(init_script_list)
+
+    def test_list_network_interface(self):
+        network_interface_list = self.server_connector.list_network_interface()
+
+        print(network_interface_list)
+
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)
