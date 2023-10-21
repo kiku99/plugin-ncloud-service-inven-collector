@@ -45,7 +45,7 @@ class ServerInstanceManager(NaverCloudManager):
         self.instance_conn: ServerConnector = self.locator.get_connector(self.connector_name, **params)
         self.instance_conn.set_connect(params['secret_data'])
         all_resources = self.get_all_resources()
-        compute_servers = self.instance_conn.list_Server_Instance()
+        compute_servers = self.instance_conn.list_server_instance()
 
         for compute_server in compute_servers:
             try:
@@ -83,7 +83,7 @@ class ServerInstanceManager(NaverCloudManager):
     def get_all_resources(self) -> dict:
 
         return {
-            'storage': self.instance_conn.list_Storage_Instance(),
+            'storage': self.instance_conn.list_block_storage_instance(),
             'login_key': self.instance_conn.list_login_key(),
         }
 
@@ -137,12 +137,7 @@ class ServerInstanceManager(NaverCloudManager):
         account = login_key.keyName
 
         ''' Gather all resources information '''
-        '''
-        server_data.update({
-            'nics': nic_vos,
-            'storages': storage_vos,
-        })
-        '''
+
         server_data['data'].update({
             'login_key': login_key,
             'storage': storage_vos,

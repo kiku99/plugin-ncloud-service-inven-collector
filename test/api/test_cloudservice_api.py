@@ -58,7 +58,7 @@ class TestCollector(TestCase):
         '''
         options = {
             # "cloud_service_types": ["CloudFunctions"],
-            "cloud_service_types": ["ComputeServer"]
+            # "cloud_service_types": ["Database"]
             # "custom_asset_url": 'http://xxxxx.spaceone.dev/icon/google'
         }
         filter = {}

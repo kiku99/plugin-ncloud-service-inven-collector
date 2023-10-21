@@ -26,12 +26,12 @@ class TestServerInstanceConnector(unittest.TestCase):
         super().tearDownClass()
 
     def test_list_server_instance(self):
-        server_instances = self.server_connector.list_Server_Instance()
+        server_instances = self.server_connector.list_server_instance()
 
         print(server_instances)
 
     def test_list_storage_instance(self):
-        storage_instances = self.server_connector.list_Storage_Instance()
+        storage_instances = self.server_connector.list_block_storage_instance()
 
         print(storage_instances)
 
