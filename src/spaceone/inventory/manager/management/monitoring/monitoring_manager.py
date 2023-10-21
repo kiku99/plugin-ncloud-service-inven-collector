@@ -40,17 +40,18 @@ class MonitoringManager(NaverCloudManager):
         self.instance_conn: MonitoringConnector = self.locator.get_connector(self.connector_name, **params)
         self.instance_conn.set_connect(params['secret_data'])
 
-        metrics = self.instance_conn.list_metrics(params["instance_no"])
+        metric_list = self.instance_conn.list_metrics(params["instance_no"])
+
         #metirc_statistic_list = self.instance_conn.list_metric_statistic(params["instance_no"], params["metric_name"], params["period"], params["start_time"], params["end_time"])
 
-        for metric in metrics:
+        for metric in metric_list:
             try:
                 ##################################
                 # 1. Set Basic Information
                 ##################################
                 instance_no = metric.instance_no
                 metric_info = {
-                    'instance_no': metric.instance_no,
+                    #'instance_no': metric.instance_no,
                     'metric_name': metric.metric_name,
 
                 }
@@ -113,17 +114,4 @@ class MonitoringManager(NaverCloudManager):
         return data_point_list
 
 
-    @staticmethod
-    def _get_DataPoint(metrics):
-        # Convert database list(dict) -> list(database object)
-        data_point_list = []
-        for metric in metrics:
-            data_point_data = {
-                'timestamp': metric.timestamp,
-                'average': metric.average,
-                'unit': metric.unit,
-            }
-            data_point_list.append(data_point_data)
-
-        return data_point_list
 

@@ -4,7 +4,7 @@ from schematics.types import ModelType, ListType, StringType, IntType, DateTimeT
 
 
 class Metric(Model):
-    instance_no = StringType()
+    #instance_no = StringType()
     metric_name = StringType()
 
 class DataPoint(Model):

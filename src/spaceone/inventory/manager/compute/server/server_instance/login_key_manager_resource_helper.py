@@ -18,9 +18,9 @@ class LoginKeyManagerResourceHelper(NaverCloudManager):
         for login_key in login_keys:
 
             login_key_info = {
-                'fingerPrint': login_key.fingerprint,
-                'keyName': login_key.key_name,
-                'createDate': login_key.create_date
+                'finger_print': login_key.fingerprint,
+                'key_name': login_key.key_name,
+                'create_date': login_key.create_date
             }
 
         return LoginKey(login_key_info, strict=False)

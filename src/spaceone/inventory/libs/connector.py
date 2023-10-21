@@ -8,6 +8,7 @@ from ncloud_server.api.v2_api import V2Api
 import ncloud_monitoring
 import ncloud_cdn
 import logging
+import boto3
 from spaceone.core.connector import BaseConnector
 
 __all__ = ['NaverCloudConnector']
@@ -41,6 +42,8 @@ class NaverCloudConnector(BaseConnector):
         self.monitoring_client = None
         self.cdn_client = None
         self.set_connect(kwargs['secret_data'])
+        self.object_storage_connect(kwargs['secret_data'])
+
 
     def set_connect(self, secret_data: object) -> object:
         configuration_server = ncloud_server.Configuration()
@@ -67,12 +70,24 @@ class NaverCloudConnector(BaseConnector):
         configuration_cdn.access_key = secret_data['ncloud_access_key_id']
         configuration_cdn.secret_key = secret_data['ncloud_secret_key']
         self.cdn_client = ncloud_cdn.V2Api(ncloud_cdn.ApiClient(configuration_cdn))
-
+        
         configuration_vpc = ncloud_vpc.Configuration()
         configuration_vpc.access_key = secret_data['ncloud_access_key_id']
         configuration_vpc.secret_key = secret_data['ncloud_secret_key']
         self.vpc_client = ncloud_vpc.V2Api(ncloud_vpc.ApiClient(configuration_vpc))
 
+
+    def object_storage_connect(self, secret_data: object) -> object:
+        object_endpoint_url = 'https://kr.object.ncloudstorage.com'
+        object_storage_access_key = secret_data['ncloud_access_key_id']
+        object_storage_secret_key = secret_data['ncloud_secret_key']
+        self.object_storage_client = boto3.client(service_name='s3',
+                                                  endpoint_url=object_endpoint_url,
+                                                  aws_access_key_id=object_storage_access_key,
+                                                  aws_secret_access_key=object_storage_secret_key
+                                                  )
+
+        
     def verify(self, **kwargs):
         if self.server_client is None:
             self.set_connect(kwargs['secret_data'])

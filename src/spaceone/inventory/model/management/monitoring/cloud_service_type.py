@@ -14,19 +14,19 @@ total_count_conf = os.path.join(current_dir, 'widget/total_count.yml')
 count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 count_by_project_conf = os.path.join(current_dir, 'widget/count_by_project.yml')
 
-cst_cloud_db_instance = CloudServiceTypeResource()
-cst_cloud_db_instance.name = 'Instance'
-cst_cloud_db_instance.provider = 'naver_cloud'
-cst_cloud_db_instance.group = 'Management'
-cst_cloud_db_instance.service_code = 'Monitoring'
-cst_cloud_db_instance.labels = ['database']
-cst_cloud_db_instance.is_primary = True
-cst_cloud_db_instance.is_major = True
-cst_cloud_db_instance.tags = {
+cst_management_monitoring = CloudServiceTypeResource()
+cst_management_monitoring.name = 'Monitoring'
+cst_management_monitoring.provider = 'naver_cloud'
+cst_management_monitoring.group = 'Management'
+cst_management_monitoring.service_code = 'Monitoring'
+cst_management_monitoring.labels = ['Management']
+cst_management_monitoring.is_primary = True
+cst_management_monitoring.is_major = True
+cst_management_monitoring.tags = {
     'spaceone:icon': f'{ASSET_URL}/Cloud_SQL.svg',
 }
 
-cst_cloud_db_instance._metadata = CloudServiceTypeMeta.set_meta(
+cst_management_monitoring._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
         EnumDyField.data_source('State', 'data.display_state', default_state={
             'safe': ['RUNNING'],
@@ -68,5 +68,5 @@ cst_cloud_db_instance._metadata = CloudServiceTypeMeta.set_meta(
 )
 
 CLOUD_SERVICE_TYPES = [
-    CloudServiceTypeResponse({'resource': cst_cloud_db_instance}),
+    CloudServiceTypeResponse({'resource': cst_management_monitoring}),
 ]
