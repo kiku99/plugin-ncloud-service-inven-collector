@@ -1,25 +1,17 @@
 from spaceone.inventory.libs.connector import NaverCloudConnector
 import boto3
 
-
 __all__ = ['ObjectStorageConnector']
 
+config = boto3.session.Config(signature_version='s3v4')
 
-class ObjectStorageConnector:
-    def __init__(self, endpoint_url, ncloud_access_key_id, ncloud_secret_access_key):
-        self.endpoint_url = endpoint_url
-        self.access_key_id = ncloud_access_key_id
-        self.secret_access_key = ncloud_secret_access_key
-        self.client = self._create_client()
+class ObjectStorageConnector(NaverCloudConnector):
 
-    def _create_client(self):
-        return boto3.client('s3',
-                            endpoint_url=self.endpoint_url,
-                            aws_access_key_id=self.access_key_id,
-                            aws_secret_access_key=self.secret_access_key)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def list_buckets(self):
-        response = self.client.list_buckets()
+        response = self.object_storage_client.list_buckets()
         return response
 
     def list_objects(self, bucket_name, prefix=None, delimiter=None, encoding_type=None, max_keys=None, marker=None):
@@ -35,7 +27,7 @@ class ObjectStorageConnector:
         if marker:
             params['Marker'] = marker
 
-        response = self.client.list_objects(Bucket=bucket_name, **params)
+        response = self.object_storage_client.list_objects(Bucket=bucket_name, **params)
         objects = []
         for content in response.get('Contents', []):
             objects.append({
@@ -45,16 +37,24 @@ class ObjectStorageConnector:
             })
         return objects
 
-    # def get_object_acl(self, bucket_name, object_name):
-    #     response = self.client.get_object_acl(Bucket=bucket_name, Key=object_name)
-    #     return response
-
     def get_bucket_cors(self, bucket_name):
-        response = self.client.get_bucket_cors(Bucket=bucket_name)
-        cors_rules = [{
-            'AllowedHeaders': ['*'],
-            'AllowedMethods': ['GET', 'PUT'],
-            'AllowedOrigins': ['*'],
-            'MaxAgeSeconds': 3000
-        }]
-        return response.get('CORSRules', [])
+        response = self.object_storage_client.get_bucket_cors(Bucket=bucket_name)
+        return response
+
+    # {'ResponseMetadata': {'RequestId': '1d7a642b-d071-46cf-8647-282a3cfc7f6e', 'HostId': '', 'HTTPStatusCode': 200,
+    #                       'HTTPHeaders': {'date': 'Thu, 19 Oct 2023 11:23:12 GMT',
+    #                                       'x-clv-request-id': '1d7a642b-d071-46cf-8647-282a3cfc7f6e',
+    #                                       'x-clv-s3-version': '2.5', 'accept-ranges': 'bytes',
+    #                                       'x-amz-request-id': '1d7a642b-d071-46cf-8647-282a3cfc7f6e',
+    #                                       'content-type': 'application/xml', 'content-length': '625'},
+    #                       'RetryAttempts': 0},
+    #  'Buckets': [
+    #     {'Name': 'bucket-a', 'CreationDate': datetime.datetime(2023, 10, 6, 9, 44, 16, 187000, tzinfo=tzutc())},
+    #     {'Name': 'bucket-b', 'CreationDate': datetime.datetime(2023, 10, 8, 15, 23, 46, 377000, tzinfo=tzutc())},
+    #     {'Name': 'my-new-bucket', 'CreationDate': datetime.datetime(2023, 10, 8, 15, 40, 39, 25000, tzinfo=tzutc())},
+    #     {'Name': 'your-bucket-name', 'CreationDate': datetime.datetime(2023, 10, 10, 16, 2, 31, 647000, tzinfo=tzutc())}],
+    #  'Owner': {'DisplayName': 'ncp-3040466-0', 'ID': 'ncp-3040466-0'}}
+
+
+
+
