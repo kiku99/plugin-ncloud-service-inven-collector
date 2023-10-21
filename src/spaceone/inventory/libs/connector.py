@@ -72,7 +72,7 @@ class NaverCloudConnector(BaseConnector):
         #사용자 정의
         domain_id = 'default'
         project_id = 'abfdc070c4144ce789a59559c8f3e55e'
-        auth  = v3.Password(auth_url=archive_endpoint_url,
+        auth = v3.Password(auth_url=archive_endpoint_url,
                                                   username=archive_storage_access_key,
                                                   password=archive_storage_secret_key,
                                                   project_id=project_id,

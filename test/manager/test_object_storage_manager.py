@@ -10,7 +10,7 @@ AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
 
 
-class TestServerInstanceManager(TestCase):
+class TestObjectStorageManager(TestCase):
     secret_data = {
         'ncloud_access_key_id': AKI,
         'ncloud_secret_key': SK
@@ -31,10 +31,9 @@ class TestServerInstanceManager(TestCase):
     def test_object_storage_manager(self):
         secret_data = self.secret_data
         params = {'secret_data': secret_data, 'bucket_name':"my-new-bucket"}
-
         object_storage_instances = self.object_storage_manager.collect_cloud_service(params)
 
-        print(object_storage_instances[0][0].to_primitive())
+        print(object_storage_instances[0][3].to_primitive())
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)

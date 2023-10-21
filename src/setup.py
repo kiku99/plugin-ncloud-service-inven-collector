@@ -38,7 +38,8 @@ setup(
         'MarkupSafe>=2.0.0rc2',
         'ncloud-sdk',
         'requests',
-        'beautifulsoup4'
+        'beautifulsoup4',
+        'boto3'
     ],
     package_data={
         'spaceone': ['inventory/model/*/*/widget/*.yml']

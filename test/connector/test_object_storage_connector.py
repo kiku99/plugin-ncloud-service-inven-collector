@@ -32,7 +32,11 @@ class TestObjectStorageConnector(unittest.TestCase):
         bucket_name = 'my-new-bucket'
         objects = self.object_storage_connector.list_objects(bucket_name)
         print(f"Objects in {bucket_name}:")
+        print(objects)
+
         for obj in objects:
+            print(obj)
+            print(obj['Name'])
             print(f"Name={obj['Name']}, Size={obj['Size']}, Owner={obj['Owner']}")
 
     def test_get_bucket_cors(self):
