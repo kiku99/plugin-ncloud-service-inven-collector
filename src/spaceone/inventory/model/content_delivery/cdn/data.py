@@ -45,11 +45,11 @@ class CdnPlusRule(Model):
 
 
 class CdnPlusInstance(Model):
-    cdn_instance_no = StringType()
+    #cdn_instance_no = StringType()
     cdn_instance_status = StringType()
     cdn_instance_operation = StringType()
     cdn_instance_status_name = StringType()
-    create_date = StringType()
+    #create_date = StringType()
     last_modified_date = StringType()
     #cdn_instance_description = StringType()
     service_name = StringType()

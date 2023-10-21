@@ -26,12 +26,12 @@ class TestServerInstanceConnector(unittest.TestCase):
         super().tearDownClass()
 
     def test_list_server_instance(self):
-        server_instances = self.server_connector.list_Server_Instance()
+        server_instances = self.server_connector.list_server_instance()
 
         print(server_instances)
 
     def test_list_storage_instance(self):
-        storage_instances = self.server_connector.list_Storage_Instance()
+        storage_instances = self.server_connector.list_block_storage_instance()
 
         print(storage_instances)
 
@@ -39,6 +39,16 @@ class TestServerInstanceConnector(unittest.TestCase):
         login_key = self.server_connector.list_login_key()
 
         print(login_key)
+
+    def test_list_init_script(self):
+        init_script_list = self.server_connector.list_init_script()
+
+        print(init_script_list)
+
+    def test_list_network_interface(self):
+        network_interface_list = self.server_connector.list_network_interface()
+
+        print(network_interface_list)
 
 
 if __name__ == "__main__":
