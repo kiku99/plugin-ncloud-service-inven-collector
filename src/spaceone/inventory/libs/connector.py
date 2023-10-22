@@ -7,6 +7,9 @@ import ncloud_monitoring
 import ncloud_cdn
 import logging
 import boto3
+from keystoneauth1 import session
+from keystoneauth1.identity import v3
+import swiftclient
 from spaceone.core.connector import BaseConnector
 
 __all__ = ['NaverCloudConnector']
@@ -35,11 +38,10 @@ class NaverCloudConnector(BaseConnector):
         self.clouddb_client = None
         self.autoscaling_client = None
         self.object_storage_client = None
-        self.monitoring_client = None
-        self.cdn_client = None
+        self.archive_storage_client = None
         self.set_connect(kwargs['secret_data'])
         self.object_storage_connect(kwargs['secret_data'])
-
+        self.archive_storage_connect(kwargs['secret_data'])
 
     def set_connect(self, secret_data: object) -> object:
         configuration_server = ncloud_server.Configuration()
@@ -76,6 +78,21 @@ class NaverCloudConnector(BaseConnector):
                                                   aws_access_key_id=object_storage_access_key,
                                                   aws_secret_access_key=object_storage_secret_key
                                                   )
+    def archive_storage_connect(self, secret_data: object) -> object:
+        archive_endpoint_url = 'https://kr.archive.ncloudstorage.com:5000/v3'
+        archive_storage_access_key = secret_data['ncloud_access_key_id']
+        archive_storage_secret_key = secret_data['ncloud_secret_key']
+        #사용자 정의
+        domain_id = 'default'
+        project_id = 'abfdc070c4144ce789a59559c8f3e55e'
+        auth = v3.Password(auth_url=archive_endpoint_url,
+                                                  username=archive_storage_access_key,
+                                                  password=archive_storage_secret_key,
+                                                  project_id=project_id,
+                                                  user_domain_id=domain_id)
+        auth_session = session.Session(auth=auth)
+        self.archive_storage_client = swiftclient.Connection(retries=5, session=auth_session)
+
     def verify(self, **kwargs):
         if self.server_client is None:
             self.set_connect(kwargs['secret_data'])
