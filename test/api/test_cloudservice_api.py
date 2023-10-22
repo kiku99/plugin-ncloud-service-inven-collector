@@ -58,15 +58,21 @@ class TestCollector(TestCase):
         '''
         options = {
             # "cloud_service_types": ["CloudFunctions"],
-            # "cloud_service_types": ["Database"]
+            "cloud_service_types": ["Content Delivery"],
             # "custom_asset_url": 'http://xxxxx.spaceone.dev/icon/google'
+            'dbKindCode': 'MYSQL',
+            'cdnInstanceNo': '20151001',
+            'instance_no':'20150943',
+            'bucket_name': ' buckettest0712'
         }
         filter = {}
+
 
         resource_stream = self.inventory.Collector.collect({
             'options': options,
             'secret_data': self.secret_data,
             'filter': filter})
+            #'dbKindCode': dbKindCode, 'cdnInstanceNo': cdnInstanceNo, 'instance_no': instance_no})
 
         print(resource_stream)
         for res in resource_stream:
