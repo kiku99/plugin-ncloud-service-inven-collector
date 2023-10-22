@@ -92,8 +92,8 @@ class NaverCloudConnector(BaseConnector):
         archive_storage_access_key = secret_data['ncloud_access_key_id']
         archive_storage_secret_key = secret_data['ncloud_secret_key']
         #사용자 정의
-        domain_id = 'default'
-        project_id = 'abfdc070c4144ce789a59559c8f3e55e'
+        domain_id = '사용자 정의'
+        project_id = '사용자 정의'
         auth = v3.Password(auth_url=archive_endpoint_url,
                                                   username=archive_storage_access_key,
                                                   password=archive_storage_secret_key,

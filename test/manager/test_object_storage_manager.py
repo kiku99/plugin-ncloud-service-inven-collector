@@ -30,7 +30,10 @@ class TestObjectStorageManager(TestCase):
 
     def test_object_storage_manager(self):
         secret_data = self.secret_data
-        params = {'secret_data': secret_data, 'bucket_name':"my-new-bucket"}
+        options = {
+            'bucket_name': "my-new-bucket"
+        }
+        params = {'options': options, 'secret_data': secret_data, 'bucket_name':"my-new-bucket"}
         object_storage_instances = self.object_storage_manager.collect_cloud_service(params)
 
         print(object_storage_instances[0][3].to_primitive())

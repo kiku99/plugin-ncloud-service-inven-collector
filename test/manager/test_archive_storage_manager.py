@@ -30,6 +30,9 @@ class TestArchiveStorageManager(TestCase):
 
     def test_archive_storage_manager(self):
         secret_data = self.secret_data
+        options = {
+            'bucket_name': "sample-container"
+        }
         params = {'secret_data': secret_data, 'bucket_name':"sample-container"}
 
         archive_storage_instances = self.archive_storage_manager.collect_cloud_service(params)
