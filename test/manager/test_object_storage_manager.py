@@ -4,7 +4,7 @@ from spaceone.tester import TestCase
 from spaceone.core.unittest.runner import RichTestRunner
 from spaceone.core import config
 from spaceone.inventory.connector.storage.object_storage_connector import ObjectStorageConnector
-from spaceone.inventory.manager.storage.object_storage_manager import ObjectStorageManager
+from spaceone.inventory.manager.storage.object_storage.object_storage_manager import ObjectStorageManager
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)

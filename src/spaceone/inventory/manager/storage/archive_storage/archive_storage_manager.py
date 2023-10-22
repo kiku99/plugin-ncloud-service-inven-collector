@@ -13,7 +13,6 @@ from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
 
 _LOGGER = logging.getLogger(__name__)
 
-
 class ArchiveStorageManager(NaverCloudManager):
     connector_name = 'ArchiveStorageConnector'
     cloud_service_types = CLOUD_SERVICE_TYPES
@@ -35,8 +34,6 @@ class ArchiveStorageManager(NaverCloudManager):
         resource_responses = []
         error_responses = []
         start_time = time.time()
-        # bucket_dict = {}
-        num = 0
 
         #################################
         # 0. Gather All Related Resources
@@ -54,19 +51,18 @@ class ArchiveStorageManager(NaverCloudManager):
                 # 1. Set Basic Information
                 ##################################
 
-                bucket_name = bucket[num]['name']
-
-                print("num: ", num)
+                bucket_name = bucket['name']
                 bucket = {
-                    'name': bucket[num]['name'],
-                    'count': bucket[num]['count'],
-                    'bytes': bucket[num]['bytes'],
-                    'last_modified': bucket[num]['last_modified']
+                    'name': bucket['name'],
+                    'count': bucket['count'],
+                    'bytes': bucket['bytes'],
+                    'last_modified': bucket['last_modified']
                 }
                 ##################################
                 # 2. Make Base Data
                 ##################################
                 bucket_data = ArchiveBucketGroup(bucket, strict=False)
+                date_info = bucket['last_modified']
 
                 ##################################
                 # 3. Make Return Resource
@@ -74,13 +70,14 @@ class ArchiveStorageManager(NaverCloudManager):
                 bucket_resource = ArchiveStorageResource({
                     'name': bucket_name,
                     'data': bucket_data,
+                    'launched_at': date_info
                 })
 
                 ##################################
                 # 4. Make Collected Region Code
                 ##################################
                 resource_responses.append(ArchiveStorageResponse({'resource': bucket_resource}))
-                num += 1
+
                 ##################################
                 # 5. Make Resource Response Object
                 ##################################
