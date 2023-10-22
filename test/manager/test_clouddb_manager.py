@@ -32,13 +32,14 @@ class TestServerInstanceManager(TestCase):
 
     def test_server_instance_manager(self):
         secret_data = self.secret_data
-        # option = {'dbKindCode': "MYSQL",
-        #            # "cloud_db_instance_no": "1057304",
-        #            # "cloud_db_image_product_code": "SPSWMSSQLWINNT01",
-        #            # "folderName": "/",
-        #            # "requestNo": "782063"
-        #            }
-        params = {'option': {}, 'secret_data': secret_data, 'filter': {}, 'dbKindCode': "MYSQL", "cloudDBImageProductCode": "SPSWMSSQLWINNT01"}
+        options = {'dbKindCode': "MYSQL",
+                   "cloudDBImageProductCode": "SPSWMSSQLWINNT01"
+                   # "cloud_db_instance_no": "1057304",
+                   # "cloud_db_image_product_code": "SPSWMSSQLWINNT01",
+                   # "folderName": "/",
+                   # "requestNo": "782063"
+                   }
+        params = {'options': options, 'secret_data': secret_data, 'filter': {}}
 
         server_instances = self.cloud_db_manager.collect_cloud_service(params)
         # for server_instance in server_instances:
