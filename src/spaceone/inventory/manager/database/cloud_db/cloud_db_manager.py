@@ -40,9 +40,9 @@ class CloudDBManager(NaverCloudManager):
         self.instance_conn: CloudDBConnector = self.locator.get_connector(self.connector_name, **params)
         self.instance_conn.set_connect(params['secret_data'])
 
-        cloud_db_img_products_list = self.instance_conn.list_img_product(params["dbKindCode"])
-        cloud_db_instances = self.instance_conn.list_cloud_db_instance(params["dbKindCode"])
-        cloud_db_products = self.instance_conn.list_product(params['cloudDBImageProductCode'])
+        #cloud_db_img_products_list = self.instance_conn.list_img_product(params["options"]["dbKindCode"])
+        cloud_db_instances = self.instance_conn.list_cloud_db_instance(params["options"]["dbKindCode"])
+        #cloud_db_products = self.instance_conn.list_product(params['cloudDBImageProductCode'])
 
         for instance in cloud_db_instances:
             try:
