@@ -3,3 +3,4 @@ from spaceone.inventory.manager.compute.autoscaling.autoscaling_manager import A
 from spaceone.inventory.manager.database.cloud_db.cloud_db_manager import CloudDBManager
 from spaceone.inventory.manager.storage.object_storage_manager import ObjectStorageManager
 from spaceone.inventory.manager.management.monitoring.monitoring_manager import MonitoringManager
+from spaceone.inventory.manager.content_delivery.cdn.cdn_manager import CdnManager
