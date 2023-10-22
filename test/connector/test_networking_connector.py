@@ -54,10 +54,6 @@ class TestVpcConnector(unittest.TestCase):
 
         print(get_route_table_list)
 
-    # def test_List_Route_Table_Subnet(self):
-    #     get_route_table_subnet_list = self.vpc_connector.List_Route_Table_Subnet()
-    #
-    #     print(get_route_table_subnet_list)
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)

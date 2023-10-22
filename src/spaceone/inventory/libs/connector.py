@@ -3,6 +3,8 @@ from __future__ import print_function
 import ncloud_autoscaling
 import ncloud_clouddb
 import ncloud_server
+import ncloud_vpc
+from ncloud_server.api.v2_api import V2Api
 import ncloud_monitoring
 import ncloud_cdn
 import logging
@@ -34,6 +36,8 @@ class NaverCloudConnector(BaseConnector):
         """
 
         super().__init__(*args, **kwargs)
+        self.client = None
+        self.vpc_client = None
         self.server_client = None
         self.clouddb_client = None
         self.autoscaling_client = None
@@ -69,6 +73,11 @@ class NaverCloudConnector(BaseConnector):
         configuration_cdn.secret_key = secret_data['ncloud_secret_key']
         self.cdn_client = ncloud_cdn.V2Api(ncloud_cdn.ApiClient(configuration_cdn))
 
+        configuration_vpc = ncloud_vpc.Configuration()
+        configuration_vpc.access_key = secret_data['ncloud_access_key_id']
+        configuration_vpc.secret_key = secret_data['ncloud_secret_key']
+        self.vpc_client = ncloud_vpc.V2Api(ncloud_vpc.ApiClient(configuration_vpc))
+
     def object_storage_connect(self, secret_data: object) -> object:
         object_endpoint_url = 'https://kr.object.ncloudstorage.com'
         object_storage_access_key = secret_data['ncloud_access_key_id']
@@ -103,5 +112,13 @@ class NaverCloudConnector(BaseConnector):
             return "ACTIVE"
 
         if self.object_storage_client is None:
+            self.set_connect(kwargs['secret_data'])
+            return "ACTIVE"
+
+        if self.archive_storage_client is None:
+            self.set_connect(kwargs['secret_data'])
+            return "ACTIVE"
+
+        if self.vpc_client is None:
             self.set_connect(kwargs['secret_data'])
             return "ACTIVE"

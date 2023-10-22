@@ -28,8 +28,14 @@ The following is a list of services being collected and service code information
 
 |No.| Service name    | Service Code |
 |---|-----------------|--------------|
-|1| Server          | compute      |
-|2| TBD             | TBD          |
+|1| Server| compute|
+|2|Autoscaling|compute|
+|3|Cloud DB|database|
+|4|Object Storage|storage|
+|5|Vpc|networking|
+|6|Monitoring|management|
+|7|Cdn|content delivery|
+
 
 
 <br>
@@ -39,9 +45,23 @@ The following is a list of services being collected and service code information
 
 * Table of Contents
     * [Compute](#compute)
-        * [server](#server)
-        * TBD
+        * [Server](#server)
+        * [Autoscaling](#autoscaling)
 
+    * [Database](#database)
+        * [Cloud DB](#cloud-db)
+  
+    * [Storage](#storage)
+        * [Object Storage](#object-storage)
+  
+    * [Networking](#networking)
+        * [Vpc](#vpc)
+  
+    * [Management](#management)
+        * [Monitoring](#monitoring)
+  
+    * [Content Delivery](#content-delivery)
+        * [Cdn](#cdn)
 <br>
 
 ## Authentication Overview
@@ -55,6 +75,74 @@ Please, set authentication privilege for followings:
         - https://api.ncloud-docs.com/docs/compute-server-getserverinstancelist
         - https://api.ncloud-docs.com/docs/compute-server-getblockstorageinstancelist
         - https://api.ncloud-docs.com/docs/compute-server-getloginkeylist
+
+- ##### [Autoscaling](https://api.ncloud-docs.com/docs/compute-autoscaling)
+    - Scopes
+        - https://api.ncloud-docs.com/docs/compute-autoscaling-getadjustmenttypelist
+        - https://api.ncloud-docs.com/docs/compute-autoscaling-getautoscalingactivityloglist
+        - https://api.ncloud-docs.com/docs/compute-autoscaling-getautoscalingconfigurationloglist
+        - https://api.ncloud-docs.com/docs/compute-autoscaling-getautoscalingpolicylist
+        - https://api.ncloud-docs.com/docs/compute-autoscaling-getlaunchconfigurationlist
+        - https://api.ncloud-docs.com/docs/compute-autoscaling-getscalingprocesstypelist
+        - https://api.ncloud-docs.com/docs/compute-autoscaling-getscheduledactionlist
+     
+
+#### Database     
+- ##### [Cloud DB](https://api.ncloud-docs.com/docs/database-clouddb)
+    - Scopes
+        - https://api.ncloud-docs.com/docs/database-clouddb-getclouddbinstancelist
+        - https://api.ncloud-docs.com/docs/database-clouddb-getclouddbconfiggrouplist
+        - https://api.ncloud-docs.com/docs/database-clouddb-getclouddbimageproductlist
+        - https://api.ncloud-docs.com/docs/database-clouddb-getclouddbproductlist
+        - https://api.ncloud-docs.com/docs/database-clouddb-getbackuplist
+        - https://api.ncloud-docs.com/docs/database-clouddb-getdmsoperation
+        - https://api.ncloud-docs.com/docs/database-clouddb-getobjectstoragebackuplist
+     
+#### Storage
+- ##### [Object Storage](https://api.ncloud-docs.com/docs/storage-objectstorage)
+    - Scopes
+        - https://api.ncloud-docs.com/docs/storage-objectstorage-listbuckets
+        - https://api.ncloud-docs.com/docs/storage-objectstorage-listobjects
+        - https://api.ncloud-docs.com/docs/storage-objectstorage-getbucketco
+
+
+#### Networking
+- ##### [Vpc](https://api.ncloud-docs.com/docs/networking-vpc)
+    - Scopes
+        - https://api.ncloud-docs.com/docs/networking-vpc-vpcmanagement-getvpclist
+        - https://api.ncloud-docs.com/docs/networking-vpc-vpcmanagement-getvpcdetail
+        - https://api.ncloud-docs.com/docs/networking-vpc-subnetmanagement-getsubnetlist
+        - https://api.ncloud-docs.com/docs/networking-vpc-subnetmanagement-getsubnetdetail
+        - https://api.ncloud-docs.com/docs/networking-vpc-networkacl-getnetworkacllist
+        - https://api.ncloud-docs.com/docs/networking-vpc-networkacl-getnetworkacldetail
+        - https://api.ncloud-docs.com/docs/networking-vpc-natgateway-getnatgatewayinstancelist
+        - https://api.ncloud-docs.com/docs/networking-vpc-natgateway-getnatgatewayinstancedetail
+        - https://api.ncloud-docs.com/docs/networking-vpc-vpcpeering-getvpcpeeringinstancelist
+        - https://api.ncloud-docs.com/docs/networking-vpc-vpcpeering-getvpcpeeringinstancedetail
+        - https://api.ncloud-docs.com/docs/networking-vpc-routetable-getroutetablelist
+        - https://api.ncloud-docs.com/docs/networking-vpc-routetable-getroutetabledetail
+        - https://api.ncloud-docs.com/docs/networking-vpc-routetable-getroutetablesubnetlist
+     
+
+     
+#### Management
+- ##### [Monitoring](https://api.ncloud-docs.com/docs/management-monitoring)
+    - Scopes
+        - https://api.ncloud-docs.com/docs/management-monitoring-getmetricstatisticlist
+        - https://api.ncloud-docs.com/docs/management-monitoring-getlistmetrics
+        
+     
+     
+#### Content Delivery
+- ##### [Cdn](https://api.ncloud-docs.com/docs/networking-cdn)
+    - Scopes
+        - https://api.ncloud-docs.com/docs/networking-cdn-getcdnplusinstancelist
+        - https://api.ncloud-docs.com/docs/networking-cdn-getcdnpluspurgehistorylist
+        - https://api.ncloud-docs.com/docs/networking-cdn-getglobalcdninstancelist
+        - https://api.ncloud-docs.com/docs/networking-cdn-getglobalcdnpurgehistorylist
+          
+  
+
 
 
 

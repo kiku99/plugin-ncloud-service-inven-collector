@@ -16,8 +16,6 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
         self.instance_conn: ServerConnector = ncloud_connector
 
     def get_server_info(self, instance, zone_info):
-
-
         server_dic = self._get_server_dic(instance, zone_info)
         hardware_data = self._get_hardware_data(instance)
         compute_data = self._get_compute_data(instance, zone_info)
@@ -27,7 +25,7 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
         server_dic.update({
             'data': {
                 'compute': compute_data,
-                'portForwardingRules': port_forwarding_rules,
+                'port_forwarding_rules': port_forwarding_rules,
                 'hardware': hardware_data,
                 'ip': ip_info
             }
@@ -56,27 +54,26 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
         memory_size = instance.memory_size
 
         hardware_data = {
-            'cpuCount': cpu_count,
-            'memorySize': memory_size,
+            'cpu_count': cpu_count,
+            'memory_size': memory_size,
         }
 
         return Hardware(hardware_data, strict=False)
 
     @staticmethod
     def _get_compute_data(instance, zone_info):
-
         compute_data = {
-            'serverName': instance.server_name,
-            'serverImageName': instance.server_image_name,
-            'serverInstanceStatus': instance.server_instance_status.code,
-            'serverInstanceOperation': instance.server_instance_operation.code,
-            'serverInstanceStatusName': instance.server_instance_status_name,
-            'platformType': instance.platform_type.code_name,
-            'createDate': instance.create_date,
+            'server_name': instance.server_name,
+            'server_image_name': instance.server_image_name,
+            'server_instance_status': instance.server_instance_status.code,
+            'server_instance_operation': instance.server_instance_operation.code,
+            'server_instance_status_name': instance.server_instance_status_name,
+            'platform_type': instance.platform_type.code_name,
+            'create_date': instance.create_date,
             'uptime': instance.uptime,
-            'serverImageProductCode': instance.server_image_product_code,
-            'serverProductCode': instance.server_product_code,
-            'serverInstanceType': instance.server_instance_type.code,
+            'server_image_product_code': instance.server_image_product_code,
+            'server_product_code': instance.server_product_code,
+            'server_instance_type': instance.server_instance_type.code,
             'zone': zone_info.get('zone', ''),
             'region': zone_info.get('region', '')
         }
@@ -96,8 +93,8 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
     @staticmethod
     def _get_ip(instance):
         ip_data = {
-            'privateIP': instance.private_ip,
-            'publicIP': instance.public_ip
+            'private_ip': instance.private_ip,
+            'public_ip': instance.public_ip
         }
 
         return IP(ip_data, strict=False)

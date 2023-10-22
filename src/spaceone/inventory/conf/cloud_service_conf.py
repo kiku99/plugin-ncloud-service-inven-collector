@@ -19,6 +19,9 @@ CLOUD_SERVICE_GROUP_MAP = {
     ],
     'Management': [
         'MonitoringManager'
+    ],
+    'Content Delivery': [
+        'CdnManager'
     ]
 }
 

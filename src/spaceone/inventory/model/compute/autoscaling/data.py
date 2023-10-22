@@ -22,15 +22,15 @@ from schematics.types import ModelType, ListType, StringType, IntType, DateTimeT
 
 
 class ActivityLog(Model):
-    activityNo = StringType()
+    activity_no = StringType()
     # autoScalingGroupName = StringType()
     status = StringType()
-    statusMessage = StringType()
+    status_message = StringType()
     # actionCause = StringType()
     description = StringType()
     details = StringType()
-    startTime = DateTimeType()
-    endTime = DateTimeType()
+    start_time = DateTimeType()
+    end_time = DateTimeType()
 
 
 class AdjustmentType(Model):
@@ -38,43 +38,43 @@ class AdjustmentType(Model):
 
 
 class ConfigurationLog(Model):
-    configurationNo = StringType()
-    configurationActionName = StringType()
+    configuration_no = StringType()
+    configuration_action_name = StringType()
     # parameters = StringType()
-    launchConfigurationName = StringType()
+    launch_configuration_name = StringType()
     # autoScalingGroupName = StringType()
-    scheduledActionName = StringType()
-    settingTime = DateTimeType()
+    scheduled_action_name = StringType()
+    setting_time = DateTimeType()
 
 
 class ScalingPolicy(Model):
-    policyName = StringType()
-    autoScalingGroupName = StringType()
-    adjustmentType = StringType()
-    scalingAdjustment = IntType()
+    policy_name = StringType()
+    auto_scaling_group_name = StringType()
+    adjustment_type = StringType()
+    scaling_adjustment = IntType()
     cooldown = IntType()
-    minAdjustmentStep = IntType()
+    min_adjustment_step = IntType()
 
 
 class AccessControlGroup(Model):
-    accessControlGroupConfigurationNo = StringType()
-    accessControlGroupDescription = StringType()
-    accessControlGroupName = StringType()
+    access_control_group_configuration_no = StringType()
+    access_control_group_description = StringType()
+    access_control_group_name = StringType()
     # createDate = DateTimeType()
-    isDefaultGroup = StringType()
+    is_default_group = StringType()
 
 
 class LaunchConfiguration(Model):
-    launchConfigurationName = StringType()
+    launch_configuration_name = StringType()
     # launchConfigurationNo = StringType()
     # serverImageProductCode = StringType()
     # serverProductCode = StringType()
     # memberServerImageNo = StringType()
-    loginKeyName = StringType()
+    login_key_name = StringType()
     # createDate = DateTimeType()
     # userData = StringType(default=None)
     # initScriptNo = StringType(default=None)
-    accessControlGroupList = ListType(ModelType(AccessControlGroup))
+    access_control_group_list = ListType(ModelType(AccessControlGroup))
 
 
 class Process(Model):
@@ -82,20 +82,20 @@ class Process(Model):
 
 
 class ScheduledUpdateGroupAction(Model):
-    autoScalingGroupName = StringType()
-    scheduledActionName = StringType()
-    desiredCapacity = IntType()
-    minSize = IntType()
-    maxSize = IntType()
-    startTime = DateTimeType()
-    endTime = DateTimeType(default=None)
-    recurrenceInKST = DateTimeType(default=None)
+    auto_scaling_group_name = StringType()
+    scheduled_action_name = StringType()
+    desired_capacity = IntType()
+    min_size = IntType()
+    max_size = IntType()
+    start_time = DateTimeType()
+    end_time = DateTimeType(default=None)
+    recurrence_in_kst = DateTimeType(default=None)
 
 
 class Zone(Model):
-    zoneDescription = StringType()
-    zoneName = StringType()
-    zoneNo = StringType()
+    zone_description = StringType()
+    zone_name = StringType()
+    zone_no = StringType()
 
 
 class AutoScalingGroup(Model):
@@ -103,22 +103,22 @@ class AutoScalingGroup(Model):
     # autoScalingGroupNo = StringType()
     # launchConfigurationName = StringType()
     # launchConfigurationNo = StringType()
-    desiredCapacity = IntType()
-    minSize = IntType()
-    maxSize = IntType()
-    defaultCooldown = IntType()
+    desired_capacity = IntType()
+    min_size = IntType()
+    max_size = IntType()
+    default_cooldown = IntType()
     # loadBalancerInstanceSummaryList = ListType(StringType())
-    healthCheckGracePeriod = IntType()
-    healthCheckType = StringType()
+    health_check_grace_period = IntType()
+    health_check_type = StringType()
     # createDate = DateTimeType()
     # inAutoScalingGroupServerInstanceList = ListType(StringType())
     # suspendedProcessList = ListType(StringType())
-    zoneList = ListType(ModelType(Zone))
+    zone_list = ListType(ModelType(Zone))
 
-    activityLogList = ListType(ModelType(ActivityLog))
+    activity_log_list = ListType(ModelType(ActivityLog))
     # adjustmentType = ModelType(AdjustmentType)
-    configurationLogList = ListType(ModelType(ConfigurationLog))
+    configuration_log_list = ListType(ModelType(ConfigurationLog))
     # scalingPolicy = ModelType(ScalingPolicy)
-    launchConfigurationList = ListType(ModelType(LaunchConfiguration))
+    launch_configuration_list = ListType(ModelType(LaunchConfiguration))
     # process = ModelType(Process)
     # scheduledUpdateGroupAction = ModelType(ScheduledUpdateGroupAction)

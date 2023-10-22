@@ -40,11 +40,11 @@ class StorageManagerResourceHelper(NaverCloudManager):
             single_storage_type, single_storage_detail_type = self._get_storage_type(matching_single_storage)
 
         single_disk = {
-            'storageName': matching_single_storage.block_storage_name,
-            'storageSize': storage_sz,
-            'storageDescription': matching_single_storage.block_storage_instance_description,
-            'storageDiskType': single_storage_type,
-            'storageDiskDetailType': single_storage_detail_type
+            'storage_name': matching_single_storage.block_storage_name,
+            'storage_size': storage_sz,
+            'storage_description': matching_single_storage.block_storage_instance_description,
+            'storage_disk_type': single_storage_type,
+            'storage_disk_detail_type': single_storage_detail_type
         }
 
         # storages.append(Storage(single_disk, strict=False))
