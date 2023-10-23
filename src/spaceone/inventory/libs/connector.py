@@ -42,7 +42,8 @@ class NaverCloudConnector(BaseConnector):
         self.clouddb_client = None
         self.autoscaling_client = None
         self.object_storage_client = None
-        self.archive_storage_client = None
+        self.monitoring_client = None
+        self.cdn_client = None
         self.set_connect(kwargs['secret_data'])
         self.object_storage_connect(kwargs['secret_data'])
         self.archive_storage_connect(kwargs['secret_data'])
