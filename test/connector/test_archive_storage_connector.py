@@ -27,9 +27,6 @@ class TestObjectStorageConnector(unittest.TestCase):
     def test_list_buckets(self):
         list_buckets = self.archive_storage_connector.list_buckets()
         print(list_buckets)
-        print(list_buckets[1])
-        print(list_buckets[1][0])
-        print(list_buckets[1][0]['bytes'])
 
     def test_list_objects(self):
         container_name = 'sample-container'
