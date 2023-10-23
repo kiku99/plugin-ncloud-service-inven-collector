@@ -8,12 +8,15 @@ from spaceone.inventory.manager.storage.archive_storage.archive_storage_manager 
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
-
+DI = os.environ.get("DOMAIN_ID", None)
+PI = os.environ.get('PROJECT_ID', None)
 
 class TestArchiveStorageManager(TestCase):
     secret_data = {
         'ncloud_access_key_id': AKI,
-        'ncloud_secret_key': SK
+        'ncloud_secret_key': SK,
+        'domain_id': DI,
+        'project_id': PI
     }
     @classmethod
     def setUpClass(cls):
@@ -31,9 +34,10 @@ class TestArchiveStorageManager(TestCase):
     def test_archive_storage_manager(self):
         secret_data = self.secret_data
         options = {
-            'bucket_name': "sample-container"
+            'bucket_name': "sample-container",
+
         }
-        params = {'options': options, 'secret_data': secret_data}
+        params = {'options': options, 'secret_data': secret_data, }
 
         archive_storage_instances = self.archive_storage_manager.collect_cloud_service(params)
         print(archive_storage_instances[0][0].to_primitive())

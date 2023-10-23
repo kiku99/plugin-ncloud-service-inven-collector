@@ -42,11 +42,10 @@ class NaverCloudConnector(BaseConnector):
         self.clouddb_client = None
         self.autoscaling_client = None
         self.object_storage_client = None
+        self.archive_storage_client = None
         self.monitoring_client = None
         self.cdn_client = None
         self.set_connect(kwargs['secret_data'])
-        self.object_storage_connect(kwargs['secret_data'])
-        self.archive_storage_connect(kwargs['secret_data'])
 
     def set_connect(self, secret_data: object) -> object:
         configuration_server = ncloud_server.Configuration()
@@ -79,7 +78,6 @@ class NaverCloudConnector(BaseConnector):
         configuration_vpc.secret_key = secret_data['ncloud_secret_key']
         self.vpc_client = ncloud_vpc.V2Api(ncloud_vpc.ApiClient(configuration_vpc))
 
-    def object_storage_connect(self, secret_data: object) -> object:
         object_endpoint_url = 'https://kr.object.ncloudstorage.com'
         object_storage_access_key = secret_data['ncloud_access_key_id']
         object_storage_secret_key = secret_data['ncloud_secret_key']
@@ -88,13 +86,13 @@ class NaverCloudConnector(BaseConnector):
                                                   aws_access_key_id=object_storage_access_key,
                                                   aws_secret_access_key=object_storage_secret_key
                                                   )
-    def archive_storage_connect(self, secret_data: object) -> object:
+
         archive_endpoint_url = 'https://kr.archive.ncloudstorage.com:5000/v3'
         archive_storage_access_key = secret_data['ncloud_access_key_id']
         archive_storage_secret_key = secret_data['ncloud_secret_key']
         #사용자 정의
-        domain_id = '사용자 정의'
-        project_id = '사용자 정의'
+        domain_id = secret_data['domain_id']
+        project_id = secret_data['project_id']
         auth = v3.Password(auth_url=archive_endpoint_url,
                                                   username=archive_storage_access_key,
                                                   password=archive_storage_secret_key,
@@ -102,6 +100,8 @@ class NaverCloudConnector(BaseConnector):
                                                   user_domain_id=domain_id)
         auth_session = session.Session(auth=auth)
         self.archive_storage_client = swiftclient.Connection(retries=5, session=auth_session)
+
+
 
     def verify(self, **kwargs):
         if self.server_client is None:

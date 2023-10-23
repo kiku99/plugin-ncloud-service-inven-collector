@@ -10,10 +10,12 @@ AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
 
 
+
 class TestObjectStorageManager(TestCase):
     secret_data = {
         'ncloud_access_key_id': AKI,
-        'ncloud_secret_key': SK
+        'ncloud_secret_key': SK,
+
     }
     @classmethod
     def setUpClass(cls):

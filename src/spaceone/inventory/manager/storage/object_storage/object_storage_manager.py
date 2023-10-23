@@ -40,7 +40,7 @@ class ObjectStorageManager(NaverCloudManager):
         # 0. Gather All Related Resources
         ##################################
         self.instance_conn: ObjectStorageConnector = self.locator.get_connector(self.connector_name, **params)
-        self.instance_conn.object_storage_connect(params['secret_data'])
+        self.instance_conn.set_connect(params['secret_data'])
 
         buckets = self.instance_conn.list_buckets()
         objects = self.instance_conn.list_objects(params['options']['bucket_name'])
