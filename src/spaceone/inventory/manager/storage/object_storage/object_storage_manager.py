@@ -6,9 +6,9 @@ from datetime import datetime, timedelta
 from spaceone.inventory.libs.manager import NaverCloudManager
 from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.storage.object_storage_connector import ObjectStorageConnector
-from spaceone.inventory.model.storage.cloud_service_type import CLOUD_SERVICE_TYPES
-from spaceone.inventory.model.storage.cloud_service import ObjectStorageResource, ObjectStorageResponse
-from spaceone.inventory.model.storage.data import BucketGroup
+from spaceone.inventory.model.storage.object_storage.cloud_service_type import CLOUD_SERVICE_TYPES
+from spaceone.inventory.model.storage.object_storage.cloud_service import ObjectStorageResource, ObjectStorageResponse
+from spaceone.inventory.model.storage.object_storage.data import BucketGroup
 from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
 
 _LOGGER = logging.getLogger(__name__)
@@ -40,11 +40,11 @@ class ObjectStorageManager(NaverCloudManager):
         # 0. Gather All Related Resources
         ##################################
         self.instance_conn: ObjectStorageConnector = self.locator.get_connector(self.connector_name, **params)
-        self.instance_conn.object_storage_connect(params['secret_data'])
+        self.instance_conn.set_connect(params['secret_data'])
 
         buckets = self.instance_conn.list_buckets()
-        objects = self.instance_conn.list_objects(params['bucket_name'])
-        bucket_cors = self.instance_conn.get_bucket_cors(params['bucket_name'])
+        objects = self.instance_conn.list_objects(params['options']['bucket_name'])
+        bucket_cors = self.instance_conn.get_bucket_cors(params['options']['bucket_name'])
 
         list_buckets = buckets['Buckets']
         for bucket in list_buckets:

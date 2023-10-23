@@ -4,16 +4,18 @@ from spaceone.tester import TestCase
 from spaceone.core.unittest.runner import RichTestRunner
 from spaceone.core import config
 from spaceone.inventory.connector.storage.object_storage_connector import ObjectStorageConnector
-from spaceone.inventory.manager.storage.object_storage_manager import ObjectStorageManager
+from spaceone.inventory.manager.storage.object_storage.object_storage_manager import ObjectStorageManager
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
 
 
+
 class TestObjectStorageManager(TestCase):
     secret_data = {
         'ncloud_access_key_id': AKI,
-        'ncloud_secret_key': SK
+        'ncloud_secret_key': SK,
+
     }
     @classmethod
     def setUpClass(cls):
@@ -30,7 +32,10 @@ class TestObjectStorageManager(TestCase):
 
     def test_object_storage_manager(self):
         secret_data = self.secret_data
-        params = {'secret_data': secret_data, 'bucket_name':"my-new-bucket"}
+        options = {
+            'bucket_name': "my-new-bucket"
+        }
+        params = {'options': options, 'secret_data': secret_data}
         object_storage_instances = self.object_storage_manager.collect_cloud_service(params)
 
         print(object_storage_instances[0][3].to_primitive())

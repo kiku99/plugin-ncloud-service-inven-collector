@@ -1,8 +1,4 @@
 from spaceone.inventory.libs.connector import NaverCloudConnector
-import swiftclient
-from keystoneauth1 import session
-from keystoneauth1.identity import v3
-import pprint
 
 __all__ = ['ArchiveStorageConnector']
 
@@ -20,8 +16,6 @@ class ArchiveStorageConnector(NaverCloudConnector):
     def list_objects(self, container_name):
         container = self.archive_storage_client.get_container(container_name)
         return container
-
-
 
 
 

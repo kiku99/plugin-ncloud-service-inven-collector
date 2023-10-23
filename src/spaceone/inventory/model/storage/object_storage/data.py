@@ -11,7 +11,6 @@ class Buckets(Model):
     name = StringType()
     creation_date = DateTimeType()
 
-
 class BucketGroup(Model):
     buckets = ModelType(Buckets)
     owner = ModelType(Owner)

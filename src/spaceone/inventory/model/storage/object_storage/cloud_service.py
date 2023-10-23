@@ -1,7 +1,7 @@
 from schematics.types import ModelType, StringType, PolyModelType
 
-from spaceone.inventory.model.storage.data import BucketGroup
-# from spaceone.inventory.model.storage.data import ArchiveBucketGroup
+from spaceone.inventory.model.storage.object_storage.data import BucketGroup
+# from spaceone.inventory.model.storage.object_storage.data import ArchiveBucketGroup
 from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, DateTimeDyField, EnumDyField, SizeField, ListDyField
 from spaceone.inventory.libs.schema.metadata.dynamic_layout import ItemDynamicLayout, TableDynamicLayout, \
     ListDynamicLayout, SimpleTableDynamicLayout
