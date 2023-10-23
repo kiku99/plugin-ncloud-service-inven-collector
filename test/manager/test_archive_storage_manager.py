@@ -33,10 +33,12 @@ class TestArchiveStorageManager(TestCase):
         options = {
             'bucket_name': "sample-container"
         }
-        params = {'secret_data': secret_data, 'bucket_name':"sample-container"}
+        params = {'options': options, 'secret_data': secret_data}
 
         archive_storage_instances = self.archive_storage_manager.collect_cloud_service(params)
         print(archive_storage_instances[0][0].to_primitive())
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)
+
+

@@ -42,7 +42,7 @@ class ArchiveStorageManager(NaverCloudManager):
         self.instance_conn.archive_storage_connect(params['secret_data'])
 
         buckets = self.instance_conn.list_buckets()
-        objects = self.instance_conn.list_objects(params['bucket_name'])
+        objects = self.instance_conn.list_objects(params['options']['bucket_name'])
 
         list_buckets = buckets[1]
         for bucket in list_buckets:

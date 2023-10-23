@@ -43,8 +43,8 @@ class ObjectStorageManager(NaverCloudManager):
         self.instance_conn.object_storage_connect(params['secret_data'])
 
         buckets = self.instance_conn.list_buckets()
-        objects = self.instance_conn.list_objects(params['bucket_name'])
-        bucket_cors = self.instance_conn.get_bucket_cors(params['bucket_name'])
+        objects = self.instance_conn.list_objects(params['options']['bucket_name'])
+        bucket_cors = self.instance_conn.get_bucket_cors(params['options']['bucket_name'])
 
         list_buckets = buckets['Buckets']
         for bucket in list_buckets:
