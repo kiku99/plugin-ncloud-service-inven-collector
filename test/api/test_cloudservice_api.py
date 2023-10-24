@@ -7,6 +7,8 @@ from spaceone.tester import TestCase, print_json
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
+DI = os.environ.get("DOMAIN_ID", None)
+PI = os.environ.get('PROJECT_ID', None)
 
 if AKI is None or SK is None:
     print("""
@@ -33,7 +35,9 @@ class TestCollector(TestCase):
 
     secret_data = {
         'ncloud_access_key_id': AKI,
-        'ncloud_secret_key': SK
+        'ncloud_secret_key': SK,
+        'domain_id': DI,
+        'project_id': PI
     }
 
     def test_init(self):
@@ -58,7 +62,7 @@ class TestCollector(TestCase):
         '''
         options = {
             # "cloud_service_types": ["CloudFunctions"],
-            "cloud_service_types": ["Content Delivery"],
+            # "cloud_service_types": ["Content Delivery"],
             # "custom_asset_url": 'http://xxxxx.spaceone.dev/icon/google'
             'dbKindCode': 'MYSQL',
             'cdnInstanceNo': '20151001',
