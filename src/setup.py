@@ -39,7 +39,9 @@ setup(
         'ncloud-sdk',
         'requests',
         'beautifulsoup4',
-        'boto3'
+        'boto3',
+        'swiftclient',
+        'keystoneauth1'
     ],
     package_data={
         'spaceone': ['inventory/model/*/*/widget/*.yml']

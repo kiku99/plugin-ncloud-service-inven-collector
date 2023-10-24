@@ -90,7 +90,6 @@ class NaverCloudConnector(BaseConnector):
         archive_endpoint_url = 'https://kr.archive.ncloudstorage.com:5000/v3'
         archive_storage_access_key = secret_data['ncloud_access_key_id']
         archive_storage_secret_key = secret_data['ncloud_secret_key']
-        #사용자 정의
         domain_id = secret_data['domain_id']
         project_id = secret_data['project_id']
         auth = v3.Password(auth_url=archive_endpoint_url,
