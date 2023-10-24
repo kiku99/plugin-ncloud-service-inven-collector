@@ -40,8 +40,8 @@ setup(
         'requests',
         'beautifulsoup4',
         'boto3',
-        'swiftclient',
-        'keystoneauth1'
+        'python-swiftclient==3.6.0',
+        'python-keystoneclient==3.17.0'
     ],
     package_data={
         'spaceone': ['inventory/model/*/*/widget/*.yml']
