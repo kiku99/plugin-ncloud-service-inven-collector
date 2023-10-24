@@ -20,6 +20,10 @@ CLOUD_SERVICE_GROUP_MAP = {
     'Management': [
         'MonitoringManager'
     ],
+
+    'Networking': [
+        'VPCNetworkManager'
+    ],
     'Content Delivery': [
         'CdnManager'
     ]
