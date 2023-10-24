@@ -66,18 +66,18 @@ class AutoscalingManager(NaverCloudManager):
                     launch_configuration_list, launch_configuration_name)
 
                 autoscaling_group = {
-                    'defaultCooldown': autoscaling_group.default_cooldown,
-                    'desiredCapacity': autoscaling_group.desired_capacity,
-                    'healthCheckGracePeriod': autoscaling_group.health_check_grace_period,
-                    'healthCheckType': autoscaling_group.health_check_type.code,
-                    'zoneList': zone_list,
+                    'default_cooldown': autoscaling_group.default_cooldown,
+                    'desired_capacity': autoscaling_group.desired_capacity,
+                    'health_check_grace_period': autoscaling_group.health_check_grace_period,
+                    'health_check_type': autoscaling_group.health_check_type.code,
+                    'zone_list': zone_list,
                     # 'inAutoScalingGroupServerInstanceList': autoscaling_group.in_auto_scaling_group_server_instance_list,
                     # 'loadBalancerInstanceSummaryList': autoscaling_group.load_balancer_instance_summary_list,
-                    'maxSize': autoscaling_group.max_size,
-                    'minSize': autoscaling_group.min_size,
-                    'activityLogList': matched_activity_log_list,
-                    'configurationLogList': matched_configuration_log_list,
-                    'launchConfigurationList': matched_launch_configuration_list
+                    'max_size': autoscaling_group.max_size,
+                    'min_size': autoscaling_group.min_size,
+                    'activity_log_list': matched_activity_log_list,
+                    'configuration_log_list': matched_configuration_log_list,
+                    'launch_configuration_list': matched_launch_configuration_list
                 }
 
                 ##################################
@@ -116,11 +116,11 @@ class AutoscalingManager(NaverCloudManager):
         for activity_log in activity_log_list:
             if autoscaling_group == activity_log.auto_scaling_group_name:
                 activity_log = {
-                    'activityNo': activity_log.activity_no,
+                    'activity_no': activity_log.activity_no,
                     'description': activity_log.description,
                     'details': activity_log.details,
-                    'startTime': activity_log.start_time,
-                    'endTime': activity_log.end_time,
+                    'start_time': activity_log.start_time,
+                    'end_time': activity_log.end_time,
                     'status': activity_log.status.code
                 }
                 activity_log_list_info.append(activity_log)
@@ -134,11 +134,11 @@ class AutoscalingManager(NaverCloudManager):
         for configuration_log in configuration_log_list:
             if autoscaling_group == configuration_log.auto_scaling_group_name:
                 configuration_log = {
-                    'configurationActionName': configuration_log.configuration_action_name,
-                    'configurationNo': configuration_log.configuration_no,
-                    'launchConfigurationName': configuration_log.launch_configuration_name,
-                    'scheduledActionName': configuration_log.scheduled_action_name,
-                    'settingTime': configuration_log.setting_time
+                    'configuration_action_name': configuration_log.configuration_action_name,
+                    'configuration_no': configuration_log.configuration_no,
+                    'launch_configuration_name': configuration_log.launch_configuration_name,
+                    'scheduled_action_name': configuration_log.scheduled_action_name,
+                    'setting_time': configuration_log.setting_time
                 }
                 configuration_log_list_info.append(configuration_log)
 
@@ -152,18 +152,18 @@ class AutoscalingManager(NaverCloudManager):
         for launch_configuration in launch_configuration_list:
             for access_control_group in launch_configuration.access_control_group_list:
                 access_control_group = {
-                    'accessControlGroupConfigurationNo': access_control_group.access_control_group_configuration_no,
-                    'accessControlGroupDescription': access_control_group.access_control_group_description,
-                    'accessControlGroupName': access_control_group.access_control_group_name,
-                    'isDefaultGroup': access_control_group.is_default_group
+                    'access_control_group_configuration_no': access_control_group.access_control_group_configuration_no,
+                    'access_control_group_description': access_control_group.access_control_group_description,
+                    'access_control_group_name': access_control_group.access_control_group_name,
+                    'is_default_group': access_control_group.is_default_group
                 }
                 matched_access_control_group_list.append(access_control_group)
 
             if launch_configuration_name == launch_configuration.launch_configuration_name:
                 launch_configuration = {
-                    'launchConfigurationName': launch_configuration.launch_configuration_name,
-                    'loginKeyName': launch_configuration.login_key_name,
-                    'accessControlGroupList': matched_access_control_group_list
+                    'launch_configuration_name': launch_configuration.launch_configuration_name,
+                    'login_key_name': launch_configuration.login_key_name,
+                    'access_control_group_list': matched_access_control_group_list
                 }
                 launch_configuration_list_info.append(launch_configuration)
 
@@ -175,9 +175,9 @@ class AutoscalingManager(NaverCloudManager):
 
         for zone in zone_list:
             zone = {
-                'zoneDescription': zone.zone_description,
-                'zoneName': zone.zone_name,
-                'zoneNo': zone.zone_no
+                'zone_description': zone.zone_description,
+                'zone_name': zone.zone_name,
+                'zone_no': zone.zone_no
             }
         zone_list_info.append(zone)
 

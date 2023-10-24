@@ -80,7 +80,7 @@ class Product(Model):
 
 class CloudDBInstance(Model):
     cloud_db_instance_no = StringType()
-    cloud_db_service_name = StringType()
+    #cloud_db_service_name = StringType()
     db_kind_code = StringType()
     cpu_count = IntType()
     data_storage_type = StringType()
@@ -91,7 +91,7 @@ class CloudDBInstance(Model):
     backup_file_retention_period = IntType()
     cloud_db_instance_status_name = StringType()
     #collation = StringType()
-    create_date = StringType()
+    #create_date = StringType()
     zone_list = ListType(ModelType(Zone))
     region_list = ListType(ModelType(Region))
     #cloud_db_config_list = ModelType(CloudDBConfig)

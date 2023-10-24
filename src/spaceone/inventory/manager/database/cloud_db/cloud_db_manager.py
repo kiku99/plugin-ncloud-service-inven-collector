@@ -40,9 +40,9 @@ class CloudDBManager(NaverCloudManager):
         self.instance_conn: CloudDBConnector = self.locator.get_connector(self.connector_name, **params)
         self.instance_conn.set_connect(params['secret_data'])
 
-        cloud_db_img_products_list = self.instance_conn.list_img_product(params["dbKindCode"])
-        cloud_db_instances = self.instance_conn.list_cloud_db_instance(params["dbKindCode"])
-        cloud_db_products = self.instance_conn.list_product(params['cloudDBImageProductCode'])
+        #cloud_db_img_products_list = self.instance_conn.list_img_product(params["options"]["dbKindCode"])
+        cloud_db_instances = self.instance_conn.list_cloud_db_instance(params["options"]["dbKindCode"])
+        #cloud_db_products = self.instance_conn.list_product(params['cloudDBImageProductCode'])
 
         for instance in cloud_db_instances:
             try:
@@ -50,6 +50,7 @@ class CloudDBManager(NaverCloudManager):
                 # 1. Set Basic Information
                 ##################################
                 cloud_db_service_name = instance.cloud_db_service_name
+                cloud_db_create_date = instance.create_date
                 zone_list = self._get_zone_list(instance.zone)
                 region_list = self._get_region_list(instance.region)
                 access_control_group_list = self._get_access_control_group(instance.access_control_group_list)
@@ -57,7 +58,6 @@ class CloudDBManager(NaverCloudManager):
 
                 instance_data = {
                         'cloud_db_instance_no': instance.cloud_db_instance_no,
-                        'cloud_db_service_name': instance.cloud_db_service_name,
                         'db_kind_code': instance.db_kind_code,
                         'cpu_count': instance.cpu_count,
                         'data_storage_type': instance.data_storage_type.code,
@@ -67,7 +67,6 @@ class CloudDBManager(NaverCloudManager):
                         'backup_time': instance.backup_time,
                         'backup_file_retention_period': instance.backup_file_retention_period,
                         'cloud_db_instance_status_name': instance.cloud_db_instance_status_name,
-                        'create_date': instance.create_date,
                         'zone_list': zone_list,
                         'region_list': region_list,
                         'access_control_group_list': access_control_group_list,
@@ -88,7 +87,7 @@ class CloudDBManager(NaverCloudManager):
                 ##################################
                 cloud_db_resource = CloudDBResource({
                     'name': cloud_db_service_name,
-                    # 'launched_at': autoscaling_group_create_date,
+                    'launched_at': cloud_db_create_date,
                     'data': cloud_db_data
                 })
                 ##################################

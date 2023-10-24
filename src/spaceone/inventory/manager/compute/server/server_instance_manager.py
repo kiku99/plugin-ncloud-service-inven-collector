@@ -45,7 +45,7 @@ class ServerInstanceManager(NaverCloudManager):
         self.instance_conn: ServerConnector = self.locator.get_connector(self.connector_name, **params)
         self.instance_conn.set_connect(params['secret_data'])
         all_resources = self.get_all_resources()
-        compute_servers = self.instance_conn.list_Server_Instance()
+        compute_servers = self.instance_conn.list_server_instance()
 
         for compute_server in compute_servers:
             try:
@@ -83,8 +83,8 @@ class ServerInstanceManager(NaverCloudManager):
     def get_all_resources(self) -> dict:
 
         return {
-            'storage': self.instance_conn.list_Storage_Instance(),
-            'loginKey': self.instance_conn.list_login_key(),
+            'storage': self.instance_conn.list_block_storage_instance(),
+            'login_key': self.instance_conn.list_login_key(),
         }
 
     def get_server_instance_resource(self, zone_info, instance, all_resources) -> ServerInstanceResource:
@@ -92,38 +92,11 @@ class ServerInstanceManager(NaverCloudManager):
 
         ################## TBD ######################
 
-        # VPC
-        # vpcs = all_resources.get('vpcs', [])
-        subnets = all_resources.get('subnets', [])
-
-        # All Public Images
-        public_images = all_resources.get('public_images', {})
-
-        # URL Maps
-        url_maps = all_resources.get('url_maps', [])
-        backend_svcs = all_resources.get('backend_svcs', [])
-        target_pools = all_resources.get('target_pools', [])
-
-        # Forwarding Rules
-        forwarding_rules = all_resources.get('forwarding_rules', [])
-
-        # Firewall
-        firewalls = all_resources.get('firewalls', [])
-
-        # Get Instance Groups
-        instance_group = all_resources.get('instance_group', [])
-
-        # Get Machine Types
-        instance_types = all_resources.get('instance_type', [])
-
-        # Autoscaling group list
-        autoscaler = all_resources.get('autoscaler', [])
-
         # storages
         storages = all_resources.get('storage', [])
 
         # login keys
-        login_keys = all_resources.get('loginKey', [])
+        login_keys = all_resources.get('login_key', [])
 
         '''Get related resources from managers'''
         server_instance_manager_helper: ServerInstanceManagerResourceHelper = \
@@ -137,22 +110,17 @@ class ServerInstanceManager(NaverCloudManager):
         account = login_key.keyName
 
         ''' Gather all resources information '''
-        '''
-        server_data.update({
-            'nics': nic_vos,
-            'storages': storage_vos,
-        })
-        '''
+
         server_data['data'].update({
-            'loginKey': login_key,
+            'login_key': login_key,
             'storage': storage_vos,
         })
 
         server_data.update({
             'account': account,
-            'instance_type': server_data.get('data', {}).get('compute', {}).get('serverInstanceType', {}),
-            'instance_size': server_data.get('data', {}).get('hardware', {}).get('cpuCount', 0),
-            'launched_at': server_data.get('data', {}).get('compute', {}).get('createDate', '')
+            'instance_type': server_data.get('data', {}).get('compute', {}).get('server_instance_type', {}),
+            'instance_size': server_data.get('data', {}).get('hardware', {}).get('cpu_count', 0),
+            'launched_at': server_data.get('data', {}).get('compute', {}).get('create_date', '')
         })
         return ServerInstanceResource(server_data, strict=False)
 
