@@ -40,7 +40,7 @@ class MonitoringManager(NaverCloudManager):
         self.instance_conn: MonitoringConnector = self.locator.get_connector(self.connector_name, **params)
         self.instance_conn.set_connect(params['secret_data'])
 
-        metric_list = self.instance_conn.list_metrics(params["instance_no"])
+        metric_list = self.instance_conn.list_metrics(params["options"]["instance_no"])
 
         #metirc_statistic_list = self.instance_conn.list_metric_statistic(params["instance_no"], params["metric_name"], params["period"], params["start_time"], params["end_time"])
 

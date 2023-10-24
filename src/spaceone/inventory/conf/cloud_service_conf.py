@@ -6,7 +6,7 @@ SUPPORTED_SCHEDULES = ['hours']
 FILTER_FORMAT = []
 
 CLOUD_SERVICE_GROUP_MAP = {
-    'ComputeServer': [
+    'Compute': [
         'ServerInstanceManager',
         'AutoscalingManager'
     ],
@@ -14,10 +14,15 @@ CLOUD_SERVICE_GROUP_MAP = {
       'CloudDBManager'
     ],
     'Storage': [
-        'ObjectStorageManager'
+        'ObjectStorageManager',
+        'ArchiveStorageManager'
     ],
     'Management': [
         'MonitoringManager'
+    ],
+
+    'Networking': [
+        'VPCNetworkManager'
     ],
     'Content Delivery': [
         'CdnManager'
