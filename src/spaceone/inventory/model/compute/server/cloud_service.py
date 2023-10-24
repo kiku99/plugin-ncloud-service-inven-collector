@@ -52,7 +52,7 @@ class ComputeResource(CloudServiceResource):
 
 
 class ServerInstanceResource(ComputeResource):
-    cloud_service_type = StringType(default='Instance')
+    cloud_service_type = StringType(default='Server')
     data = ModelType(ServerInstance)
     _metadata = ModelType(CloudServiceMeta, default=server_instance_meta, serialized_name='metadata')
 
