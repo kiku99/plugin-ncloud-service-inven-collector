@@ -23,6 +23,7 @@ CLOUD_SERVICE_GROUP_MAP = {
 
     'Networking': [
         'VPCNetworkManager'
+        'LoadbalancerManager'
     ],
     'Content Delivery': [
         'CdnManager'
