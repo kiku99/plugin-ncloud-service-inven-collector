@@ -26,15 +26,15 @@ Please contact us if you need any further information. (<elsd0326@gmail.com>)
 
 The following is a list of services being collected and service code information.
 
-|No.| Service name    | Service Code |
-|---|-----------------|--------------|
-|1| Server| compute|
-|2|Autoscaling|compute|
-|3|Cloud DB|database|
-|4|Object Storage|storage|
-|5|Vpc|networking|
-|6|Monitoring|management|
-|7|Cdn|content delivery|
+|No.| Service name   | Service Code |
+|---|----------------|--------------|
+|1| Server         | compute|
+|2| Autoscaling    |compute|
+|3| Cloud DB       |database|
+|4| Object Storage |storage|
+|5| Vpc            |networking|
+|6| Monitoring     |management|
+|7| CDN            |content delivery|
 
 
 
