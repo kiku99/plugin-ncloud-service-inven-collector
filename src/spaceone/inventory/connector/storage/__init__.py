@@ -1,0 +1,2 @@
+from spaceone.inventory.connector.storage.object_storage_connector import ObjectStorageConnector
+from spaceone.inventory.connector.storage.archive_storage_connector import ArchiveStorageConnector
