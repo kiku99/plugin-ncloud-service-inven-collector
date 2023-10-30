@@ -12,11 +12,13 @@ class Region(Model):
     region_no = StringType()
     region_code = StringType()
     region_name = StringType()
+
 class sslCertificate(Model):
     certificate_name = StringType()
     private_key = StringType()
     public_key_certificate = StringType()
     certificate_chain = StringType()
+
 class AccessControlGroup(Model):
     access_control_group_configuration_no = StringType()
     access_control_group_name = StringType()

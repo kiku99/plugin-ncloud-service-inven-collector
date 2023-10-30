@@ -5,4 +5,5 @@ from spaceone.inventory.manager.storage.object_storage.object_storage_manager im
 from spaceone.inventory.manager.storage.archive_storage.archive_storage_manager import ArchiveStorageManager
 from spaceone.inventory.manager.management.monitoring.monitoring_manager import MonitoringManager
 from spaceone.inventory.manager.networking.VPC.vpc_network_manager import VPCNetworkManager
+from spaceone.inventory.manager.networking.Loadbalancer.load_balancer_manager import LoadbalancerManager
 from spaceone.inventory.manager.content_delivery.cdn.cdn_manager import CdnManager

@@ -1,5 +1,6 @@
 from spaceone.inventory.connector.compute.server_connector import ServerConnector
 from spaceone.inventory.connector.networking.vpc_connector import NetworkingConnector
+from spaceone.inventory.connector.networking.Loadbalancer_connector import LoadbalancerConnector
 from spaceone.inventory.connector.database.cloud_db_connector import CloudDBConnector
 from spaceone.inventory.connector.compute.autoscaling_connector import AutoscalingConnector
 from spaceone.inventory.connector.storage.object_storage_connector import ObjectStorageConnector

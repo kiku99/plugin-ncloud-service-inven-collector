@@ -4,6 +4,7 @@ import ncloud_autoscaling
 import ncloud_clouddb
 import ncloud_server
 import ncloud_vpc
+import ncloud_loadbalancer
 from ncloud_server.api.v2_api import V2Api
 import ncloud_monitoring
 import ncloud_cdn
@@ -77,6 +78,12 @@ class NaverCloudConnector(BaseConnector):
         configuration_vpc.access_key = secret_data['ncloud_access_key_id']
         configuration_vpc.secret_key = secret_data['ncloud_secret_key']
         self.vpc_client = ncloud_vpc.V2Api(ncloud_vpc.ApiClient(configuration_vpc))
+
+        configuration_loadbalancer = ncloud_loadbalancer.Configuration()
+        configuration_loadbalancer.access_key = secret_data['ncloud_access_key_id']
+        configuration_loadbalancer.secret_key = secret_data['ncloud_secret_key']
+        self.loadbalancer_client = ncloud_loadbalancer.V2Api(ncloud_loadbalancer.ApiClient(configuration_loadbalancer))
+
 
         object_endpoint_url = 'https://kr.object.ncloudstorage.com'
         object_storage_access_key = secret_data['ncloud_access_key_id']
