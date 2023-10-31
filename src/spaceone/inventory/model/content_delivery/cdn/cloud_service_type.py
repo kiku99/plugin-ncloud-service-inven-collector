@@ -15,10 +15,10 @@ count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 count_by_project_conf = os.path.join(current_dir, 'widget/count_by_project.yml')
 
 cst_content_delivery_cdn = CloudServiceTypeResource()
-cst_content_delivery_cdn.name = 'Cdn'
+cst_content_delivery_cdn.name = 'CDN'
 cst_content_delivery_cdn.provider = 'naver_cloud'
 cst_content_delivery_cdn.group = 'content_delivery'
-cst_content_delivery_cdn.service_code = 'Cdn'
+cst_content_delivery_cdn.service_code = 'CDN'
 cst_content_delivery_cdn.labels = ['Content Delivery']
 cst_content_delivery_cdn.is_primary = True
 cst_content_delivery_cdn.is_major = True

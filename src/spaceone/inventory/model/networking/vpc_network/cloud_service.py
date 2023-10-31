@@ -90,7 +90,7 @@ instance_template_meta = CloudServiceMeta.set_layouts([vpc_network_detail_meta,
 
 
 class VPCResource(CloudServiceResource):
-    cloud_service_group = StringType(default='Networking')
+    cloud_service_group = StringType(default='VPC')
 
 
 class VPCNetworkResource(VPCResource):

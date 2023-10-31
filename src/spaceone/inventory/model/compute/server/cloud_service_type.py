@@ -19,7 +19,7 @@ count_by_instance_type_conf = os.path.join(current_dir, 'widget/count_by_instanc
 count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 
 cst_server_instance = CloudServiceTypeResource()
-cst_server_instance.name = 'Instance'
+cst_server_instance.name = 'Server'
 cst_server_instance.provider = 'naver_cloud'
 cst_server_instance.group = 'Compute'
 cst_server_instance.service_code = 'Server'
