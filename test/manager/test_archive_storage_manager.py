@@ -40,7 +40,7 @@ class TestArchiveStorageManager(TestCase):
         params = {'options': options, 'secret_data': secret_data, }
 
         archive_storage_instances = self.archive_storage_manager.collect_cloud_service(params)
-        print(archive_storage_instances[0][0].to_primitive())
+        print(archive_storage_instances[0][2].to_primitive())
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)

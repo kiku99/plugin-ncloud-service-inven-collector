@@ -39,7 +39,7 @@ class ArchiveStorageManager(NaverCloudManager):
         # 0. Gather All Related Resources
         ##################################
         self.instance_conn: ArchiveStorageConnector = self.locator.get_connector(self.connector_name, **params)
-        self.instance_conn.set_connect(params['secret_data'])
+        self.instance_conn.set_connect_storage(params['secret_data'])
 
         buckets = self.instance_conn.list_buckets()
         objects = self.instance_conn.list_objects(params['options']['bucket_name'])

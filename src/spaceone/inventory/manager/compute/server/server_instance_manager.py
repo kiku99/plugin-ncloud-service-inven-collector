@@ -74,7 +74,7 @@ class ServerInstanceManager(NaverCloudManager):
             except Exception as e:
                 _LOGGER.error(f'[list_resources] vm_id => {compute_server.server_instance_no}, error => {e}',
                               exc_info=True)
-                error_response = self.generate_resource_error_response(e, 'ComputeServer', 'Server', server_no)
+                error_response = self.generate_resource_error_response(e, 'Compute', 'Server', server_no)
                 error_responses.append(error_response)
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
@@ -107,7 +107,7 @@ class ServerInstanceManager(NaverCloudManager):
         storage_vos = storage_manager_helper.get_storage_info(instance, storages)
         login_key = login_key_manager_helper.get_login_key_info(login_keys)
         server_data = server_instance_manager_helper.get_server_info(instance, zone_info)
-        account = login_key.keyName
+        account = login_key.key_name
 
         ''' Gather all resources information '''
 

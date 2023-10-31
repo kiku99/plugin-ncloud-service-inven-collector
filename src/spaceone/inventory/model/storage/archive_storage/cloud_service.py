@@ -24,10 +24,10 @@ bucket_instance_meta = CloudServiceMeta.set_layouts([bucket])
 
 
 class StorageGroupResource(CloudServiceResource):
-    cloud_service_group = StringType(default='CloudStorage')
+    cloud_service_group = StringType(default='Storage')
 
 class ArchiveStorageResource(StorageGroupResource):
-    cloud_service_type = StringType(default='Bucket')
+    cloud_service_type = StringType(default='ArchiveStorage')
     data = ModelType(ArchiveBucketGroup)
     _metadata = ModelType(CloudServiceMeta, default=bucket_instance_meta, serialized_name='metadata')
 

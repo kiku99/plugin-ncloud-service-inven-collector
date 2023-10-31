@@ -24,21 +24,14 @@ bucket_instance_meta = CloudServiceMeta.set_layouts([bucket])
 
 
 class StorageGroupResource(CloudServiceResource):
-    cloud_service_group = StringType(default='CloudStorage')
+    cloud_service_group = StringType(default='Storage')
 
 
 class ObjectStorageResource(StorageGroupResource):
-    cloud_service_type = StringType(default='Bucket')
+    cloud_service_type = StringType(default='ObjectStorage')
     data = ModelType(BucketGroup)
     _metadata = ModelType(CloudServiceMeta, default=bucket_instance_meta, serialized_name='metadata')
 
 class ObjectStorageResponse(CloudServiceResponse):
     resource = PolyModelType(ObjectStorageResource)
 
-# class ArchiveStorageResource(StorageGroupResource):
-#     cloud_service_type = StringType(default='Bucket')
-#     data = ModelType(ArchiveBucketGroup)
-#     _metadata = ModelType(CloudServiceMeta, default=bucket_instance_meta, serialized_name='metadata')
-#
-# class ArchiveStorageResponse(CloudServiceResponse):
-#     resource = PolyModelType(ArchiveStorageResource)
