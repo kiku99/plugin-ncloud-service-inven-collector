@@ -14,7 +14,7 @@ _LOGGER = logging.getLogger(__name__)
 class LoadbalancerManager(NaverCloudManager):
     connector_name = 'LoadbalancerConnector'
     cloud_service_types = CLOUD_SERVICE_TYPES
-    loadbalancer_conn = None
+    load_balancer_conn = None
 
     def collect_cloud_service(self, params) -> Tuple[List[LoadBalancingResponse], List[ErrorResourceResponse]]:
         _LOGGER.debug(f'** Loadbalancer START **')
@@ -37,17 +37,15 @@ class LoadbalancerManager(NaverCloudManager):
         # 0. Gather All Related Resources
         ##################################
 
-        self.vpc_conn: LoadbalancerConnector = self.locator.get_connector(self.connector_name, **params)
-        self.vpc_conn.set_connect(params['secret_data'])
+        self.load_balancer_conn: LoadbalancerConnector = self.locator.get_connector(self.connector_name, **params)
+        self.load_balancer_conn.set_connect(params['secret_data'])
 
-        vpc_list = self.vpc_conn.list_vpc()
-        Route_Table_List = self.vpc_conn.List_Route_Table()
-        Sub_net_List = self.vpc_conn.list_Subnet()
-        peering_vpc_List = self.vpc_conn.List_Vpc_Peering_Instance()
-        nat_gate_way_instance_List = self.vpc_conn.List_Nat_Gateway_Instance()
-        net_work_acl_List = self.vpc_conn.Network_AclList()
+        load_balanced_server_instance_list = self.load_balancer_conn.list_load_balanced_server_instance(params["loadBalancerInstanceNo"])
+        # load_balancer_instance_list = self.load_balancer_conn.list_load_balancer_instance()
+        # ssl_List = self.load_balancer_conn.list_load_balancer_ssl_certificate()
+        # target_server_instance_List = self.load_balancer_conn.list_load_balancer_target_server_instance()
 
-        for vpc in vpc_list:
+        for Loadbalance in load_balanced_server_instance_list:
             try:
                 ##################################
                 # 1. Set Basic Information
@@ -56,31 +54,38 @@ class LoadbalancerManager(NaverCloudManager):
                 Loadbalancer_name = LoadBalancerInstance.load_balancer_name
                 Loadbalancer_create_date = LoadBalancerInstance.create_date
                 Loadbalancer_no = LoadBalancerInstance.load_balancer_instance_no
-                matched_route_table_list = self._get_matched_route_table_list(Route_Table_List, Loadbalancer_no)
-                matched_subnet_list = self._get_matched_subnet_list(Sub_net_List, Loadbalancer_no)
-                matched_vpc_peering_list = self._get_vpc_peering_list(peering_vpc_List, Loadbalancer_no)
-                matched_nat_gateway_instance_list = self._get_nat_gateway_instance_list(nat_gate_way_instance_List, Loadbalancer_no)
-                matched_network_acl_list = self._get_network_acl_list(net_work_acl_List, Loadbalancer_no)
+                zone_list = self._get_zone_list(Loadbalance.zone)
+                region_list = self._get_region_list(Loadbalance.region)
 
-                Loadbalancer_info = {
-                        '_no': vpc.vpc_no,
-                        # 'vpc_name': vpc.vpc_name,
-                        'ipv4_cidr_block': vpc.ipv4_cidr_block,
-                        'vpc_status': vpc.vpc_status.code,
-                        'region_code': vpc.region_code,
-                        # 'create_date': vpc.create_date,
-                        'subnet_list': matched_subnet_list,
-                        'vpc_peering_list':  matched_vpc_peering_list,
-                        'route_table_list': matched_route_table_list,
-                        'nat_gateway_instance_list': matched_nat_gateway_instance_list,
-                        'network_acl_list': matched_network_acl_list
+
+
+                Load_balance_data = {
+                        'load_balancer_instance_no': Loadbalance.load_balancer_instance_no,
+                        'virtual_ip': Loadbalance.virtual_ip,
+                        'load_balancer_name': Loadbalance.ipv4_cidr_block,
+                        'load_balancer_algorithm_type': Loadbalance.vpc_status.code,
+                        'load_balancer_description': Loadbalance.region_code,
+                        'create_date': Loadbalance.create_date,
+                        'domain_name': Loadbalance.domain_name,
+                        'internet_line_type':  Loadbalance.internet_line_type.code,
+                        'load_balancer_instance_status_name': Loadbalance.load_balancer_instance_status_name,
+                        'load_balancer_instance_status': Loadbalance.load_balancer_instance_status.code,
+                        'load_balancer_instance_operation': Loadbalance.load_balancer_instance_operation.code,
+                        'network_usage_type': Loadbalance.network_usage_type.code,
+                        'is_http_keep_alive': Loadbalance.is_http_keep_alive,
+                        'connection_timeout': Loadbalance.connection_timeout,
+                        'certificate_name': Loadbalance.certificate_name,
+                        'load_balancer_rule_list': Loadbalance.load_balancer_rule_list,
+                        'load_balanced_server_instance_list': Loadbalance.load_balanced_server_instance_list,
+                        'zone_list': zone_list,
+                        'Region_list': region_list,
 
                 }
 
                 ##################################
                 # 2. Make Base Data
                 ##################################
-                Loadbalancer_data = LoadBalancerInstance(Loadbalancer_info, strict=False)
+                Loadbalancer_data = LoadBalancerInstance(Load_balance_data, strict=False)
 
                 ##################################
                 # 3. Make Return Resource
@@ -97,8 +102,8 @@ class LoadbalancerManager(NaverCloudManager):
                 resource_responses.append(LoadBalancingResponse({'resource': vpc_network_resource}))
 
             except Exception as e:
-                _LOGGER.error(f'[list_resources] vm_id => {vpc.vpc_name}, error => {e}',exc_info=True)
-                error_response = self.generate_resource_error_response(e, 'networking', 'vpc', Loadbalancer_name)
+                _LOGGER.error(f'[list_resources] vm_id => {Loadbalance.Loadbalancer_name}, error => {e}',exc_info=True)
+                error_response = self.generate_resource_error_response(e, 'networking', 'Loadbalancer', Loadbalancer_name)
                 error_responses.append(error_response)
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
@@ -106,26 +111,34 @@ class LoadbalancerManager(NaverCloudManager):
 
 
     @staticmethod
-    def _get_matched_subnet_list(Sub_net_List, subnet_group):
+    def _get_zone_list(zone_List, zone_group):
         # Convert database list(dict) -> list(database object)
-        subnet_list = []
-        for subnet in Sub_net_List:
-            if subnet_group == subnet.vpc_no :
-                subnet = {
-                    'subnet_no': subnet.subnet_no,
-                    'zone_code': subnet.zone_code,
-                    'subnet_name': subnet.subnet_name,
-                    'subnet_status': subnet.subnet_status.code,
-                    # 'create_date': subnet.create_date,
-                    'subnet_type': subnet.subnet_type.code,
-                    'usage_type': subnet.usage_type.code,
-                    'network_acl_no': subnet.network_acl_no,
-
-
+        Zone_list = []
+        for zone in zone_List:
+            if zone_group == zone_List.load_balancer_instance_no:
+                zone = {
+                    'subnet_no': zone_List.subnet_no,
+                    'zone_code': zone_List.zone_code,
+                    'zone_description': zone_List.zone_description
             }
-            subnet_list.append(subnet)
+            Zone_list.append(zone)
 
-        return subnet_list
+        return Zone_list
+
+    @staticmethod
+    def _get_region_list(zone_List, zone_group):
+        # Convert database list(dict) -> list(database object)
+        Zone_list = []
+        for zone in zone_List:
+            if zone_group == zone_List.load_balancer_instance_no :
+                zone = {
+                    'region_no': zone_List.subnet_no,
+                    'region_code': zone_List.zone_code,
+                    'region_name': zone_List.zone_description
+            }
+            Zone_list.append(zone)
+
+        return Zone_list
 
     @staticmethod
     def _get_vpc_peering_list(peering_vpc_List, peering_group):
@@ -134,24 +147,7 @@ class LoadbalancerManager(NaverCloudManager):
         for peering in peering_vpc_List:
             if peering_group == peering.vpc_no:
                 peering = {
-                    'vpc_peering_instance_no': peering.vpc_peering_instance_no,
-                    'vpc_peering_name': peering.vpc_peering_name,
-                    'last_modifiy_date': peering.last_modifiy_date,
-                    'vpc_peering_instance_status': peering.vpc_peering_instance_status.code,
-                    'vpc_peering_instance_status_name': peering.vpc_peering_instance_status_name,
-                    'vpc_peering_instance_operation': peering.vpc_peering_instance_operation.code,
-                    'source_vpc_no': peering.source_vpc_no,
-                    'source_vpc_name': peering.source_vpc_name,
-                    'source_vpc_ipv4_cidr_block': peering.source_vpc_ipv4_cidr_block,
-                    'source_vpc_login_id': peering.source_vpc_login_id,
-                    'target_vpc_no': peering.target_vpc_no,
-                    'target_vpc_name': peering.target_vpc_name,
-                    'target_vpc_ipv4_cidr_block': peering.target_vpc_ipv4_cidr_block,
-                    'target_vpc_login_id': peering.target_vpc_login_id,
-                    'vpc_peering_description': peering.vpc_peering_description,
-                    'has_reverse_vpc_peering': peering.has_reverse_vpc_peering,
-                    'is_between_accounts': peering.is_between_accounts,
-                    'reverse_vpc_peering_instance_no': peering.reverse_vpc_peering_instance_no,
+                'zone_no' : peering.zone_no
 
                 }
             vpc_peering_list_info.append(peering)
