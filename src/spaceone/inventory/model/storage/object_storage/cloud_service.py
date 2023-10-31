@@ -28,7 +28,7 @@ class StorageGroupResource(CloudServiceResource):
 
 
 class ObjectStorageResource(StorageGroupResource):
-    cloud_service_type = StringType(default='Bucket')
+    cloud_service_type = StringType(default='ObjectStorage')
     data = ModelType(BucketGroup)
     _metadata = ModelType(CloudServiceMeta, default=bucket_instance_meta, serialized_name='metadata')
 
