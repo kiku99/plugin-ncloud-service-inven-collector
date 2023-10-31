@@ -1,6 +1,6 @@
 ---
 cloud_service_group: Networking
-cloud_service_type: NetworkingConnector
+cloud_service_type: VpcConnector
 name: Count by Project
 query:
   aggregate:

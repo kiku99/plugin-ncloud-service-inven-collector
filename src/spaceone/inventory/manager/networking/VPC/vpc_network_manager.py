@@ -3,7 +3,7 @@ import logging
 from typing import Tuple, List
 
 from spaceone.inventory.libs.manager import NaverCloudManager
-from spaceone.inventory.connector.networking.vpc_connector import NetworkingConnector
+from spaceone.inventory.connector.networking.vpc_connector import VpcConnector
 from spaceone.inventory.model.networking.vpc_network.data import VPC
 from spaceone.inventory.model.networking.vpc_network.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.model.networking.vpc_network.cloud_service import VPCNetworkResponse, VPCNetworkResource
@@ -11,8 +11,9 @@ from spaceone.inventory.libs.schema.cloud_service import ErrorResourceResponse
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class VPCNetworkManager(NaverCloudManager):
-    connector_name = 'NetworkingConnector'
+    connector_name = 'VpcConnector'
     cloud_service_types = CLOUD_SERVICE_TYPES
     vpc_conn = None
 
@@ -37,7 +38,7 @@ class VPCNetworkManager(NaverCloudManager):
         # 0. Gather All Related Resources
         ##################################
 
-        self.vpc_conn: NetworkingConnector = self.locator.get_connector(self.connector_name, **params)
+        self.vpc_conn: VpcConnector = self.locator.get_connector(self.connector_name, **params)
         self.vpc_conn.set_connect(params['secret_data'])
 
         vpc_list = self.vpc_conn.list_vpc()
@@ -59,21 +60,22 @@ class VPCNetworkManager(NaverCloudManager):
                 matched_route_table_list = self._get_matched_route_table_list(Route_Table_List, network_vpc_no)
                 matched_subnet_list = self._get_matched_subnet_list(Sub_net_List, network_vpc_no)
                 matched_vpc_peering_list = self._get_vpc_peering_list(peering_vpc_List, network_vpc_no)
-                matched_nat_gateway_instance_list = self._get_nat_gateway_instance_list(nat_gate_way_instance_List, network_vpc_no)
+                matched_nat_gateway_instance_list = self._get_nat_gateway_instance_list(nat_gate_way_instance_List,
+                                                                                        network_vpc_no)
                 matched_network_acl_list = self._get_network_acl_list(net_work_acl_List, network_vpc_no)
 
                 vpc_info = {
-                        'vpc_no': vpc.vpc_no,
-                        # 'vpc_name': vpc.vpc_name,
-                        'ipv4_cidr_block': vpc.ipv4_cidr_block,
-                        'vpc_status': vpc.vpc_status.code,
-                        'region_code': vpc.region_code,
-                        # 'create_date': vpc.create_date,
-                        'subnet_list': matched_subnet_list,
-                        'vpc_peering_list':  matched_vpc_peering_list,
-                        'route_table_list': matched_route_table_list,
-                        'nat_gateway_instance_list': matched_nat_gateway_instance_list,
-                        'network_acl_list': matched_network_acl_list
+                    'vpc_no': vpc.vpc_no,
+                    # 'vpc_name': vpc.vpc_name,
+                    'ipv4_cidr_block': vpc.ipv4_cidr_block,
+                    'vpc_status': vpc.vpc_status.code,
+                    'region_code': vpc.region_code,
+                    # 'create_date': vpc.create_date,
+                    'subnet_list': matched_subnet_list,
+                    'vpc_peering_list': matched_vpc_peering_list,
+                    'route_table_list': matched_route_table_list,
+                    'nat_gateway_instance_list': matched_nat_gateway_instance_list,
+                    'network_acl_list': matched_network_acl_list
 
                 }
 
@@ -97,20 +99,19 @@ class VPCNetworkManager(NaverCloudManager):
                 resource_responses.append(VPCNetworkResponse({'resource': vpc_network_resource}))
 
             except Exception as e:
-                _LOGGER.error(f'[list_resources] vm_id => {vpc.vpc_name}, error => {e}',exc_info=True)
+                _LOGGER.error(f'[list_resources] vm_id => {vpc.vpc_name}, error => {e}', exc_info=True)
                 error_response = self.generate_resource_error_response(e, 'networking', 'vpc', network_vpc_name)
                 error_responses.append(error_response)
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
         return resource_responses, error_responses
 
-
     @staticmethod
     def _get_matched_subnet_list(Sub_net_List, subnet_group):
         # Convert database list(dict) -> list(database object)
         subnet_list = []
         for subnet in Sub_net_List:
-            if subnet_group == subnet.vpc_no :
+            if subnet_group == subnet.vpc_no:
                 subnet = {
                     'subnet_no': subnet.subnet_no,
                     'zone_code': subnet.zone_code,
@@ -121,8 +122,7 @@ class VPCNetworkManager(NaverCloudManager):
                     'usage_type': subnet.usage_type.code,
                     'network_acl_no': subnet.network_acl_no,
 
-
-            }
+                }
             subnet_list.append(subnet)
 
         return subnet_list
@@ -171,9 +171,9 @@ class VPCNetworkManager(NaverCloudManager):
                     'nat_gateway_instance_status': gateway.nat_gateway_instance_status.code,
                     'nat_gateway_instance_status_name': gateway.nat_gateway_instance_status_name,
                     'nat_gateway_instance_operation': gateway.nat_gateway_instance_operation.code,
-                    'nat_gateway_description' : gateway.nat_gateway_description
+                    'nat_gateway_description': gateway.nat_gateway_description
 
-            }
+                }
             nat_gateway_instance_list_info.append(gateway)
 
         return nat_gateway_instance_list_info
@@ -190,7 +190,7 @@ class VPCNetworkManager(NaverCloudManager):
                     'network_acl_status': network_acl.network_acl_status.code,
                     'network_acl_description': network_acl.network_acl_description,
                     'is_default': network_acl.is_default,
-            }
+                }
             network_acl_list_info.append(network_acl)
 
         return network_acl_list_info
@@ -209,7 +209,7 @@ class VPCNetworkManager(NaverCloudManager):
                     'route_table_status': route_table.route_table_status.code,
                     'route_table_description': route_table.route_table_description,
 
-            }
+                }
             route_table_list_info.append(route_table)
 
         return route_table_list_info

@@ -3,7 +3,7 @@ import os
 from spaceone.tester import TestCase
 from spaceone.core.unittest.runner import RichTestRunner
 from spaceone.core import config
-from spaceone.inventory.connector.networking.vpc_connector import NetworkingConnector
+from spaceone.inventory.connector.networking.vpc_connector import VpcConnector
 from spaceone.inventory.manager.networking.VPC.vpc_network_manager import VPCNetworkManager
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
@@ -21,7 +21,7 @@ class TestVpcManager(TestCase):
         config.init_conf(package='spaceone.inventory')
         cls.schema = 'naver_client_secret'
 
-        cls.vpc_connector = NetworkingConnector(secret_data=cls.secret_data)
+        cls.vpc_connector = VpcConnector(secret_data=cls.secret_data)
         cls.vpc_manager = VPCNetworkManager()
 
         super().setUpClass()
