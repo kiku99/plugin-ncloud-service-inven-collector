@@ -5,6 +5,7 @@ __all__ = ['ObjectStorageConnector']
 
 config = boto3.session.Config(signature_version='s3v4')
 
+
 class ObjectStorageConnector(NaverCloudConnector):
 
     def __init__(self, **kwargs):
@@ -40,8 +41,3 @@ class ObjectStorageConnector(NaverCloudConnector):
     def get_bucket_cors(self, bucket_name):
         response = self.object_storage_client.get_bucket_cors(Bucket=bucket_name)
         return response
-
-
-
-
-
