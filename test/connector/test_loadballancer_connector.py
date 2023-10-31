@@ -26,9 +26,23 @@ class TestLoadbalancerConnector(unittest.TestCase):
         super().tearDownClass()
 
     def test_list_load_balanced_server_instance(self):
-        loadbalacer_list = self.loadbalacer_connector.list_load_balanced_server_instance()
+        server_instance_list = self.loadbalacer_connector.list_load_balanced_server_instance(20248845)
 
-        print(loadbalacer_list)
+        print(server_instance_list)
+    def test_list_load_balancer_instance(self):
+        instance_list = self.loadbalacer_connector.list_load_balancer_instance()
+
+        print(instance_list)
+
+    def test_list_load_balancer_ssl_certificate(self):
+        ssl_certificate_list = self.loadbalacer_connector.list_load_balancer_ssl_certificate()
+
+        print(ssl_certificate_list)
+
+    def test_list_load_balancer_target_server_instance(self):
+        target_server_list = self.loadbalacer_connector.list_load_balancer_target_server_instance()
+
+        print(target_server_list)
 
 
 if __name__ == "__main__":
