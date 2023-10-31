@@ -77,6 +77,7 @@ class LoadBalancerRule(Model):
 class LoadBalancedServerInstance(Model):
     server_instance = ModelType(ServerInstance)
     server_health_check_status_list = ListType(ModelType(ServerHealthCheckStatus))
+
 class LoadBalancerInstance(Model):
     load_balancer_instance_no = StringType()
     virtual_ip = StringType()
@@ -95,6 +96,15 @@ class LoadBalancerInstance(Model):
     certificate_name = StringType()
     load_balancer_rule_list = ListType(ModelType(LoadBalancerRule))
     load_balanced_server_instance_list = ListType(ModelType(LoadBalancedServerInstance))
+    zone_list = ModelType(Zone)
+    Region_list = ModelType(Region)
+    ssl_Certificate_list = ModelType(sslCertificate)
+    Access_ControlGroup_list = ModelType(AccessControlGroup)
+    Server_Instance_list = ModelType(ServerInstance)
+    Server_Heal_thCheck_Status = ModelType(ServerHealthCheckStatus)
+    Load_Balancer_Rule_list = ModelType(LoadBalancerRule)
+    Load_Balanced_Server_Instance_list = ModelType(LoadBalancedServerInstance)
+
 
     def reference(self, refer_link):
         return {
