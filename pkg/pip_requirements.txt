@@ -1,4 +1,4 @@
-spaceone-core
+spaceone-core==1.12.29
 spaceone-api
 spaceone-tester
 ncloud-sdk
