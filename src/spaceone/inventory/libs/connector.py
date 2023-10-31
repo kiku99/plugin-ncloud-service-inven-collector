@@ -78,6 +78,7 @@ class NaverCloudConnector(BaseConnector):
         configuration_vpc.secret_key = secret_data['ncloud_secret_key']
         self.vpc_client = ncloud_vpc.V2Api(ncloud_vpc.ApiClient(configuration_vpc))
 
+    def set_connect_storage(self, secret_data: object):
         object_endpoint_url = 'https://kr.object.ncloudstorage.com'
         object_storage_access_key = secret_data['ncloud_access_key_id']
         object_storage_secret_key = secret_data['ncloud_secret_key']
@@ -93,14 +94,12 @@ class NaverCloudConnector(BaseConnector):
         domain_id = secret_data['domain_id']
         project_id = secret_data['project_id']
         auth = v3.Password(auth_url=archive_endpoint_url,
-                                                  username=archive_storage_access_key,
-                                                  password=archive_storage_secret_key,
-                                                  project_id=project_id,
-                                                  user_domain_id=domain_id)
+                           username=archive_storage_access_key,
+                           password=archive_storage_secret_key,
+                           project_id=project_id,
+                           user_domain_id=domain_id)
         auth_session = session.Session(auth=auth)
         self.archive_storage_client = swiftclient.Connection(retries=5, session=auth_session)
-
-
 
     def verify(self, **kwargs):
         if self.server_client is None:

@@ -99,7 +99,7 @@ class Compute(Model):
     server_instance_operation = StringType()
     server_instance_status_name = StringType()
     platform_type = StringType()
-    creat_date = DateTimeType()
+    create_date = DateTimeType()
     uptime = DateTimeType()
     server_image_product_code = StringType()
     server_product_code = StringType()
