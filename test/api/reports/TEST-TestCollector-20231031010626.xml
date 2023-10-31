@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="TestCollector-20231031010626" tests="3" file=".py" time="1.578" timestamp="2023-10-31T01:06:28" failures="0" errors="1" skipped="0">
+	<testcase classname="TestCollector" name="test_init" time="0.007" timestamp="2023-10-31T01:06:27" file="test_cloudservice_api.py" line="43">
+		<system-out><![CDATA[{'metadata': {'cloud_service_group_map': {'Compute': ['ServerInstanceManager',
+                                                      'AutoscalingManager'],
+                                          'Content Delivery': ['CdnManager'],
+                                          'Database': ['CloudDBManager'],
+                                          'Management': ['MonitoringManager'],
+                                          'Networking': ['VPCNetworkManager'],
+                                          'Storage': ['ObjectStorageManager',
+                                                      'ArchiveStorageManager']},
+              'filter_format': [],
+              'supported_features': ['garbage_collection'],
+              'supported_resource_type': ['inventory.CloudService',
+                                          'inventory.CloudServiceType',
+                                          'inventory.Region',
+                                          'inventory.ErrorResource'],
+              'supported_schedules': ['hours']}}
+
+]]></system-out>
+	</testcase>
+	<testcase classname="TestCollector" name="test_verify" time="0.470" timestamp="2023-10-31T01:06:28" file="test_cloudservice_api.py" line="47">
+		<system-out><![CDATA[{}
+
+]]></system-out>
+	</testcase>
+	<testcase classname="TestCollector" name="test_collect" time="1.100" timestamp="2023-10-31T01:06:27" file="test_cloudservice_api.py" line="53">
+		<error type="ERROR_INTERNAL_API" message="
+	error_code = ERROR_LOCATOR
+	status_code = INTERNAL
+	message =  'CdnManager' load failed. (reason = No module named 'spaceone.inventory.manager.networking.VPC')"><![CDATA[Traceback (most recent call last):
+  File "C:\Users\e268\plugin-naver-cloud-service-inven-collector\venv\lib\site-packages\spaceone\core\pygrpc\client.py", line 184, in _generate_response
+    for response in response_iterator:
+  File "C:\Users\e268\plugin-naver-cloud-service-inven-collector\venv\lib\site-packages\grpc\_channel.py", line 541, in __next__
+    return self._next()
+  File "C:\Users\e268\plugin-naver-cloud-service-inven-collector\venv\lib\site-packages\grpc\_channel.py", line 967, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.INTERNAL
+	details = "ERROR_LOCATOR: 'CdnManager' load failed. (reason = No module named 'spaceone.inventory.manager.networking.VPC')"
+	debug_error_string = "UNKNOWN:Error received from peer  {created_time:"2023-10-30T16:06:27.753098827+00:00", grpc_status:13, grpc_message:"ERROR_LOCATOR: \'CdnManager\' load failed. (reason = No module named \'spaceone.inventory.manager.networking.VPC\')"}"
+>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\e268\plugin-naver-cloud-service-inven-collector\test\api\test_cloudservice_api.py", line 82, in test_collect
+    for res in resource_stream:
+  File "C:\Users\e268\plugin-naver-cloud-service-inven-collector\venv\lib\site-packages\spaceone\core\pygrpc\client.py", line 187, in _generate_response
+    self._check_error(e)
+  File "C:\Users\e268\plugin-naver-cloud-service-inven-collector\venv\lib\site-packages\spaceone\core\pygrpc\client.py", line 163, in _check_error
+    raise e
+spaceone.core.error.ERROR_INTERNAL_API: 
+	error_code = ERROR_LOCATOR
+	status_code = INTERNAL
+	message =  'CdnManager' load failed. (reason = No module named 'spaceone.inventory.manager.networking.VPC')
+]]></error>
+		<system-out><![CDATA[<generator object _ClientInterceptor._generate_response at 0x0000000006E1F660>
+]]></system-out>
+	</testcase>
+</testsuite>

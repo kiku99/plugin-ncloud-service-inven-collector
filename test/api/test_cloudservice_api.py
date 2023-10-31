@@ -36,8 +36,8 @@ class TestCollector(TestCase):
     secret_data = {
         'ncloud_access_key_id': AKI,
         'ncloud_secret_key': SK,
-        'domain_id': DI,
-        'project_id': PI
+        'domain_id': 'default',
+        'project_id': '25cd875760ea45fdbe6e0198a3e212cc'
     }
 
     def test_init(self):
@@ -62,12 +62,12 @@ class TestCollector(TestCase):
         '''
         options = {
             # "cloud_service_types": ["CloudFunctions"],
-            "cloud_service_types": ["Storage"],
+            #"cloud_service_types": ["Storage"],
             # "custom_asset_url": 'http://xxxxx.spaceone.dev/icon/google'
-            # 'dbKindCode': 'MYSQL',
-            # 'cdnInstanceNo': '20151001',
-            # 'instance_no':'20150943',
-            'bucket_name': 'bucket-A'
+            'dbKindCode': 'MYSQL',
+            'cdnInstanceNo': '20151001',
+            'instance_no':'20150943',
+            'bucket_name': 'buckettest0712'
         }
         filter = {}
 
@@ -78,7 +78,7 @@ class TestCollector(TestCase):
             'filter': filter})
             #'dbKindCode': dbKindCode, 'cdnInstanceNo': cdnInstanceNo, 'instance_no': instance_no})
 
-        # print(resource_stream)
+        #print(resource_stream)
         for res in resource_stream:
             print_json(res)
 
