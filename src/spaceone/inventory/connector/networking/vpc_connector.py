@@ -4,10 +4,10 @@ from spaceone.inventory.libs.connector import NaverCloudConnector
 import ncloud_server
 from ncloud_server.rest import ApiException
 
-__all__ = ['NetworkingConnector']
+__all__ = ['VpcConnector']
 
 
-class NetworkingConnector(NaverCloudConnector):
+class VpcConnector(NaverCloudConnector):
     service = 'Network'
 
     def __init__(self, **kwargs):

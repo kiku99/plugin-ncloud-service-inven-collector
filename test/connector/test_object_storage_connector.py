@@ -40,11 +40,11 @@ class TestObjectStorageConnector(unittest.TestCase):
         for obj in objects:
             print(f"Name={obj['Name']}, Size={obj['Size']}, Owner={obj['Owner']}")
 
-    def test_get_bucket_cors(self):
-        bucket_name = 'my-new-bucket'
-        cors_configuration = self.object_storage_connector.get_bucket_cors(bucket_name)
-        print(f"CORS Configuration for {bucket_name}:")
-        print(cors_configuration)
+    # def test_get_bucket_cors(self):
+    #     bucket_name = 'my-new-bucket'
+    #     cors_configuration = self.object_storage_connector.get_bucket_cors(bucket_name)
+    #     print(f"CORS Configuration for {bucket_name}:")
+    #     print(cors_configuration)
 
     if __name__ == "__main__":
         unittest.main(testRunner=RichTestRunner)

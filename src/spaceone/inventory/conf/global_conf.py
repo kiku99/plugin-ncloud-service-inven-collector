@@ -24,6 +24,10 @@ CONNECTORS = {
     },
     'CdnConnector': {
         'backend': 'spaceone.inventory.connector.content_delivery.CdnConnector'
+    },
+    'VpcConnector':{
+        'backend': 'spaceone.inventory.connector.networking.VpcConnector'
+
     }
 }
 
