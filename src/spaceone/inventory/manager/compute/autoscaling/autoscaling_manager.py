@@ -102,7 +102,7 @@ class AutoscalingManager(NaverCloudManager):
                 _LOGGER.error(
                     f'[list_resources] autoscaling_group_name => {autoscaling_group.auto_scaling_group_name}, error => {e}',
                     exc_info=True)
-                error_response = self.generate_resource_error_response(e, 'ComputeServer', 'Autoscaling',
+                error_response = self.generate_resource_error_response(e, 'Compute', 'Autoscaling',
                                                                        autoscaling_group_name)
                 error_responses.append(error_response)
 

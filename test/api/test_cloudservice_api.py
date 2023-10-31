@@ -62,7 +62,7 @@ class TestCollector(TestCase):
         '''
         options = {
             # "cloud_service_types": ["CloudFunctions"],
-            # "cloud_service_types": ["Content Delivery"],
+            "cloud_service_types": ["Compute"],
             # "custom_asset_url": 'http://xxxxx.spaceone.dev/icon/google'
             'dbKindCode': 'MYSQL',
             'cdnInstanceNo': '20151001',
@@ -78,7 +78,7 @@ class TestCollector(TestCase):
             'filter': filter})
             #'dbKindCode': dbKindCode, 'cdnInstanceNo': cdnInstanceNo, 'instance_no': instance_no})
 
-        print(resource_stream)
+        # print(resource_stream)
         for res in resource_stream:
             print_json(res)
 
