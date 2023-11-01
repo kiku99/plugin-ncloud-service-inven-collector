@@ -64,8 +64,8 @@ class TestCollector(TestCase):
             # "cloud_service_types": ["CloudFunctions"],
             #"cloud_service_types": ["Storage"],
             # "custom_asset_url": 'http://xxxxx.spaceone.dev/icon/google'
-            'dbKindCode': 'MYSQL',
-            'cdnInstanceNo': '20151001',
+            'db_kind_code': 'MYSQL',
+            'cdn_instance_no': '20151001',
             'instance_no':'20150943',
             'bucket_name': 'buckettest0712'
         }

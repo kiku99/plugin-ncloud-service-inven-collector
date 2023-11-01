@@ -41,10 +41,10 @@ class CdnManager(NaverCloudManager):
         self.instance_conn.set_connect(params['secret_data'])
 
         cdn_plus_instance_list = self.instance_conn.list_cdn_plus_instance()
-        #cdn_plus_pluge_history_list = self.instance_conn.list_cdn_plus_purge_history_instance(params['cdnInstanceNo'])
+        #cdn_plus_pluge_history_list = self.instance_conn.list_cdn_plus_purge_history_instance(params['cdn_instanc_no'])
 
         #global_cdn_instance_list = self.instance_conn.list_cdn_global_cdn_instance_instance()
-        #global_cdn_purge_history_list = self.instance_conn.list_global_cdn_purge_history_instance(params['cdnInstanceNo'])
+        #global_cdn_purge_history_list = self.instance_conn.list_global_cdn_purge_history_instance(params['cdn_instanc_no'])
 
         #metirc_statistic_list = self.instance_conn.list_metric_statistic(params["instance_no"], params["metric_name"], params["period"], params["start_time"], params["end_time"])
 

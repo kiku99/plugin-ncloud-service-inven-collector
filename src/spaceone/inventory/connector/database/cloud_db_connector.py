@@ -71,9 +71,9 @@ class CloudDBConnector(NaverCloudConnector):
 
         return product_list
 
-    def list_img_product(self, dbKindCode):
+    def list_img_product(self, db_kind_code):
         img_product_list = []
-        get_img_product_request = ncloud_clouddb.GetCloudDBImageProductListRequest(db_kind_code=dbKindCode)
+        get_img_product_request = ncloud_clouddb.GetCloudDBImageProductListRequest(db_kind_code=db_kind_code)
 
         try:
             api_response = self.clouddb_client.get_cloud_db_image_product_list(get_img_product_request)
@@ -101,9 +101,9 @@ class CloudDBConnector(NaverCloudConnector):
 
         return operation_list
 
-    def list_config_group(self, dbKindCode):
+    def list_config_group(self, db_kind_code):
         config_group_list = []
-        get_config_group_request = ncloud_clouddb.GetCloudDBConfigGroupListRequest(db_kind_code=dbKindCode)
+        get_config_group_request = ncloud_clouddb.GetCloudDBConfigGroupListRequest(db_kind_code=db_kind_code)
 
         try:
             api_response = self.clouddb_client.get_cloud_db_config_group_list(get_config_group_request)
