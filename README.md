@@ -32,9 +32,10 @@ The following is a list of services being collected and service code information
 |2| Autoscaling    |compute|
 |3| Cloud DB       |database|
 |4| Object Storage |storage|
-|5| Vpc            |networking|
-|6| Monitoring     |management|
-|7| CDN            |content delivery|
+|5| Archive Storage |storage|
+|6| VPC            |networking|
+|7| Monitoring     |management|
+|8| CDN            |content delivery|
 
 
 
@@ -53,6 +54,7 @@ The following is a list of services being collected and service code information
   
     * [Storage](#storage)
         * [Object Storage](#object-storage)
+        * [Archive Storage](#archive-storage)
   
     * [Networking](#networking)
         * [Vpc](#vpc)
@@ -63,6 +65,21 @@ The following is a list of services being collected and service code information
     * [Content Delivery](#content-delivery)
         * [Cdn](#cdn)
 <br>
+
+---
+## SETTING
+You should insert information about account in Cloudforet's **Service Account** initially.
+* Credentials
+	* `ncloud_access_key_id`
+	* `ncloud_secret_key`
+	* `domain_id`
+	* `project_id`
+* Options
+  * `db_kind_code`  
+  * `cdn_instance_no` 
+  * `instance_no`
+  * `bucket_name` 
+---
 
 ## Authentication Overview
 Registered service account on SpaceONE must have certain permissions to collect cloud service data
@@ -75,6 +92,11 @@ Please, set authentication privilege for followings:
         - https://api.ncloud-docs.com/docs/compute-server-getserverinstancelist
         - https://api.ncloud-docs.com/docs/compute-server-getblockstorageinstancelist
         - https://api.ncloud-docs.com/docs/compute-server-getloginkeylist
+     
+    - IAM
+        - compute.serverinstance.list
+        - compute.blockstorageinstance.list
+        - compute.loginkey.list
 
 - ##### [Autoscaling](https://api.ncloud-docs.com/docs/compute-autoscaling)
     - Scopes
@@ -85,6 +107,15 @@ Please, set authentication privilege for followings:
         - https://api.ncloud-docs.com/docs/compute-autoscaling-getlaunchconfigurationlist
         - https://api.ncloud-docs.com/docs/compute-autoscaling-getscalingprocesstypelist
         - https://api.ncloud-docs.com/docs/compute-autoscaling-getscheduledactionlist
+     
+     - IAM
+        - compute.adjustmenttype.list
+        - compute.autoscalingactivitylog.list
+        - compute.autoscalingconfiguration.list
+        - compute.autoscalingpolicy.list
+        - compute.launchconfiguration.list
+        - compute.scalingprocesstype.list
+        - compute.scheuleaction.list
      
 
 #### Database     
@@ -98,6 +129,15 @@ Please, set authentication privilege for followings:
         - https://api.ncloud-docs.com/docs/database-clouddb-getdmsoperation
         - https://api.ncloud-docs.com/docs/database-clouddb-getobjectstoragebackuplist
      
+    - IAM
+        - database.clouddbinstance.list
+        - database.autoscalingactivitylog.list
+        - database.autoscalingconfiguration.list
+        - database.autoscalingpolicy.list
+        - database.launchconfiguration.list
+        - database.scalingprocesstype.list
+        - database.scheuleaction.list
+     
 #### Storage
 - ##### [Object Storage](https://api.ncloud-docs.com/docs/storage-objectstorage)
     - Scopes
@@ -105,9 +145,27 @@ Please, set authentication privilege for followings:
         - https://api.ncloud-docs.com/docs/storage-objectstorage-listobjects
         - https://api.ncloud-docs.com/docs/storage-objectstorage-getbucketco
 
+    - IAM
+        - storage.bucket.list
+        - storage.object.list
+        - storage.bucketco.list
+     
+        - 
+- ##### [Archive Storage](https://api.ncloud-docs.com/docs/storage-archivestorage)
+    - Scopes
+        - https://api.ncloud-docs.com/docs/storage-archivestorage-getaccount
+        - https://api.ncloud-docs.com/docs/storage-archivestorage-getcontainer
+  
+
+    - IAM
+        - storage.account.list
+        - storage.container.list
+        
+      
+
 
 #### Networking
-- ##### [Vpc](https://api.ncloud-docs.com/docs/networking-vpc)
+- ##### [VPC](https://api.ncloud-docs.com/docs/networking-vpc)
     - Scopes
         - https://api.ncloud-docs.com/docs/networking-vpc-vpcmanagement-getvpclist
         - https://api.ncloud-docs.com/docs/networking-vpc-vpcmanagement-getvpcdetail
@@ -123,24 +181,49 @@ Please, set authentication privilege for followings:
         - https://api.ncloud-docs.com/docs/networking-vpc-routetable-getroutetabledetail
         - https://api.ncloud-docs.com/docs/networking-vpc-routetable-getroutetablesubnetlist
      
+    - IAM
+        - networking.vpc.list
+        - networking.vpcdetail.list
+        - networking.subnet.list
+        - networking.subnetdetail.list
+        - networking.networkacl.list
+        - networking.networkacldetail.list
+        - networking.gatewayinstance.list
+        - networking.gatewayinstancedetail.list
+        - networking.peeringinstance.list
+        - networking.peeringinstancedetail.list
+        - networking.routetable.list
+        - networking.routetabledetail.list
+        - networking.routetablesubnet.list
+        
+     
 
      
 #### Management
 - ##### [Monitoring](https://api.ncloud-docs.com/docs/management-monitoring)
     - Scopes
-        - https://api.ncloud-docs.com/docs/management-monitoring-getmetricstatisticlist
+  
         - https://api.ncloud-docs.com/docs/management-monitoring-getlistmetrics
+     
+    - IAM
+        - management.metrics.list
+
         
      
      
 #### Content Delivery
-- ##### [Cdn](https://api.ncloud-docs.com/docs/networking-cdn)
+- ##### [CDN](https://api.ncloud-docs.com/docs/networking-cdn)
     - Scopes
         - https://api.ncloud-docs.com/docs/networking-cdn-getcdnplusinstancelist
         - https://api.ncloud-docs.com/docs/networking-cdn-getcdnpluspurgehistorylist
         - https://api.ncloud-docs.com/docs/networking-cdn-getglobalcdninstancelist
         - https://api.ncloud-docs.com/docs/networking-cdn-getglobalcdnpurgehistorylist
-          
+
+    - IAM
+        - contentdelivery.cdnplusinstance.list
+        - contentdelivery.cdnpluspurgehistory.list
+        - contentdelivery.cdnglobalinstance.list
+        - contentdelivery.cdnglobalpurgehistory.list
   
 
 
@@ -150,4 +233,63 @@ Please, set authentication privilege for followings:
 
 ## Options
 
-TBD
+### Cloud Service Type : Specify what to collect
+
+If cloud_service_types is added to the list elements in options, only the specified cloud service type is collected.
+By default, if cloud_service_types is not specified in options, all services are collected.
+
+The cloud_service_types items that can be specified are as follows.
+
+<pre>
+<code>
+{
+    "cloud_service_types": [
+        'Server',          
+        'Autoscaling',     
+        'CDN',       
+        'CloudDB',
+        'Monitoring',
+        'VPC',
+        'ObjectStorage',
+        'ArchiveStorage',
+        
+    ]
+}
+</code>
+</pre>
+
+## Ncloud Service Endpoint (in use)
+
+### ObjectStorage
+Naver Cloud Platform Object Storage provides the S3 API for storage management and use.
+Version: Amazon S3 v2006-03-01
+
+
+We use hundreds of endpoints because we collect information from a lots of regions and services.  
+
+- ### Region list
+
+
+|No.|Region   | Region name |Endpoint|
+|-|---------|-------------|--------|
+|1|한국  | kr-standard|https://kr.object.ncloudstorage.com|
+|2|미국서부(New) |us-standard|https://us.object.ncloudstorage.com|
+|3|싱가포르(New)|sg-standard|https://sg.object.ncloudstorage.com|
+|4|일본(New)|jp-standard|https://jp.object.ncpstorage.com|
+|5|독일(New)|de-standard|https://de.object.ncloudstorage.com|
+
+### ArchiveStorage
+
+- ### Region URL
+Naver cloud platform Archive Storage provides the NSX Swift API for storage management and use.
+Version: 2.15.1 (Pike)
+
+
+|No.|Region   | Authentication URL |Service URL|
+|-|---------|-------------|--------|
+|1|한국  | https://kr.archive.ncloudstorage.com:5000|https://kr.archive.ncloudstorage.com|
+|2|한국 |https://archivestorage.apigw.ntruss.com/swift/v1/|https://archivestorage.apigw.ntruss.com/swift/v1/|
+
+
+---
+## [Release note](RELEASE.md)
