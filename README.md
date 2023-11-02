@@ -244,14 +244,13 @@ The cloud_service_types items that can be specified are as follows.
 <code>
 {
     "cloud_service_types": [
-        'Server',          
-        'Autoscaling',     
-        'CDN',       
-        'CloudDB',
-        'Monitoring',
-        'VPC',
-        'ObjectStorage',
-        'ArchiveStorage',
+        'Compute',          
+        'Database',     
+        'Storage',       
+        'Management',
+        'Networking',
+        'Content Delivery',
+
         
     ]
 }
