@@ -260,7 +260,7 @@ The cloud_service_types items that can be specified are as follows.
 ## Ncloud Service Endpoint (in use)
 
 ### ObjectStorage
-Naver Cloud Platform Object Storage provides the S3 API for storage management and use.
+Naver Cloud Platform Object Storage provides the S3 API for storage management and use.<br>
 Version: Amazon S3 v2006-03-01
 
 
@@ -278,10 +278,11 @@ We use hundreds of endpoints because we collect information from a lots of regio
 |5|독일(New)|de-standard|https://de.object.ncloudstorage.com|
 
 ### ArchiveStorage
+Naver cloud platform Archive Storage provides the NSX Swift API for storage management and use.<br>
+Version: 2.15.1 (Pike)
 
 - ### Region URL
-Naver cloud platform Archive Storage provides the NSX Swift API for storage management and use.
-Version: 2.15.1 (Pike)
+
 
 
 |No.|Region   | Authentication URL |Service URL|
