@@ -17,7 +17,7 @@ class CdnManager(NaverCloudManager):
     cloud_service_types = CLOUD_SERVICE_TYPES
     instance_conn = None
 
-    def collect_cloud_service(self, params) -> Tuple[List[CdnResponse], List[CdnResource]]:
+    def collect_cloud_service(self, params) -> Tuple[List[CdnResponse], List[ErrorResourceResponse]]:
         _LOGGER.debug(f'** Cdn START **')
         """
         Args:

@@ -7,11 +7,11 @@ from spaceone.inventory.libs.schema.cloud_service import CloudServiceResource, C
 
 
 '''
-VPC Network
+vpc Network
 '''
 
 # TAB - Bucket
-vpc_network_detail_meta = ItemDynamicLayout.set_fields('VPC Network Details', fields=[
+vpc_network_detail_meta = ItemDynamicLayout.set_fields('vpc Network Details', fields=[
     TextDyField.data_source('Name', 'data.name'),
     TextDyField.data_source('Description', 'data.description'),
     TextDyField.data_source('Maximum transmission unit', 'data.mtu'),
@@ -68,10 +68,10 @@ vpc_network_route_meta = TableDynamicLayout.set_fields('Routes', root_path='data
     TextDyField.data_source('Next Hop', 'next_hop'),
 ])
 
-vpc_network_peering_meta = TableDynamicLayout.set_fields('VPC Network Peering', root_path='data.peerings', fields=[
+vpc_network_peering_meta = TableDynamicLayout.set_fields('vpc Network Peering', root_path='data.peerings', fields=[
     TextDyField.data_source('Name', 'name'),
-    TextDyField.data_source('Your VPC Network', 'display.your_network'),
-    TextDyField.data_source('Peered VPC Network', 'display.peered_network'),
+    TextDyField.data_source('Your vpc Network', 'display.your_network'),
+    TextDyField.data_source('Peered vpc Network', 'display.peered_network'),
     TextDyField.data_source('Peered Project ID', 'display.project_id'),
     EnumDyField.data_source('Status', 'display.state_display', default_badge={
         'indigo.500': ['Active'], 'coral.600': ['Inactive']
@@ -90,7 +90,7 @@ instance_template_meta = CloudServiceMeta.set_layouts([vpc_network_detail_meta,
 
 
 class VPCResource(CloudServiceResource):
-    cloud_service_group = StringType(default='VPC')
+    cloud_service_group = StringType(default='vpc')
 
 
 class VPCNetworkResource(VPCResource):

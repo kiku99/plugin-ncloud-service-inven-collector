@@ -17,11 +17,11 @@ cst_network = CloudServiceTypeResource()
 cst_network.name = 'VPCNetwork'
 cst_network.provider = 'naver_cloud'
 cst_network.group = 'Networking'
-cst_network.service_code = 'VPC'
+cst_network.service_code = 'vpc'
 cst_network.is_primary = True
 cst_network.labels = ['Networking']
 cst_network.tags = {
-    'spaceone:icon': f'{ASSET_URL}/VPC.svg','spaceone:display_name': 'VPCNetwork'}
+    'spaceone:icon': f'{ASSET_URL}/vpc.svg','spaceone:display_name': 'VPCNetwork'}
 
 cst_network._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
