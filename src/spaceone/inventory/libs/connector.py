@@ -4,7 +4,6 @@ import ncloud_autoscaling
 import ncloud_clouddb
 import ncloud_server
 import ncloud_vpc
-from ncloud_server.api.v2_api import V2Api
 import ncloud_monitoring
 import ncloud_cdn
 import logging
@@ -31,7 +30,13 @@ class NaverCloudConnector(BaseConnector):
 
         secret_data = {
             'ncloud_access_key_id': AKI,
-            'ncloud_secret_key': SK
+            'ncloud_secret_key': SK,
+            'domain_id': 'DI',
+            'project_id': 'PI',
+            'db_kind_code': 'DKC',
+            'cdn_instance_no': 'CIN',
+            'instance_no': 'IN',
+            'bucket_name': 'BN'
         }
         """
 
