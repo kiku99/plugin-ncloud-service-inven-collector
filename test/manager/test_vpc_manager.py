@@ -4,7 +4,7 @@ from spaceone.tester import TestCase
 from spaceone.core.unittest.runner import RichTestRunner
 from spaceone.core import config
 from spaceone.inventory.connector.networking.vpc_connector import NetworkingConnector
-from spaceone.inventory.manager.networking.VPC.vpc_network_manager import VPCNetworkManager
+from spaceone.inventory.manager.networking.vpc.vpc_network_manager import VPCNetworkManager
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
