@@ -7,7 +7,7 @@ query:
     - group:
         keys:
           - name: name
-            key: data.compute.instance_type
+            key: data.compute.server_instance_type
         fields:
           - name: value
             operator: count

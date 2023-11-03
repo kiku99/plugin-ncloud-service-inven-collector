@@ -5,11 +5,11 @@ name: Total Disk Size
 query:
   aggregate:
     - unwind:
-        path: data.disks
+        path: data.storage
     - group:
         fields:
           - name: value
-            key: data.disks.size
+            key: data.storage_size
             operator: sum
 options:
   value_options:

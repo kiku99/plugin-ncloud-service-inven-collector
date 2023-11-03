@@ -1,6 +1,6 @@
 ---
 cloud_service_group: Compute
-cloud_service_type: Instance
+cloud_service_type: Autoscaling
 name: Count By Account
 query:
   aggregate:
