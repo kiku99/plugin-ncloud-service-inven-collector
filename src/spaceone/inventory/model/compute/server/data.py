@@ -95,7 +95,9 @@ class Storage(Model):
 class Compute(Model):
     server_name = StringType()
     server_image_name = StringType()
-    server_instance_status = StringType()
+    server_instance_status = StringType(choices=(
+        'INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'
+    ))
     server_instance_operation = StringType()
     server_instance_status_name = StringType()
     platform_type = StringType()
@@ -103,7 +105,9 @@ class Compute(Model):
     uptime = DateTimeType()
     server_image_product_code = StringType()
     server_product_code = StringType()
-    server_instance_type = StringType()
+    server_instance_type = StringType(choices=(
+        'MICRO', 'COMPT', 'STAND', 'GPU', 'LDISK', 'CHADP', 'BM', 'VDS'
+    ))
     zone = StringType()
     region = StringType()
 

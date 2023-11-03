@@ -4,7 +4,6 @@ from typing import Tuple, List
 
 from datetime import datetime, timedelta
 from spaceone.inventory.libs.manager import NaverCloudManager
-from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.storage.object_storage_connector import ObjectStorageConnector
 from spaceone.inventory.model.storage.object_storage.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.model.storage.object_storage.cloud_service import ObjectStorageResource, ObjectStorageResponse
