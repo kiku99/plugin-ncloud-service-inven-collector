@@ -1,6 +1,4 @@
 import os
-
-from spaceone.inventory.conf.cloud_service_conf import ASSET_URL
 from spaceone.inventory.libs.common_parser import *
 from spaceone.inventory.libs.schema.metadata.dynamic_widget import CardWidget, ChartWidget
 from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, SearchField, EnumDyField, SizeField
