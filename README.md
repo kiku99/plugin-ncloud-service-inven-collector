@@ -57,13 +57,13 @@ The following is a list of services being collected and service code information
         * [Archive Storage](#archive-storage)
   
     * [Networking](#networking)
-        * [Vpc](#vpc)
+        * [VPC](#vpc)
   
     * [Management](#management)
         * [Monitoring](#monitoring)
   
     * [Content Delivery](#content-delivery)
-        * [Cdn](#cdn)
+        * [CDN](#cdn)
 <br>
 
 ---
@@ -74,11 +74,10 @@ You should insert information about account in Cloudforet's **Service Account** 
 	* `ncloud_secret_key`
 	* `domain_id`
 	* `project_id`
-* Options
-  * `db_kind_code`  
-  * `cdn_instance_no` 
-  * `instance_no`
-  * `bucket_name` 
+ 	* `db_kind_code`  
+  	* `cdn_instance_no` 
+ 	* `instance_no`
+ 	* `bucket_name` 
 ---
 
 ## Authentication Overview
