@@ -22,25 +22,30 @@ server_instance = ItemDynamicLayout.set_fields('Server Instance', fields=[
     }),
     TextDyField.data_source('Instance Type', 'data.compute.server_instance_type'),
     TextDyField.data_source('Image', 'data.compute.server_image_name'),
+    TextDyField.data_source('CPU Count', 'data.hardware.cpu_count'),
+    TextDyField.data_source('Memory Size', 'data.hardware.memory_size'),
     TextDyField.data_source('Availability Zone', 'data.compute.zone'),
     TextDyField.data_source('Region', 'data.compute.region'),
     TextDyField.data_source('Public IP', 'data.ip.public_ip'),
     TextDyField.data_source('Private IP', 'data.ip.private_ip'),
+    TextDyField.data_source('Port Forward External Port', 'data.port_forwarding_rules.port_forwarding_external_port'),
+    TextDyField.data_source('Port Forward Internal Port', 'data.port_forwarding_rules.port_forwarding_internal_port'),
+    TextDyField.data_source('Port Forward Public IP', 'data.port_forwarding_rules.port_forwarding_public_ip')
 ])
 
-storage = TableDynamicLayout.set_fields('Storage', root_path='data.storage', fields=[
-    TextDyField.data_source('Name', 'storage_name'),
-    SizeField.data_source('Size', 'storage_size'),
-    EnumDyField.data_source('Disk Type', 'storage_diskType',
+storage = TableDynamicLayout.set_fields('Storage', fields=[
+    TextDyField.data_source('Name', 'data.storage.storage_name'),
+    SizeField.data_source('Size', 'data.storage.storage_size'),
+    EnumDyField.data_source('Disk Type', 'data.storage.storage_diskType',
                             default_outline_badge=['NET', 'LOCAL']),
-    EnumDyField.data_source('Disk Detail Type', 'storage_disk_detail_type',
+    EnumDyField.data_source('Disk Detail Type', 'data.storage.storage_disk_detail_type',
                             default_outline_badge=['HDD', 'SSD'])
 ])
 
-login_key = TableDynamicLayout.set_fields('Login Key', root_path='data.login_key', fields=[
-    TextDyField.data_source('Name', 'key_name'),
-    TextDyField.data_source('Finger Print', 'finger_print'),
-    DateTimeDyField.data_source('Create Date', 'create_date')
+login_key = TableDynamicLayout.set_fields('Login Key', fields=[
+    TextDyField.data_source('Name', 'data.login_key.key_name'),
+    TextDyField.data_source('Finger Print', 'data.login_key.finger_print'),
+    DateTimeDyField.data_source('Create Date', 'data.login_key.create_date')
 ])
 
 server_instance_meta = CloudServiceMeta.set_layouts([server_instance, storage, login_key])

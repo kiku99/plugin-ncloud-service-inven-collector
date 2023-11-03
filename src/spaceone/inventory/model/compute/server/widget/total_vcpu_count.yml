@@ -7,7 +7,7 @@ query:
     - group:
         fields:
           - name: value
-            key: data.hardware.core
+            key: data.hardware.cpu_count
             operator: sum
 options:
   value_options:
