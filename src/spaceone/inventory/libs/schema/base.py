@@ -1,6 +1,5 @@
 from schematics import Model
 from schematics.types import ListType, StringType, PolyModelType, DictType, ModelType
-
 from spaceone.inventory.libs.schema.metadata.dynamic_layout import BaseLayoutField
 from spaceone.inventory.libs.schema.metadata.dynamic_search import BaseDynamicSearch
 from spaceone.inventory.libs.schema.metadata.dynamic_widget import BaseDynamicWidget
@@ -32,9 +31,7 @@ class BaseResponse(Model):
     match_rules = DictType(ListType(StringType), serialize_when_none=False)
     resource = PolyModelType(Model, default={})
 
-
-class ReferenceModel(Model):
-    class Option:
-        serialize_when_none = False
+class Option:
+    serialize_when_none = False
     resource_id = StringType(required=False, serialize_when_none=False)
     external_link = StringType(required=False, serialize_when_none=False)

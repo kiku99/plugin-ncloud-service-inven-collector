@@ -63,6 +63,7 @@ class ServerInstanceManagerResourceHelper(NaverCloudManager):
     @staticmethod
     def _get_compute_data(instance, zone_info):
         compute_data = {
+            'server_instance_no': instance.server_instance_no,
             'server_name': instance.server_name,
             'server_image_name': instance.server_image_name,
             'server_instance_status': instance.server_instance_status.code,

@@ -51,7 +51,7 @@ class NaverCloudConnector(BaseConnector):
         self.monitoring_client = None
         self.cdn_client = None
         self.set_connect(kwargs['secret_data'])
-        self.set_connect_storage(kwargs['secret_data'])
+        # self.set_connect_storage(kwargs['secret_data'])
 
     def set_connect(self, secret_data: object) -> object:
         configuration_server = ncloud_server.Configuration()

@@ -1,6 +1,4 @@
 import os
-
-from spaceone.inventory.conf.cloud_service_conf import ASSET_URL
 from spaceone.inventory.libs.common_parser import *
 from spaceone.inventory.libs.schema.metadata.dynamic_widget import CardWidget, ChartWidget
 from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, SearchField, EnumDyField, SizeField
@@ -30,44 +28,36 @@ cst_server_instance.tags = {'spaceone:icon': f'{ASSET_URL}/Compute_Engine.svg', 
 
 cst_server_instance._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
-        EnumDyField.data_source('Instance State', 'data.compute.instance_state', default_state={
-            'safe': ['RUNNING'],
-            'warning': ['STAGING', 'PROVISIONING', 'REPAIRING', 'STOPPING', 'SUSPENDING'],
-            'disable': [],
-            'alert': ['SUSPENDED', 'TERMINATED']
+        EnumDyField.data_source('Instance State', 'data.compute.server_instance_status', default_state={
+            'safe': ['RUN'],
+            'warning': ['INIT', 'CREAT', 'NSTOP'],
+            'disable': ['FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'],
+            'alert': ['TERMT']
         }),
         TextDyField.data_source('Server ID', 'server_id', options={'is_optional': True}),
-        TextDyField.data_source('Instance Type', 'data.compute.instance_type'),
-        TextDyField.data_source('Core', 'data.hardware.core'),
-        TextDyField.data_source('Memory', 'data.hardware.memory'),
-        TextDyField.data_source('Preemptible', 'data.compute.scheduling.preemptible', options={'is_optional': True}),
-        TextDyField.data_source('Instance ID', 'data.compute.instance_id', options={'is_optional': True}),
-        TextDyField.data_source('Image', 'data.compute.image', options={'is_optional': True}),
-        TextDyField.data_source('Availability Zone', 'data.compute.az'),
-        TextDyField.data_source('Primary IP', 'data.primary_ip_address', options={'is_optional': True}),
-        TextDyField.data_source('Public IP', 'data.compute.public_ip_address', options={'is_optional': True}),
+        TextDyField.data_source('Instance Type', 'data.compute.server_instance_type'),
+        TextDyField.data_source('Core', 'data.hardware.cpu_count'),
+        TextDyField.data_source('Memory', 'data.hardware.memory_size'),
+        TextDyField.data_source('Image', 'data.compute.server_image_name', options={'is_optional': True}),
+        TextDyField.data_source('Availability Zone', 'data.compute.zone'),
+        TextDyField.data_source('Private IP', 'data.ip.private_ip', options={'is_optional': True}),
+        TextDyField.data_source('Public IP', 'data.ip.public_ip', options={'is_optional': True}),
         TextDyField.data_source('Account ID', 'account', options={'is_optional': True}),
         TextDyField.data_source('Launched', 'launched_at', options={'is_optional': True}),
     ],
 
     search=[
         SearchField.set(name='Server ID', key='server_id'),
-        SearchField.set(name='IP Address', key='data.ip_addresses'),
-        SearchField.set(name='Instance ID', key='data.compute.instance_id'),
-        SearchField.set(name='Instance State', key='data.compute.instance_state',
+        SearchField.set(name='Instance State', key='data.compute.server_instance_status',
                         enums={
-                            'RUNNING': {'label': 'Running'},
-                            'STOPPED': {'label': 'Stopped'},
-                            'DEALLOCATED': {'label': 'Deallocated'},
-                            'SUSPENDED': {'label': 'Suspended'},
-                            'TERMINATED': {'label': 'Terminated'}
+                            'RUN': {'label': 'Running'},
+                            'NSTOP': {'label': 'Stopped'},
+                            'ST_FL': {'label': 'Start Failed'},
+                            'TERMT': {'label': 'Terminated'}
                         }),
-        SearchField.set(name='Instance Type', key='data.compute.instance_type'),
-        SearchField.set(name='Key Pair', key='data.compute.keypair'),
-        SearchField.set(name='Availability Zone', key='data.compute.az'),
-        SearchField.set(name='Public IP Address', key='data.nics.public_ip_address'),
-        SearchField.set(name='Public DNS', key='data.nics.tags.public_dns'),
-        SearchField.set(name='Memory', key='data.hardware.memory', data_type='float'),
+        SearchField.set(name='Instance Type', key='data.compute.server_instance_type'),
+        SearchField.set(name='Availability Zone', key='data.compute.zone'),
+        SearchField.set(name='Memory', key='data.hardware.memory_size', data_type='float'),
         SearchField.set(name='Account ID', key='account'),
         SearchField.set(name='Launched', key='launched_at'),
     ],
