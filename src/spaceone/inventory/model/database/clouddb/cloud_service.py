@@ -30,14 +30,14 @@ cloud_db_instance = ItemDynamicLayout.set_fields('CloudDB Instance', fields=[
 
 ])
 
-access_control_group = TableDynamicLayout.set_fields('access_control_group_list', fields=[
+access_control_group = TableDynamicLayout.set_fields('Access Control Group', fields=[
     TextDyField.data_source('Name', 'data.access_control_group_list.access_control_group_name'),
     TextDyField.data_source('Lanched', 'data.access_control_group_list.create_date'),
     ListDyField.data_source('Description', 'data.access_control_group_list.access_control_group_description'),
 
 ])
 
-cloud_db_server = TableDynamicLayout.set_fields('cloud_db_server_instance_list', fields=[
+cloud_db_server = TableDynamicLayout.set_fields('CloudDB Server Instance', fields=[
     TextDyField.data_source('Name', 'data.cloud_db_server_instance_list.cloud_db_server_name'),
     TextDyField.data_source('DB Role', 'data.cloud_db_server_instance_list.cloud_db_server_role'),
     TextDyField.data_source('Lanched', 'data.cloud_db_server_instance_list.create_date'),
@@ -54,8 +54,7 @@ cloud_db_server = TableDynamicLayout.set_fields('cloud_db_server_instance_list',
     }),
 ])
 
-database = ListDynamicLayout.set_layouts('Cloud DB Instance','Access Control Group', 'Cloud DB Server',
-                                            layouts=[cloud_db_instance, access_control_group, cloud_db_server])
+database = ListDynamicLayout.set_layouts([cloud_db_instance, access_control_group, cloud_db_server])
 
 cloud_db_instance_meta = CloudServiceMeta.set_layouts([database])
 

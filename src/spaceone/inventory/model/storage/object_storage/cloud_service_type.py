@@ -13,12 +13,12 @@ total_count_conf = os.path.join(current_dir, 'widget/total_count.yml')
 count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 count_by_project_conf = os.path.join(current_dir, 'widget/count_by_project.yml')
 
-cst_bucket = CloudServiceTypeResource()
+cst_bucket= CloudServiceTypeResource()
 cst_bucket.name = 'ObjectStorage'
 cst_bucket.provider = 'naver_cloud'
 cst_bucket.group = 'CloudStorage'
 cst_bucket.service_code = 'CloudStorage'
-cst_bucket.labels = ['Storage']
+cst_bucket.labels = ['Storage', 'ObjectStorage']
 cst_bucket.is_primary = True
 cst_bucket.is_major = True
 cst_bucket.tags = {

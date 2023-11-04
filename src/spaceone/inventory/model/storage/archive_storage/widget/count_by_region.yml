@@ -1,7 +1,7 @@
 ---
-cloud_service_group: storage
-cloud_service_type: storage
-name: Count by Project
+cloud_service_group: Storage
+cloud_service_type: ArchiveStorage
+name: Count by Region
 query:
   aggregate:
     - group:
