@@ -14,17 +14,17 @@ total_count_conf = os.path.join(current_dir, 'widget/total_count.yml')
 count_by_account_conf = os.path.join(current_dir, 'widget/count_by_account.yml')
 count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 
-cst_server_instance = CloudServiceTypeResource()
-cst_server_instance.name = 'Autoscaling'
-cst_server_instance.provider = 'naver_cloud'
-cst_server_instance.group = 'Compute'
-cst_server_instance.service_code = 'Autoscaling'
-cst_server_instance.labels = ['Compute', 'Autoscaling']
-cst_server_instance.is_primary = True
-cst_server_instance.is_major = True
-cst_server_instance.tags = {'spaceone:icon': f'{ASSET_URL}/Compute_Engine.svg', }
+cst_autoscaling = CloudServiceTypeResource()
+cst_autoscaling.name = 'Autoscaling'
+cst_autoscaling.provider = 'naver_cloud'
+cst_autoscaling.group = 'Compute'
+cst_autoscaling.service_code = 'Autoscaling'
+cst_autoscaling.labels = ['Compute', 'Autoscaling']
+cst_autoscaling.is_primary = True
+cst_autoscaling.is_major = True
+cst_autoscaling.tags = {'spaceone:icon': f'{ASSET_URL}/Compute_Engine.svg', }
 
-cst_server_instance._metadata = CloudServiceTypeMeta.set_meta(
+cst_autoscaling._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
         EnumDyField.data_source('Instance State', 'state', default_state={
             'safe': ['ACTIVE']
@@ -58,5 +58,5 @@ cst_server_instance._metadata = CloudServiceTypeMeta.set_meta(
 )
 
 CLOUD_SERVICE_TYPES = [
-    CloudServiceTypeResponse({'resource': cst_server_instance}),
+    CloudServiceTypeResponse({'resource': cst_autoscaling}),
 ]
