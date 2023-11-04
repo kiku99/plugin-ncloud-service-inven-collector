@@ -16,17 +16,17 @@ count_by_account_conf = os.path.join(current_dir, 'widget/count_by_account.yml')
 count_by_instance_type_conf = os.path.join(current_dir, 'widget/count_by_instance_type.yml')
 count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 
-cst_server_instance = CloudServiceTypeResource()
-cst_server_instance.name = 'Server'
-cst_server_instance.provider = 'naver_cloud'
-cst_server_instance.group = 'Compute'
-cst_server_instance.service_code = 'Server'
-cst_server_instance.labels = ['Compute', 'Server']
-cst_server_instance.is_primary = True
-cst_server_instance.is_major = True
-cst_server_instance.tags = {'spaceone:icon': f'{ASSET_URL}/Compute_Engine.svg', }
+cst_server = CloudServiceTypeResource()
+cst_server.name = 'Server'
+cst_server.provider = 'naver_cloud'
+cst_server.group = 'Compute'
+cst_server.service_code = 'Server'
+cst_server.labels = ['Compute', 'Server']
+cst_server.is_primary = True
+cst_server.is_major = True
+cst_server.tags = {'spaceone:icon': f'{ASSET_URL}/Compute_Engine.svg', }
 
-cst_server_instance._metadata = CloudServiceTypeMeta.set_meta(
+cst_server._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
         EnumDyField.data_source('Instance State', 'data.compute.server_instance_status', default_state={
             'safe': ['RUN'],
@@ -37,7 +37,7 @@ cst_server_instance._metadata = CloudServiceTypeMeta.set_meta(
         TextDyField.data_source('Server ID', 'server_id', options={'is_optional': True}),
         TextDyField.data_source('Instance Type', 'data.compute.server_instance_type'),
         TextDyField.data_source('Core', 'data.hardware.cpu_count'),
-        TextDyField.data_source('Memory', 'data.hardware.memory_size'),
+        SizeField.data_source('Memory', 'data.hardware.memory_size'),
         TextDyField.data_source('Image', 'data.compute.server_image_name', options={'is_optional': True}),
         TextDyField.data_source('Availability Zone', 'data.compute.zone'),
         TextDyField.data_source('Private IP', 'data.ip.private_ip', options={'is_optional': True}),
@@ -74,5 +74,5 @@ cst_server_instance._metadata = CloudServiceTypeMeta.set_meta(
 )
 
 CLOUD_SERVICE_TYPES = [
-    CloudServiceTypeResponse({'resource': cst_server_instance}),
+    CloudServiceTypeResponse({'resource': cst_server}),
 ]
