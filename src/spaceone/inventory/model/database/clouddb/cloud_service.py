@@ -14,11 +14,10 @@ CloudDB
 cloud_db_instance = ItemDynamicLayout.set_fields('CloudDB Instance', fields=[
     TextDyField.data_source('DB Service Name', 'data.name'),
     TextDyField.data_source('Backup File Retention Period', 'data.backup_file_retention_period'),
-    EnumDyField.data_source('Instance Status', 'data.cloud_db_instance_status_name', default_state={
-        'safe': ['RUN'],
-        'warning': ['INIT', 'CREAT', 'NSTOP'],
-        'disable': ['FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'],
-        'alert': ['TERMT']
+    EnumDyField.data_source('State', 'data.cloud_db_instance_status_name', default_state={
+        'safe': ['running'],
+        'disable': ['deleting', 'creating', 'pending', 'recovering', 'restarting', 'reinstalling'],
+        'alert': ['deleted']
     }),
     TextDyField.data_source('Backup Time', 'data.backup_time'),
     TextDyField.data_source('CPU Count', 'data.cpu_count'),
@@ -30,14 +29,14 @@ cloud_db_instance = ItemDynamicLayout.set_fields('CloudDB Instance', fields=[
 
 ])
 
-access_control_group = TableDynamicLayout.set_fields('Access Control Group', fields=[
+access_control_group = ItemDynamicLayout.set_fields('Access Control Group', fields=[
     TextDyField.data_source('Name', 'data.access_control_group_list.access_control_group_name'),
     TextDyField.data_source('Lanched', 'data.access_control_group_list.create_date'),
     ListDyField.data_source('Description', 'data.access_control_group_list.access_control_group_description'),
 
 ])
 
-cloud_db_server = TableDynamicLayout.set_fields('CloudDB Server Instance', fields=[
+cloud_db_server = ItemDynamicLayout.set_fields('CloudDB Server Instance', fields=[
     TextDyField.data_source('Name', 'data.cloud_db_server_instance_list.cloud_db_server_name'),
     TextDyField.data_source('DB Role', 'data.cloud_db_server_instance_list.cloud_db_server_role'),
     TextDyField.data_source('Lanched', 'data.cloud_db_server_instance_list.create_date'),
@@ -46,17 +45,14 @@ cloud_db_server = TableDynamicLayout.set_fields('CloudDB Server Instance', field
     TextDyField.data_source('uptime', 'data.cloud_db_server_instance_list.uptime'),
     SizeField.data_source('Data StorageSize', 'data.cloud_db_server_instance_list.data_storage_size'),
     SizeField.data_source('Used Data StorageSize', 'data.cloud_db_server_instance_list.used_data_storage_size'),
-    EnumDyField.data_source('Status', 'data.cloud_db_server_instance_list.cloud_db_server_instance_status_name', default_state={
-        'safe': ['RUN'],
-        'warning': ['INIT', 'CREAT', 'NSTOP'],
-        'disable': ['FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'],
-        'alert': ['TERMT']
-    }),
+    EnumDyField.data_source('State', 'data.cloud_db_instance_status_name', default_state={
+        'safe': ['running'],
+        'disable': ['deleting', 'creating', 'pending', 'recovering', 'restarting', 'reinstalling'],
+        'alert': ['deleted'],
+    })
 ])
 
-database = ListDynamicLayout.set_layouts([cloud_db_instance, access_control_group, cloud_db_server])
-
-cloud_db_instance_meta = CloudServiceMeta.set_layouts([database])
+cloud_db_instance_meta = CloudServiceMeta.set_layouts([cloud_db_instance, access_control_group, cloud_db_server])
 
 
 class CloudDBInstancetResource(CloudServiceResource):
