@@ -18,7 +18,7 @@ cst_bucket.name = 'ArchiveStorage'
 cst_bucket.provider = 'naver_cloud'
 cst_bucket.group = 'CloudStorage'
 cst_bucket.service_code = 'CloudStorage'
-cst_bucket.labels = ['Storage']
+cst_bucket.labels = ['Storage', 'ArchiveStorage']
 cst_bucket.is_primary = True
 cst_bucket.is_major = True
 cst_bucket.tags = {
@@ -48,8 +48,8 @@ cst_bucket._metadata = CloudServiceTypeMeta.set_meta(
         SearchField.set(name='ID', key='data.id'),
         SearchField.set(name='Name', key='data.name'),
         SearchField.set(name='Location', key='data.location.location'),
-        SearchField.set(name='Object Counts', key='data.object_count', data_type='integer'),
-        SearchField.set(name='Object Total Size (Bytes)', key='data.object_total_size', data_type='integer'),
+        SearchField.set(name='Archive Counts', key='data.object_count', data_type='integer'),
+        SearchField.set(name='Archive Total Size (Bytes)', key='data.object_total_size', data_type='integer'),
         SearchField.set(name='Creation Time', key='data.creation_timestamp', data_type='datetime'),
         SearchField.set(name='Update Time', key='data.update_timestamp', data_type='datetime'),
     ],
