@@ -11,13 +11,20 @@ from spaceone.inventory.libs.schema.cloud_service import CloudServiceMeta, Cloud
 Autoscaling
 '''
 autoscaling_instance = ItemDynamicLayout.set_fields('Autoscaling Instance', fields=[
-
+    EnumDyField.data_source('Instance State', 'state', default_state={
+        'safe': ['ACTIVE']
+    }),
+    TextDyField.data_source('Desired Capacity', 'data.desired_capacity'),
+    TextDyField.data_source('Minimum Size', 'data.min_size'),
+    TextDyField.data_source('Maximum Size', 'data.max_size'),
+    TextDyField.data_source('Health Check Type', 'data.health_check_type', options={'is_optional': True}),
+    TextDyField.data_source('Health Check Grace Period', 'data.health_check_grace_period',
+                            options={'is_optional': True}),
+    TextDyField.data_source('Default Cooldown', 'data.default_cooldown', options={'is_optional': True})
 ])
 
-server_engine = ListDynamicLayout.set_layouts('server engine',
-                                              layouts=[autoscaling_instance])
 
-autoscaling_instance_meta = CloudServiceMeta.set_layouts([server_engine])
+autoscaling_instance_meta = CloudServiceMeta.set_layouts([autoscaling_instance])
 
 
 class ComputeResource(CloudServiceResource):
