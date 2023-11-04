@@ -256,6 +256,23 @@ The cloud_service_types items that can be specified are as follows.
 </code>
 </pre>
 
+## Ncloud Zone Environment
+Zones are data centers and networks that are physically separate within a region at the national level.
+Because each zone exists independently, failure in one zone does not affect the other.
+
+- ### Zone list
+
+
+|No.|Region | Zone 
+|-|---------|-------------|
+|1|Korea     |Classic, VPC: KR-1, KR-2|
+|2|the western United States|Classic: USWN-1|
+|3|Hong Kong|Classic: HK-1|
+|4|Singapore|	Classic: SGN-1<br>VPC: SGN-4, SGN-5|
+|5|Japan|Classic: JPN-1 <br>VPC: JPN-4, JPN-5|
+|6|Germany|Classic: DEN-1|
+
+
 ## Ncloud Service Endpoint (in use)
 
 ### ObjectStorage
@@ -270,11 +287,11 @@ We use hundreds of endpoints because we collect information from a lots of regio
 
 |No.|Region   | Region name |Endpoint|
 |-|---------|-------------|--------|
-|1|한국  | kr-standard|https://kr.object.ncloudstorage.com|
-|2|미국서부(New) |us-standard|https://us.object.ncloudstorage.com|
-|3|싱가포르(New)|sg-standard|https://sg.object.ncloudstorage.com|
-|4|일본(New)|jp-standard|https://jp.object.ncpstorage.com|
-|5|독일(New)|de-standard|https://de.object.ncloudstorage.com|
+|1|Korea  | kr-standard|https://kr.object.ncloudstorage.com|
+|2|the western United States(New) |us-standard|https://us.object.ncloudstorage.com|
+|3|Singapore(New)|sg-standard|https://sg.object.ncloudstorage.com|
+|4|Japan(New)|jp-standard|https://jp.object.ncpstorage.com|
+|5|Germany(New)|de-standard|https://de.object.ncloudstorage.com|
 
 ### ArchiveStorage
 Naver cloud platform Archive Storage provides the NSX Swift API for storage management and use.<br>
@@ -286,8 +303,8 @@ Version: 2.15.1 (Pike)
 
 |No.|Region   | Authentication URL |Service URL|
 |-|---------|-------------|--------|
-|1|한국  | https://kr.archive.ncloudstorage.com:5000|https://kr.archive.ncloudstorage.com|
-|2|한국 |https://archivestorage.apigw.ntruss.com/swift/v1/|https://archivestorage.apigw.ntruss.com/swift/v1/|
+|1|Korea  | https://kr.archive.ncloudstorage.com:5000|https://kr.archive.ncloudstorage.com|
+|2|Korea |https://archivestorage.apigw.ntruss.com/swift/v1/|https://archivestorage.apigw.ntruss.com/swift/v1/|
 
 
 ---
