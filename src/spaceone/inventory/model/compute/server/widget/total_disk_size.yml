@@ -9,7 +9,7 @@ query:
     - group:
         fields:
           - name: value
-            key: data.storage_size
+            key: data.storage.storage_size
             operator: sum
 options:
   value_options:
