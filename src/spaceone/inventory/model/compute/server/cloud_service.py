@@ -33,7 +33,7 @@ server_instance = ItemDynamicLayout.set_fields('Server Instance', fields=[
     TextDyField.data_source('Port Forward Public IP', 'data.port_forwarding_rules.port_forwarding_public_ip')
 ])
 
-storage = TableDynamicLayout.set_fields('Storage', fields=[
+storage = ItemDynamicLayout.set_fields('Storage', fields=[
     TextDyField.data_source('Name', 'data.storage.storage_name'),
     SizeField.data_source('Size', 'data.storage.storage_size'),
     EnumDyField.data_source('Disk Type', 'data.storage.storage_diskType',
@@ -42,7 +42,7 @@ storage = TableDynamicLayout.set_fields('Storage', fields=[
                             default_outline_badge=['HDD', 'SSD'])
 ])
 
-login_key = TableDynamicLayout.set_fields('Login Key', fields=[
+login_key = ItemDynamicLayout.set_fields('Login Key', fields=[
     TextDyField.data_source('Name', 'data.login_key.key_name'),
     TextDyField.data_source('Finger Print', 'data.login_key.finger_print'),
     DateTimeDyField.data_source('Create Date', 'data.login_key.create_date')
