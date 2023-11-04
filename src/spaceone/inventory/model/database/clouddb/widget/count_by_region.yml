@@ -1,6 +1,6 @@
 ---
-cloud_service_group: cloud_db
-cloud_service_type: cloud_db
+cloud_service_group: Database
+cloud_service_type: CloudDB
 name: Count by Project
 query:
   aggregate:
