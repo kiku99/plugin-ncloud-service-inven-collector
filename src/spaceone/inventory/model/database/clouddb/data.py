@@ -54,7 +54,7 @@ class CloudDBServerInstance(Model):
     cloud_db_server_name = StringType()
     cloud_db_server_role = StringType()
     private_dns_name = StringType()
-    #public_dns_name = StringType()
+    public_dns_name = StringType()
     data_storage_size = IntType()
     used_data_storage_size = IntType()
     create_date = StringType()
@@ -80,9 +80,10 @@ class Product(Model):
 
 class CloudDBInstance(Model):
     cloud_db_instance_no = StringType()
-    #cloud_db_service_name = StringType()
+    cloud_db_service_name = StringType()
     db_kind_code = StringType()
     cpu_count = IntType()
+    engine_version = StringType()
     data_storage_type = StringType()
     license_code = StringType()
     cloud_db_port = IntType()

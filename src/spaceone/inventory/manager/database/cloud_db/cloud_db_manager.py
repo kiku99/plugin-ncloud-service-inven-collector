@@ -60,7 +60,8 @@ class CloudDBManager(NaverCloudManager):
                         'cloud_db_instance_no': instance.cloud_db_instance_no,
                         'db_kind_code': instance.db_kind_code,
                         'cpu_count': instance.cpu_count,
-                        'data_storage_type': instance.data_storage_type.code,
+                        'engine_version': instance.engine_version,
+                        'data_storage_type': instance.data_storage_type.code_name,
                         'license_code': instance.license_code,
                         'is_ha': instance.is_ha,
                         'cloud_db_port': instance.cloud_db_port,
@@ -88,7 +89,9 @@ class CloudDBManager(NaverCloudManager):
                 cloud_db_resource = CloudDBResource({
                     'name': cloud_db_service_name,
                     'launched_at': cloud_db_create_date,
-                    'data': cloud_db_data
+                    'data': cloud_db_data,
+                    'region_code': instance.region.region_name,
+
                 })
                 ##################################
                 # 4. Make Resource Response Object
@@ -126,11 +129,20 @@ class CloudDBManager(NaverCloudManager):
         # Convert database list(dict) -> list(database object)
         cloud_db_server_info_list = []
         for server in servers:
+            # if server.data_storage_size is not None:
+            #     data_storage_size = int(server.data_storage_size) / (1024 * 1024 * 1024)
+            # else:
+            #     data_storage_size = 0  # 또는 다른 기본값을 설정하실 수 있습니다.
+            # if server.used_data_storage_size is not None:
+            #     used_data_storage_size = int(server.used_data_storage_size) / (1024 * 1024 * 1024)
+            # else:
+            #     used_data_storage_size = 0  # 또는 다른 기본값을 설정하실 수 있습니다.
+
             server = {
                 'cloud_db_server_instance_no': server.cloud_db_server_instance_no,
                 'cloud_db_server_name': server.cloud_db_server_name,
                 'cloud_db_server_instance_status_name': server.cloud_db_server_instance_status_name,
-                'cloud_db_server_role': server.cloud_db_server_role.code,
+                'cloud_db_server_role': server.cloud_db_server_role.code_name,
                 'private_dns_name': server.private_dns_name,
                 'data_storage_size': server.data_storage_size,
                 'used_data_storage_size': server.used_data_storage_size,
