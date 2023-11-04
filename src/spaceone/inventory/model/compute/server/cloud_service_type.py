@@ -37,7 +37,7 @@ cst_server_instance._metadata = CloudServiceTypeMeta.set_meta(
         TextDyField.data_source('Server ID', 'server_id', options={'is_optional': True}),
         TextDyField.data_source('Instance Type', 'data.compute.server_instance_type'),
         TextDyField.data_source('Core', 'data.hardware.cpu_count'),
-        TextDyField.data_source('Memory', 'data.hardware.memory_size'),
+        SizeField.data_source('Memory', 'data.hardware.memory_size'),
         TextDyField.data_source('Image', 'data.compute.server_image_name', options={'is_optional': True}),
         TextDyField.data_source('Availability Zone', 'data.compute.zone'),
         TextDyField.data_source('Private IP', 'data.ip.private_ip', options={'is_optional': True}),
