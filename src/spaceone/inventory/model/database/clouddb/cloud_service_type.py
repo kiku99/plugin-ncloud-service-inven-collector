@@ -10,9 +10,11 @@ from spaceone.inventory.conf.cloud_service_conf import *
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
 
-total_count_conf = os.path.join(current_dir, 'widget/total_count.yml')
+#total_count_conf = os.path.join(current_dir, 'widget/total_count.yml')
 count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 count_by_project_conf = os.path.join(current_dir, 'widget/count_by_project.yml')
+total_by_used_storage_conf = os.path.join(current_dir, 'widget/total_used_storage_size.yml')
+total_by_storage_conf = os.path.join(current_dir, 'widget/total_storage_size.yml')
 
 cst_database_cloud_db = CloudServiceTypeResource()
 cst_database_cloud_db.name = 'CloudDB'
@@ -29,17 +31,17 @@ cst_database_cloud_db.tags = {
 cst_database_cloud_db._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
         EnumDyField.data_source('State', 'data.cloud_db_instance_status_name', default_state={
-            'safe': ['RUNNING'],
-            'disable': ['UNKNOWN', 'ON-DEMAND'],
-            'alert': ['STOPPED'],
+            'safe': ['running'],
+            'disable': ['deleting', 'creating', 'pending', 'recovering', 'restarting','reinstalling'],
+            'alert': ['deleted'],
         }),
         TextDyField.data_source('DB Role', 'data.cloud_db_server_instance_list.cloud_db_server_role'),
         TextDyField.data_source('DB Engine Version', 'data.engine_version'),
         TextDyField.data_source('DB Server Name', 'data.cloud_db_server_instance_list.cloud_db_server_name'),
         SizeField.data_source('Used Storage Size', 'data.cloud_db_server_instance_list.used_data_storage', options={'is_optional': True}),
         SizeField.data_source('Data Storage Size', 'data.cloud_db_server_instance_list.data_storage_size'),
-        TextDyField.data_source('Zone', 'data.zone_list.zone_name', options={'is_optional': True}),
-        TextDyField.data_source('Launched', 'launched_at', options={'is_optional': True}),
+        TextDyField.data_source('Zone', 'data.zone_list.zone_name'),
+        TextDyField.data_source('Launched', 'data.launched_at', options={'is_optional': True}),
         TextDyField.data_source('Data Storage Type', 'data.data_storage_type', options={'is_optional': True}),
         TextDyField.data_source('Backup File Retention Period', 'data.backup_file_retention_period', options={'is_optional': True}),
         TextDyField.data_source('Backup Time', 'data.backup_time', options={'is_optional': True}),
@@ -65,7 +67,7 @@ cst_database_cloud_db._metadata = CloudServiceTypeMeta.set_meta(
                                 'TERMT': {'label': 'Terminated'}
                             }),
         SearchField.set(name='Zone', key='data.zone_list.zone_name'),
-        SearchField.set(name='Launched', key='launched_at'),
+        SearchField.set(name='Launched', key='data.launched_at'),
         SearchField.set(name='Region', key='data.region_code'),
         SearchField.set(name='DB License', key='data.license_code'),
         SearchField.set(name='CPU Count', key='data.cpu_count', data_type='integer'),
@@ -82,9 +84,11 @@ cst_database_cloud_db._metadata = CloudServiceTypeMeta.set_meta(
     ],
 
     widget=[
-        CardWidget.set(**get_data_from_yaml(total_count_conf)),
+        #CardWidget.set(**get_data_from_yaml(total_count_conf)),
         ChartWidget.set(**get_data_from_yaml(count_by_region_conf)),
-        ChartWidget.set(**get_data_from_yaml(count_by_project_conf))
+        ChartWidget.set(**get_data_from_yaml(count_by_project_conf)),
+        ChartWidget.set(**get_data_from_yaml(total_by_used_storage_conf)),
+        ChartWidget.set(**get_data_from_yaml(total_by_storage_conf)),
     ]
 )
 

@@ -23,7 +23,7 @@ server_instance = ItemDynamicLayout.set_fields('Server Instance', fields=[
     TextDyField.data_source('Instance Type', 'data.compute.server_instance_type'),
     TextDyField.data_source('Image', 'data.compute.server_image_name'),
     TextDyField.data_source('CPU Count', 'data.hardware.cpu_count'),
-    TextDyField.data_source('Memory Size', 'data.hardware.memory_size'),
+    SizeField.data_source('Memory Size', 'data.hardware.memory_size'),
     TextDyField.data_source('Availability Zone', 'data.compute.zone'),
     TextDyField.data_source('Region', 'data.compute.region'),
     TextDyField.data_source('Public IP', 'data.ip.public_ip'),

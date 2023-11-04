@@ -86,7 +86,7 @@ class CloudDBInstance(Model):
     engine_version = StringType()
     data_storage_type = StringType()
     license_code = StringType()
-    cloud_db_port = IntType()
+    cloud_db_port = StringType()
     is_ha = BooleanType()
     backup_time = StringType()
     backup_file_retention_period = IntType()
