@@ -28,15 +28,15 @@ cst_content_delivery_cdn.tags = {
 
 cst_content_delivery_cdn._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
-        TextDyField.data_source('Nme', 'data.settings.name'),
+        TextDyField.data_source('Nme', 'data.name'),
         TextDyField.data_source('Origin URL', 'data.cdn_plus_rule.origin_url'),
-        EnumDyField.data_source('State', 'data.display_state', default_state={
+        EnumDyField.data_source('State', 'data.cdn_instance_status_name', default_state={
             'safe': ['RUNNING'],
             'disable': ['UNKNOWN', 'ON-DEMAND'],
             'alert': ['STOPPED'],
         }),
         TextDyField.data_source('Service Domain', 'data.cdn_plus_service_domain_list.default_domain_name'),
-        TextDyField.data_source('Launched', 'data.launch_at'),
+        TextDyField.data_source('Launched', 'launched_at'),
         TextDyField.data_source('Last Modified', 'data.last_modified_date',options={'is_optional': True}),
         TextDyField.data_source('Forward Host Header', 'data.cdn_plus_rule.forward_host_header_type_code', options={'is_optional': True}),
         TextDyField.data_source('Gzip Compression', 'data.cdn_plus_rule.is_gzip_compression_use', options={'is_optional': True}),
@@ -50,7 +50,7 @@ cst_content_delivery_cdn._metadata = CloudServiceTypeMeta.set_meta(
     ],
     search=[
         SearchField.set(name='Service Domain', key='data.cdn_plus_service_domain_list.default_domain_name'),
-        SearchField.set(name='Launched', key='data.launch_at'),
+        SearchField.set(name='Launched', key='launched_at'),
         SearchField.set(name='Last Modified', key='data.last_modified_date'),
         SearchField.set(name='Forward Host Header', key='data.cdn_plus_rule.forward_host_header_type_code'),
         SearchField.set(name='Gzip Compression', key='data.cdn_plus_rule.is_gzip_compression_use'),
