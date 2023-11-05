@@ -36,12 +36,12 @@ class TestCollector(TestCase):
     secret_data = {
         'ncloud_access_key_id': AKI,
         'ncloud_secret_key': SK,
-        'domain_id': 'default',
-        'project_id': '25cd875760ea45fdbe6e0198a3e212cc',
-        'db_kind_code': 'MYSQL',
-        'cdn_instance_no': '20151001',
-        'instance_no': '20150943',
-        'bucket_name': 'buckettest0712'
+        # 'domain_id': 'default',
+        # 'project_id': '25cd875760ea45fdbe6e0198a3e212cc',
+        # 'db_kind_code': 'MYSQL',
+        # 'cdn_instance_no': '20151001',
+        # 'instance_no': '20150943',
+        # 'bucket_name': 'buckettest0712'
     }
 
     def test_init(self):
@@ -66,7 +66,7 @@ class TestCollector(TestCase):
         '''
         options = {
             # "cloud_service_types": ["CloudFunctions"],
-            "cloud_service_types": ["Database"]
+            "cloud_service_types": ["Networking"]
             # "custom_asset_url": 'http://xxxxx.spaceone.dev/icon/google'
         }
         filter = {}
