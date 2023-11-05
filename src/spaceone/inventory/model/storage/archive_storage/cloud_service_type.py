@@ -29,8 +29,9 @@ cst_bucket._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
         TextDyField.data_source('Name', 'data.name'),
         SizeField.data_source('Count', 'data.count'),
-        SizeField.data_source('Bytes', 'data.bytes'),
-        DateTimeDyField.data_source('Last Modified', 'data.last_modified')
+        SizeField.data_source('Size', 'data.bytes'),
+        DateTimeDyField.data_source('Last Modified', 'data.last_modified'),
+        DateTimeDyField.data_source('Launched', 'launched_at')
 
     ],
 
@@ -39,6 +40,7 @@ cst_bucket._metadata = CloudServiceTypeMeta.set_meta(
         SearchField.set(name='Archive Counts', key='data.count', data_type='integer'),
         SearchField.set(name='Archive Total Size (Bytes)', key='data.bytes', data_type='integer'),
         SearchField.set(name='Last Modified', key='data.last_modified', data_type='datetime'),
+        SearchField.set(name='Launched', key='launched_at', data_type='datetime'),
     ],
 
     widget=[
