@@ -65,7 +65,7 @@ class CdnManager(NaverCloudManager):
                     'cdn_instance_operation': instance.cdn_instance_operation.code,
                     'cdn_instance_status_name': instance.cdn_instance_status_name,
                     'last_modified_date': instance.last_modified_date,
-                    # 'service_name': instance.service_name,
+                    'service_name': instance.service_name,
                     'is_for_live_transcoder': instance.is_for_live_transcoder,
                     'is_for_image_optimizer': instance.is_for_image_optimizer,
                     'is_available_partial_domain_purge': instance.is_available_partial_domain_purge,
