@@ -42,7 +42,7 @@ class ObjectStorageManager(NaverCloudManager):
         self.instance_conn.set_connect_storage(params['secret_data'])
 
         buckets = self.instance_conn.list_buckets()
-        objects = self.instance_conn.list_objects(params['secret_data']['bucket_name'])
+        objects = self.instance_conn.list_objects(params['options']['bucket_name'])
         #bucket_cors = self.instance_conn.get_bucket_cors(params['options']['bucket_name'])
 
         list_buckets = buckets['Buckets']
@@ -89,4 +89,7 @@ class ObjectStorageManager(NaverCloudManager):
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
         return resource_responses, error_responses
+
+
+
 
