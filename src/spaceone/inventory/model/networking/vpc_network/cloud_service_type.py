@@ -25,7 +25,7 @@ cst_network.tags = {
 
 cst_network._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
-        TextDyField.data_source('Number of Subnet', 'data.subnetwork_data.total_number'),
+        TextDyField.data_source('Number of Subnet', 'data.subnet_list.subnet_no'),
         TextDyField.data_source('Maximum transmission unit', 'data.mtu'),
         TextDyField.data_source('Mode', 'data.subnet_creation_mode'),
         EnumDyField.data_source('Global Dynamic Routing', 'data.global_dynamic_route', default_state={
@@ -39,6 +39,8 @@ cst_network._metadata = CloudServiceTypeMeta.set_meta(
             'is_optional': True
         }),
         DateTimeDyField.data_source('Creation Time', 'data.creation_timestamp'),
+        TextDyField.data_source('Provider', 'data.network_acl_list.provider'),
+        TextDyField.data_source('Region', 'data.region'),
     ],
 
     search=[
