@@ -5,11 +5,11 @@ name: Total Count
 query:
   aggregate:
     - group:
-        keys:
-          - name: name
-            key: account
         fields:
           - name: value
             operator: count
 options:
-  chart_type: DONUT
+  value_options:
+    key: value
+    options:
+      default: 0
