@@ -29,7 +29,6 @@ vpc_network_subnets_meta = TableDynamicLayout.set_fields('Subnets', root_path='d
     TextDyField.data_source('Region', 'region'),
     TextDyField.data_source('Ip Address Ranges', 'ip_cidr_range'),
     TextDyField.data_source('Gateway', 'gateway_address'),
-    TextDyField.data_source('Private Google Access', 'google_access'),
     TextDyField.data_source('Flow logs', 'flow_log'),
 ])
 
@@ -90,7 +89,7 @@ instance_template_meta = CloudServiceMeta.set_layouts([vpc_network_detail_meta,
 
 
 class VPCResource(CloudServiceResource):
-    cloud_service_group = StringType(default='vpc')
+    cloud_service_group = StringType(default='VPC')
 
 
 class VPCNetworkResource(VPCResource):
