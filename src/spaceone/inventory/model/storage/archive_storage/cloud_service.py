@@ -14,13 +14,16 @@ Bucket
 '''
 # TAB - Bucket
 bucket_instance = ItemDynamicLayout.set_fields('Bucket Instance', fields=[
+    TextDyField.data_source('Archive Total Counts', 'data.object_count'),
+    SizeField.data_source('Archive Size', 'data.object_total_size'),
+    DateTimeDyField.data_source('Created', 'data.creation_timestamp')
 
 ])
 
-bucket = ListDynamicLayout.set_layouts('bucket',
-                                       layouts=[bucket_instance])
+# bucket = ListDynamicLayout.set_layouts('bucket',
+#                                        layouts=[bucket_instance])
 
-bucket_instance_meta = CloudServiceMeta.set_layouts([bucket])
+bucket_instance_meta = CloudServiceMeta.set_layouts([bucket_instance])
 
 
 class StorageGroupResource(CloudServiceResource):
