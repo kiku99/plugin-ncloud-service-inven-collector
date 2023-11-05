@@ -53,7 +53,7 @@ class CdnManager(NaverCloudManager):
                 ##################################
                 # 1. Set Basic Information
                 ##################################
-                instance_no = instance.cdn_instance_no
+                instance_name = instance.service_name
                 instance_rule = instance.cdn_plus_rule
                 instance_create_date = instance.create_date
                 instance_service_domain_list = instance.cdn_plus_service_domain_list
@@ -65,7 +65,7 @@ class CdnManager(NaverCloudManager):
                     'cdn_instance_operation': instance.cdn_instance_operation.code,
                     'cdn_instance_status_name': instance.cdn_instance_status_name,
                     'last_modified_date': instance.last_modified_date,
-                    'service_name': instance.service_name,
+                    # 'service_name': instance.service_name,
                     'is_for_live_transcoder': instance.is_for_live_transcoder,
                     'is_for_image_optimizer': instance.is_for_image_optimizer,
                     'is_available_partial_domain_purge': instance.is_available_partial_domain_purge,
@@ -85,7 +85,7 @@ class CdnManager(NaverCloudManager):
                 # 3. Make Return Resource
                 ##################################
                 monitoring_resource = CdnResource({
-                    'name': instance_no,
+                    'name': instance_name,
                     'launched_at': instance_create_date,
                     'data': cdn_plus_instance
                 })
@@ -98,7 +98,7 @@ class CdnManager(NaverCloudManager):
                 _LOGGER.error(
                     f'[list_resources] cdn_instance_no => {instance.cdn_instance_no}, error => {e}',
                     exc_info=True)
-                error_response = self.generate_resource_error_response(e, 'content_delivery', 'cdn', instance_no)
+                error_response = self.generate_resource_error_response(e, 'content_delivery', 'cdn', instance_name)
                 error_responses.append(error_response)
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
