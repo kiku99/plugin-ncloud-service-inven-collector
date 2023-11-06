@@ -4,5 +4,5 @@ from spaceone.inventory.manager.database.cloud_db.cloud_db_manager import CloudD
 from spaceone.inventory.manager.storage.object_storage.object_storage_manager import ObjectStorageManager
 from spaceone.inventory.manager.storage.archive_storage.archive_storage_manager import ArchiveStorageManager
 from spaceone.inventory.manager.management.monitoring.monitoring_manager import MonitoringManager
-from spaceone.inventory.manager.networking.vpc.vpc_network_manager import VPCNetworkManager
+from spaceone.inventory.manager.networking.VPC.vpc_network_manager import VPCNetworkManager
 from spaceone.inventory.manager.content_delivery.cdn.cdn_manager import CdnManager

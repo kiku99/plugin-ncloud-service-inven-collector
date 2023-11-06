@@ -61,12 +61,13 @@ class TestCollector(TestCase):
                         "service_code_mappers": {
                     "Compute Engine": "Test Gikang",
                     "Networking": "HaHa HoHo",
+
                     "Cloud SQL": "SQLSQL"
             }
         '''
         options = {
             # "cloud_service_types": ["CloudFunctions"],
-            "cloud_service_types": ["Networking"]
+            "cloud_service_types": ["Compute"]
             # "custom_asset_url": 'http://xxxxx.spaceone.dev/icon/google'
         }
         filter = {}
