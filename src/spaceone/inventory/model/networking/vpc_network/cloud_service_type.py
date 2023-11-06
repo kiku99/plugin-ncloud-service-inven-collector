@@ -59,7 +59,10 @@ cst_network._metadata = CloudServiceTypeMeta.set_meta(
         }),
         SearchField.set(name='Provider', key='provider'),
         SearchField.set(name='Region', key='data.region_code'),
-        SearchField.set(name='Region', key='data.region_code'),
+        SearchField.set(name='Cloud Service Group', key='cloud_service_group'),
+        SearchField.set(name='Cloud Service Type', key='cloud_service_type'),
+        SearchField.set(name='Resource ID', key='reference.resource_id'),
+        SearchField.set(name='Service Accounts', key='account'),
 
     ],
 
