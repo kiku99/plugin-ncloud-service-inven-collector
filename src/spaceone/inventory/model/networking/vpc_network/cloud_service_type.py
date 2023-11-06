@@ -37,19 +37,15 @@ cst_network._metadata = CloudServiceTypeMeta.set_meta(
         DateTimeDyField.data_source('Launched', 'launched_at', options={'is_optional': True}),
         TextDyField.data_source('Region', 'data.region_code', options={'is_optional': True}),
         TextDyField.data_source('Resource ID', 'reference.resource_id', options={'is_optional': True}),
-        # TextDyField.data_source('Collection State', 'reference.resource_id', options={'is_optional': True}),
-        TextDyField.data_source('Cloud Service Group', 'cloud_service_group', options={'is_optional': True}),
-        TextDyField.data_source('Cloud Service Type', 'cloud_service_type', options={'is_optional': True}),
-        TextDyField.data_source('Service Accounts', 'account', options={'is_optional': True}),
-        # TextDyField.data_source('Secrets', 'account', odptions={'is_optional': True}),
-        # TextDyField.data_source('Collectors', 'account', odptions={'is_optional': True}),
-        # TextDyField.data_source('Created', 'account', odptions={'is_optional': True}),
+        # TextDyField.data_source('Cloud Service Group', 'cloud_service_group', options={'is_optional': True}),
+        # TextDyField.data_source('Cloud Service Type', 'cloud_service_type', options={'is_optional': True}),
+        # TextDyField.data_source('Service Accounts', 'account', options={'is_optional': True}),
 
     ],
 
     search=[
-        SearchField.set(name='ID', key='data.vpc_no'),
-        SearchField.set(name='Name', key='data.name'),
+        SearchField.set(name='VPC ID', key='data.vpc_no'),
+        SearchField.set(name='VPC Name', key='data.name'),
         SearchField.set(name='CIDR Block', key='data.ipv4_cidr_block'),
         SearchField.set(name='State', key='data.vpc_status',
             enums={
@@ -59,10 +55,7 @@ cst_network._metadata = CloudServiceTypeMeta.set_meta(
         }),
         SearchField.set(name='Provider', key='provider'),
         SearchField.set(name='Region', key='data.region_code'),
-        SearchField.set(name='Cloud Service Group', key='cloud_service_group'),
-        SearchField.set(name='Cloud Service Type', key='cloud_service_type'),
         SearchField.set(name='Resource ID', key='reference.resource_id'),
-        SearchField.set(name='Service Accounts', key='account'),
 
     ],
 
