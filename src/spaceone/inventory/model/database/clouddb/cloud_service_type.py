@@ -51,6 +51,7 @@ cst_database_cloud_db._metadata = CloudServiceTypeMeta.set_meta(
         TextDyField.data_source('Private DNS Name', 'data.private_dns_name', options={'is_optional': True}),
         TextDyField.data_source('Public DNS Name', 'data.public_dns_name', options={'is_optional': True}),
     ],
+    
     search=[
         SearchField.set(name='DB Service Name', key='name'),
         SearchField.set(name='DB Role', key='data.cloud_db_server_instance_list.cloud_db_server_role'),
