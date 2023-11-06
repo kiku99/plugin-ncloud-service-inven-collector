@@ -33,12 +33,17 @@ cst_network._metadata = CloudServiceTypeMeta.set_meta(
             'warning': ['CREATING', 'INIT'],
             'alert': ['TERMTING']
         }),
-        DateTimeDyField.data_source('Launched', 'launched_at', options={
-            'is_optional': True
-        }),
-        TextDyField.data_source('Region', 'data.region_code', options={
-            'is_optional': True
-        }),
+        TextDyField.data_source('Provider', 'provider'),
+        DateTimeDyField.data_source('Launched', 'launched_at', options={'is_optional': True}),
+        TextDyField.data_source('Region', 'data.region_code', options={'is_optional': True}),
+        TextDyField.data_source('Resource ID', 'reference.resource_id', options={'is_optional': True}),
+        # TextDyField.data_source('Collection State', 'reference.resource_id', options={'is_optional': True}),
+        TextDyField.data_source('Cloud Service Group', 'cloud_service_group', options={'is_optional': True}),
+        TextDyField.data_source('Cloud Service Type', 'cloud_service_type', options={'is_optional': True}),
+        TextDyField.data_source('Service Accounts', 'account', options={'is_optional': True}),
+        # TextDyField.data_source('Secrets', 'account', odptions={'is_optional': True}),
+        # TextDyField.data_source('Collectors', 'account', odptions={'is_optional': True}),
+        # TextDyField.data_source('Created', 'account', odptions={'is_optional': True}),
 
     ],
 

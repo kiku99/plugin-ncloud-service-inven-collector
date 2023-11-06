@@ -12,9 +12,11 @@ vpc Network
 
 VPC_instance = ItemDynamicLayout.set_fields('VPC Instance', fields=[
     TextDyField.data_source('Name', 'data.name'),
-
+    TextDyField.data_source('DB Service Name', 'data.name'),
     ])
 network_acl_list = ItemDynamicLayout.set_fields('Network ACL', fields=[
+    TextDyField.data_source('Name', 'data.name'),
+    TextDyField.data_source('DB Service Name', 'data.name'),
     ])
 route_table_list = ItemDynamicLayout.set_fields('Route Table', fields=[
     ])
