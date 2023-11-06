@@ -10,6 +10,7 @@ from spaceone.inventory.conf.cloud_service_conf import *
 current_dir = os.path.abspath(os.path.dirname(__file__))
 
 total_count_conf = os.path.join(current_dir, 'widget/total_count.yml')
+count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
 
 cst_bucket= CloudServiceTypeResource()
 cst_bucket.name = 'ObjectStorage'
