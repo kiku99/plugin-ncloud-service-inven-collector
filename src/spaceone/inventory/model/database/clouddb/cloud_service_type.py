@@ -3,7 +3,7 @@ import os
 from spaceone.inventory.libs.common_parser import *
 from spaceone.inventory.libs.schema.metadata.dynamic_widget import CardWidget, ChartWidget
 from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, ListDyField, SearchField, \
-    EnumDyField, SizeField
+    EnumDyField, SizeField, DateTimeDyField
 from spaceone.inventory.libs.schema.cloud_service_type import CloudServiceTypeResource, CloudServiceTypeResponse, \
     CloudServiceTypeMeta
 from spaceone.inventory.conf.cloud_service_conf import *
@@ -41,7 +41,7 @@ cst_database_cloud_db._metadata = CloudServiceTypeMeta.set_meta(
         SizeField.data_source('Used Storage Size', 'data.cloud_db_server_instance_list.used_data_storage', options={'is_optional': True}),
         SizeField.data_source('Data Storage Size', 'data.cloud_db_server_instance_list.data_storage_size'),
         TextDyField.data_source('Zone', 'data.zone_list.zone_name'),
-        TextDyField.data_source('Launched', 'launched_at', options={'is_optional': True}),
+        DateTimeDyField.data_source('Launched', 'launched_at', options={'is_optional': True}),
         TextDyField.data_source('Data Storage Type', 'data.data_storage_type', options={'is_optional': True}),
         TextDyField.data_source('Backup File Retention Period', 'data.backup_file_retention_period', options={'is_optional': True}),
         TextDyField.data_source('Backup Time', 'data.backup_time', options={'is_optional': True}),

@@ -90,3 +90,6 @@ class ObjectStorageManager(NaverCloudManager):
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')
         return resource_responses, error_responses
 
+
+
+

@@ -10,8 +10,6 @@ from spaceone.inventory.conf.cloud_service_conf import *
 current_dir = os.path.abspath(os.path.dirname(__file__))
 
 total_count_conf = os.path.join(current_dir, 'widget/total_count.yml')
-count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
-count_by_project_conf = os.path.join(current_dir, 'widget/count_by_project.yml')
 
 cst_bucket = CloudServiceTypeResource()
 cst_bucket.name = 'ArchiveStorage'
@@ -27,37 +25,24 @@ cst_bucket.tags = {
 
 cst_bucket._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
-        EnumDyField.data_source('Public Access', 'data.public_access', default_state={
-            'safe': ['Subject to object ACLs', 'Not public'],
-            'warning': ['Not authorized'],
-            'alert': ['Public to internet'],
-        }),
-
-
-        TextDyField.data_source('Object Total Counts', 'data.object_count'),
-        SizeField.data_source('Object Size', 'data.object_total_size'),
-        TextDyField.data_source('Access Control', 'data.access_control'),
-        TextDyField.data_source('Lifecycle rules', 'data.lifecycle_rule.lifecycle_rule_display'),
-        EnumDyField.data_source('Requester Pays', 'data.requester_pays', default_badge={
-            'indigo.500': ['OFF'], 'coral.600': ['ON']
-        }),
+        TextDyField.data_source('Name', 'data.name'),
+        SizeField.data_source('Count', 'data.count'),
+        SizeField.data_source('Size', 'data.bytes'),
+        DateTimeDyField.data_source('Last Modified', 'data.last_modified'),
+        DateTimeDyField.data_source('Launched', 'launched_at')
 
     ],
 
     search=[
-        SearchField.set(name='ID', key='data.id'),
         SearchField.set(name='Name', key='data.name'),
-        SearchField.set(name='Location', key='data.location.location'),
-        SearchField.set(name='Archive Counts', key='data.object_count', data_type='integer'),
-        SearchField.set(name='Archive Total Size (Bytes)', key='data.object_total_size', data_type='integer'),
-        SearchField.set(name='Creation Time', key='data.creation_timestamp', data_type='datetime'),
-        SearchField.set(name='Update Time', key='data.update_timestamp', data_type='datetime'),
+        SearchField.set(name='Archive Counts', key='data.count', data_type='integer'),
+        SearchField.set(name='Archive Total Size (Bytes)', key='data.bytes', data_type='integer'),
+        SearchField.set(name='Last Modified', key='data.last_modified', data_type='datetime'),
+        SearchField.set(name='Launched', key='launched_at', data_type='datetime'),
     ],
 
     widget=[
         CardWidget.set(**get_data_from_yaml(total_count_conf)),
-        ChartWidget.set(**get_data_from_yaml(count_by_region_conf)),
-        ChartWidget.set(**get_data_from_yaml(count_by_project_conf))
     ]
 )
 

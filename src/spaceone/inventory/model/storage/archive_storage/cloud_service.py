@@ -13,11 +13,11 @@ from spaceone.inventory.libs.schema.cloud_service import CloudServiceMeta, Cloud
 Bucket
 '''
 # TAB - Bucket
-bucket_instance = ItemDynamicLayout.set_fields('Bucket Instance', fields=[
-    TextDyField.data_source('Archive Total Counts', 'data.object_count'),
-    SizeField.data_source('Archive Size', 'data.object_total_size'),
-    DateTimeDyField.data_source('Created', 'data.creation_timestamp')
-
+bucket_instance = ItemDynamicLayout.set_fields('Container Instance', fields=[
+    TextDyField.data_source('Name', 'data.name'),
+    SizeField.data_source('Count', 'data.count'),
+    SizeField.data_source('Size', 'data.bytes'),
+    DateTimeDyField.data_source('Last Modified', 'data.last_modified')
 ])
 
 # bucket = ListDynamicLayout.set_layouts('bucket',

@@ -3,7 +3,7 @@ import os
 from spaceone.inventory.libs.common_parser import *
 from spaceone.inventory.libs.schema.metadata.dynamic_widget import CardWidget, ChartWidget
 from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, ListDyField, SearchField, \
-    EnumDyField
+    EnumDyField, DateTimeDyField
 from spaceone.inventory.libs.schema.cloud_service_type import CloudServiceTypeResource, CloudServiceTypeResponse, \
     CloudServiceTypeMeta
 from spaceone.inventory.conf.cloud_service_conf import *
@@ -36,8 +36,8 @@ cst_content_delivery_cdn._metadata = CloudServiceTypeMeta.set_meta(
             'alert': ['STOPPED'],
         }),
         TextDyField.data_source('Service Domain', 'data.cdn_plus_service_domain_list.default_domain_name'),
-        TextDyField.data_source('Launched', 'launched_at'),
-        TextDyField.data_source('Last Modified', 'data.last_modified_date',options={'is_optional': True}),
+        DateTimeDyField.data_source('Launched', 'launched_at'),
+        DateTimeDyField.data_source('Last Modified', 'data.last_modified_date',options={'is_optional': True}),
         TextDyField.data_source('Forward Host Header', 'data.cdn_plus_rule.forward_host_header_type_code', options={'is_optional': True}),
         TextDyField.data_source('Gzip Compression', 'data.cdn_plus_rule.is_gzip_compression_use', options={'is_optional': True}),
         TextDyField.data_source('Caching Option', 'data.cdn_plus_rule.caching_option_type_code', options={'is_optional': True}),
