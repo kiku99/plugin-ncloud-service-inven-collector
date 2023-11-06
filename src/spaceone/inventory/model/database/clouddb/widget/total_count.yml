@@ -1,15 +1,15 @@
 ---
 cloud_service_group: Database
 cloud_service_type: CloudDB
-name: Count by Project
+name: Count by Count
 query:
   aggregate:
     - group:
-        keys:
-          - name: name
-            key: account
         fields:
           - name: value
             operator: count
 options:
-  chart_type: DONUT
+  value_options:
+    key: value
+    options:
+      default: 0

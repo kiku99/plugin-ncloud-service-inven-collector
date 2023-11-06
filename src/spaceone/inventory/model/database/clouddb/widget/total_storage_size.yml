@@ -6,12 +6,12 @@ query:
   aggregate:
     - group:
         fields:
-          - name: value
+          - name: Data Storage Size
             key: data.cloud_db_server_instance_list.data_storage_size
             operator: sum
 options:
   value_options:
-    key: value
+    key: Data Storage Size
     type: size
     options:
       default: 0

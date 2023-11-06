@@ -12,7 +12,6 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 
 #total_count_conf = os.path.join(current_dir, 'widget/total_count.yml')
 count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
-count_by_project_conf = os.path.join(current_dir, 'widget/count_by_project.yml')
 total_by_used_storage_conf = os.path.join(current_dir, 'widget/total_used_storage_size.yml')
 total_by_storage_conf = os.path.join(current_dir, 'widget/total_storage_size.yml')
 
@@ -86,7 +85,6 @@ cst_database_cloud_db._metadata = CloudServiceTypeMeta.set_meta(
     widget=[
         #CardWidget.set(**get_data_from_yaml(total_count_conf)),
         ChartWidget.set(**get_data_from_yaml(count_by_region_conf)),
-        ChartWidget.set(**get_data_from_yaml(count_by_project_conf)),
         ChartWidget.set(**get_data_from_yaml(total_by_used_storage_conf)),
         ChartWidget.set(**get_data_from_yaml(total_by_storage_conf)),
     ]
