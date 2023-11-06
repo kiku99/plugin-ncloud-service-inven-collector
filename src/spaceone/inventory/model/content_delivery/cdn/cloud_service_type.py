@@ -28,7 +28,6 @@ cst_content_delivery_cdn.tags = {
 
 cst_content_delivery_cdn._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
-        TextDyField.data_source('Nme', 'data.name'),
         TextDyField.data_source('Origin URL', 'data.cdn_plus_rule.origin_url'),
         EnumDyField.data_source('State', 'data.cdn_instance_status_name', default_state={
             'safe': ['RUNNING'],
