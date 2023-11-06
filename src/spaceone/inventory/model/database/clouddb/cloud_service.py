@@ -45,7 +45,7 @@ cloud_db_server = ItemDynamicLayout.set_fields('CloudDB Server Instance', fields
     TextDyField.data_source('uptime', 'data.cloud_db_server_instance_list.uptime'),
     SizeField.data_source('Data StorageSize', 'data.cloud_db_server_instance_list.data_storage_size'),
     SizeField.data_source('Used Data StorageSize', 'data.cloud_db_server_instance_list.used_data_storage_size'),
-    EnumDyField.data_source('State', 'data.cloud_db_instance_status_name', default_state={
+    EnumDyField.data_source('State', 'data.cloud_db_server_instance_list.cloud_db_instance_status_name', default_state={
         'safe': ['running'],
         'disable': ['deleting', 'creating', 'pending', 'recovering', 'restarting', 'reinstalling'],
         'alert': ['deleted'],
