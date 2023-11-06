@@ -21,7 +21,7 @@ cst_network.service_code = 'VPC'
 cst_network.is_primary = True
 cst_network.labels = ['Networking']
 cst_network.tags = {
-    'spaceone:icon': f'{ASSET_URL}/vpc.svg',}
+    'spaceone:icon': f'{ASSET_URL}/vpc.svg'}
 
 cst_network._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
