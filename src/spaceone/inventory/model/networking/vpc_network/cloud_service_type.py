@@ -25,22 +25,21 @@ cst_network.tags = {
 
 cst_network._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
-        TextDyField.data_source('Number of Subnet', 'data.subnet_list.subnet_no'),
-        TextDyField.data_source('Maximum transmission unit', 'data.mtu'),
-        TextDyField.data_source('Mode', 'data.subnet_creation_mode'),
-        EnumDyField.data_source('Global Dynamic Routing', 'data.global_dynamic_route', default_state={
-            'safe': ['On'],
-            'warning': ['Off'],
+        TextDyField.data_source('VPC Name', 'name'),
+        TextDyField.data_source('VPC ID', 'data.vpc_no'),
+        TextDyField.data_source('CIDR Block', 'data.ipv4_cidr_block'),
+        EnumDyField.data_source('State', 'data.vpc_status', default_state={
+            'safe': ['RUN'],
+            'warning': ['CREATING', 'INIT'],
+            'alert': ['TERMTING']
         }),
-        TextDyField.data_source('Description', 'data.description', options={
+        DateTimeDyField.data_source('Launched', 'launched_at', options={
             'is_optional': True
         }),
-        TextDyField.data_source('IPv4 Range', 'data.ipv4_range', options={
+        TextDyField.data_source('Region', 'data.region_code', options={
             'is_optional': True
         }),
-        DateTimeDyField.data_source('Creation Time', 'data.creation_timestamp'),
-        TextDyField.data_source('Provider', 'data.network_acl_list.provider'),
-        TextDyField.data_source('Region', 'data.region'),
+
     ],
 
     search=[
