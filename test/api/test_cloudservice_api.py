@@ -7,8 +7,8 @@ from spaceone.tester import TestCase, print_json
 
 AKI = os.environ.get('NCLOUD_ACCESS_KEY_ID', None)
 SK = os.environ.get('NCLOUD_SECRET_KEY', None)
-DI = os.environ.get("DOMAIN_ID", None)
-PI = os.environ.get('PROJECT_ID', None)
+# DI = os.environ.get("DOMAIN_ID", None)
+# PI = os.environ.get('PROJECT_ID', None)
 
 if AKI is None or SK is None:
     print("""
@@ -36,8 +36,12 @@ class TestCollector(TestCase):
     secret_data = {
         'ncloud_access_key_id': AKI,
         'ncloud_secret_key': SK,
-        'domain_id': 'default',
-        'project_id': '25cd875760ea45fdbe6e0198a3e212cc'
+        # 'domain_id': 'default',
+        # 'project_id': '25cd875760ea45fdbe6e0198a3e212cc',
+        # 'db_kind_code': 'MYSQL',
+        # 'cdn_instance_no': '20151001',
+        # 'instance_no': '20150943',
+        # 'bucket_name': 'buckettest0712'
     }
 
     def test_init(self):
@@ -57,17 +61,14 @@ class TestCollector(TestCase):
                         "service_code_mappers": {
                     "Compute Engine": "Test Gikang",
                     "Networking": "HaHa HoHo",
+
                     "Cloud SQL": "SQLSQL"
             }
         '''
         options = {
             # "cloud_service_types": ["CloudFunctions"],
-            #"cloud_service_types": ["Storage"],
+            "cloud_service_types": ["Compute"]
             # "custom_asset_url": 'http://xxxxx.spaceone.dev/icon/google'
-            'dbKindCode': 'MYSQL',
-            'cdnInstanceNo': '20151001',
-            'instance_no':'20150943',
-            'bucket_name': 'buckettest0712'
         }
         filter = {}
 

@@ -28,10 +28,10 @@ class CdnConnector(NaverCloudConnector):
         return cdn_plus_instance_list
 
 
-    def list_cdn_plus_purge_history_instance(self, cdnInstanceNo):
+    def list_cdn_plus_purge_history_instance(self, cdn_instance_no):
 
         cdn_plus_purge_history_list = []
-        get_cdn_plus_purge_history_list_request = ncloud_cdn.GetCdnPlusPurgeHistoryListRequest(cdn_instance_no=cdnInstanceNo)
+        get_cdn_plus_purge_history_list_request = ncloud_cdn.GetCdnPlusPurgeHistoryListRequest(cdn_instance_no=cdn_instance_no)
 
         try:
             api_response = self.cdn_client.get_cdn_plus_purge_history_list(get_cdn_plus_purge_history_list_request)
@@ -60,10 +60,10 @@ class CdnConnector(NaverCloudConnector):
 
         return global_cdn_instance_list
 
-    def list_global_cdn_purge_history_instance(self, cdnInstanceNo):
+    def list_global_cdn_purge_history_instance(self, cdn_instance_no):
 
         global_cdn_purge_history_list = []
-        get_global_cdn_purge_history_list_request = ncloud_cdn.GetGlobalCdnPurgeHistoryListRequest(cdn_instance_no=cdnInstanceNo)
+        get_global_cdn_purge_history_list_request = ncloud_cdn.GetGlobalCdnPurgeHistoryListRequest(cdn_instance_no=cdn_instance_no)
 
         try:
             api_response = self.cdn_client.get_global_cdn_purge_history_list(get_global_cdn_purge_history_list_request)

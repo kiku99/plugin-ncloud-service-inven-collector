@@ -1,15 +1,15 @@
 ---
-cloud_service_group: storage
-cloud_service_type: storage
-name: Count by Project
+cloud_service_group: Storage
+cloud_service_type: ObjectStorage
+name: Total Count
 query:
   aggregate:
     - group:
-        keys:
-          - name: name
-            key: account
         fields:
           - name: value
             operator: count
 options:
-  chart_type: DONUT
+  value_options:
+    key: value
+    options:
+      default: 0

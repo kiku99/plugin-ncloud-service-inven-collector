@@ -13,18 +13,22 @@ from spaceone.inventory.libs.schema.cloud_service import CloudServiceMeta, Cloud
 Bucket
 '''
 # TAB - Bucket
-bucket_instance = ItemDynamicLayout.set_fields('Bucket Instance', fields=[
-
+bucket_instance = ItemDynamicLayout.set_fields('Container Instance', fields=[
+    TextDyField.data_source('Name', 'data.name'),
+    SizeField.data_source('Count', 'data.count'),
+    SizeField.data_source('Size', 'data.bytes'),
+    DateTimeDyField.data_source('Last Modified', 'data.last_modified')
 ])
 
-bucket = ListDynamicLayout.set_layouts('bucket',
-                                       layouts=[bucket_instance])
+# bucket = ListDynamicLayout.set_layouts('bucket',
+#                                        layouts=[bucket_instance])
 
-bucket_instance_meta = CloudServiceMeta.set_layouts([bucket])
+bucket_instance_meta = CloudServiceMeta.set_layouts([bucket_instance])
 
 
 class StorageGroupResource(CloudServiceResource):
     cloud_service_group = StringType(default='Storage')
+
 
 class ArchiveStorageResource(StorageGroupResource):
     cloud_service_type = StringType(default='ArchiveStorage')

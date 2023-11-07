@@ -4,7 +4,6 @@ from typing import Tuple, List
 
 from datetime import datetime, timedelta
 from spaceone.inventory.libs.manager import NaverCloudManager
-from spaceone.inventory.libs.schema.base import ReferenceModel
 from spaceone.inventory.connector.storage.archive_storage_connector import ArchiveStorageConnector
 from spaceone.inventory.model.storage.archive_storage.cloud_service_type import CLOUD_SERVICE_TYPES
 from spaceone.inventory.model.storage.archive_storage.cloud_service import ArchiveStorageResource, ArchiveStorageResponse
@@ -42,7 +41,7 @@ class ArchiveStorageManager(NaverCloudManager):
         self.instance_conn.set_connect_storage(params['secret_data'])
 
         buckets = self.instance_conn.list_buckets()
-        objects = self.instance_conn.list_objects(params['options']['bucket_name'])
+        objects = self.instance_conn.list_objects(params['secret_data']['bucket_name'])
 
         list_buckets = buckets[1]
         for bucket in list_buckets:

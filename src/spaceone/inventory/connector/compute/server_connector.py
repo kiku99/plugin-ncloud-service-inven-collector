@@ -6,6 +6,9 @@ __all__ = ['ServerConnector']
 
 
 class ServerConnector(NaverCloudConnector):
+
+
+
     service = 'compute'
 
     def __init__(self, **kwargs):

@@ -7,90 +7,72 @@ from spaceone.inventory.libs.schema.cloud_service import CloudServiceResource, C
 
 
 '''
-VPC Network
+vpc Network
 '''
 
+VPC_instance = ItemDynamicLayout.set_fields('VPC Instance', fields=[
+    TextDyField.data_source('CIDR Block', 'data.ipv4_cidr_block'),
+    EnumDyField.data_source('State', 'data.vpc_status', default_state={
+        'safe': ['RUN'],
+        'warning': ['CREATING', 'INIT'],
+        'alert': ['TERMTING']
+    }),
+    TextDyField.data_source('VPC ID', 'data.vpc_no'),
+    TextDyField.data_source('Region', 'data.region_code'),
+
+    ])
+network_acl_list = ItemDynamicLayout.set_fields('Network ACL', fields=[
+    TextDyField.data_source('Default', 'data.network_acl_list.is_default'),
+    TextDyField.data_source('Network ACL ID', 'data.network_acl_list.network_acl_no'),
+    TextDyField.data_source('Network ACL Name', 'data.network_acl_list.network_acl_name'),
+    EnumDyField.data_source('State', 'data.network_acl_list.network_acl_status', default_state={
+        'safe': ['RUN'],
+        'warning': ['CREATING', 'INIT'],
+        'alert': ['TERMTING']
+    }),
+    ListDyField.data_source('Description', 'data.network_acl_list.network_acl_description'),
+    ])
+route_table_list = ItemDynamicLayout.set_fields('Route Table', fields=[
+    TextDyField.data_source('Default', 'data.route_table_list.is_default'),
+    TextDyField.data_source('Route Table ID', 'data.route_table_list.route_table_no'),
+    TextDyField.data_source('Route Table Name', 'data.route_table_list.route_table_name'),
+    EnumDyField.data_source('State', 'data.route_table_list.route_table_status', default_state={
+        'safe': ['RUN'],
+        'warning': ['CREATING', 'INIT'],
+        'alert': ['TERMTING']
+    }),
+    ListDyField.data_source('Description', 'data.route_table_list.route_table_description'),
+    TextDyField.data_source('Subnet Type', 'data.route_table_list.subnet_type'),
+
+    ])
+subnet_list = ItemDynamicLayout.set_fields('Subnet', fields=[
+    TextDyField.data_source('Subnet ID', 'data.subnet_list.subnet_no'),
+    TextDyField.data_source('Subnet Name', 'data.subnet_list.subnet_name'),
+    EnumDyField.data_source('State', 'data.subnet_list.subnet_status', default_state={
+        'safe': ['RUN'],
+        'warning': ['CREATING', 'INIT'],
+        'alert': ['TERMTING']
+    }),
+    TextDyField.data_source('Availability Zone', 'data.subnet_list.zone_code'),
+    TextDyField.data_source('VPC ID', 'data.subnet_list.vpc_no'),
+    TextDyField.data_source('Network ACL ID', 'data.subnet_list.network_acl_no'),
+    ListDyField.data_source('Description', 'data.subnet_list.subnet_description'),
+    TextDyField.data_source('Subnet Type', 'data.subnet_list.subnet_type'),
+    TextDyField.data_source('Usage Type', 'data.subnet_list.subnet_usage_type'),
+
+
+
+    ])
+
 # TAB - Bucket
-vpc_network_detail_meta = ItemDynamicLayout.set_fields('VPC Network Details', fields=[
-    TextDyField.data_source('Name', 'data.name'),
-    TextDyField.data_source('Description', 'data.description'),
-    TextDyField.data_source('Maximum transmission unit', 'data.mtu'),
-    TextDyField.data_source('Mode', 'data.subnet_creation_mode'),
-    EnumDyField.data_source('Global Dynamic Routing', 'data.global_dynamic_route', default_state={
-            'safe': ['On'],
-            'warning': ['Off'],
-    }),
-    TextDyField.data_source('Dynamic Routing mode', 'data.dynamic_routing_mode'),
-    DateTimeDyField.data_source('Creation Time', 'data.creation_timestamp'),
-])
-
-vpc_network_subnets_meta = TableDynamicLayout.set_fields('Subnets', root_path='data.subnetwork_data.subnets', fields=[
-    TextDyField.data_source('Name', 'name'),
-    TextDyField.data_source('Region', 'region'),
-    TextDyField.data_source('Ip Address Ranges', 'ip_cidr_range'),
-    TextDyField.data_source('Gateway', 'gateway_address'),
-    TextDyField.data_source('Private Google Access', 'google_access'),
-    TextDyField.data_source('Flow logs', 'flow_log'),
-])
-
-vpc_network_subnets_ip_address_meta = TableDynamicLayout.set_fields('Static Internal IP Addresses',
-                                                                    root_path='data.ip_address_data', fields=[
-    TextDyField.data_source('Name', 'name'),
-    TextDyField.data_source('Internal Ip Address', 'address'),
-    TextDyField.data_source('Subnetwork', 'subnet_name'),
-    TextDyField.data_source('Region', 'region'),
-    TextDyField.data_source('Version', 'ip_version_display'),
-    ListDyField.data_source('In Used By', 'used_by'),
-])
-
-vpc_network_firewall_meta = TableDynamicLayout.set_fields('Firewall Rules', root_path='data.firewall_data.firewall', fields=[
-    TextDyField.data_source('Name', 'name'),
-    TextDyField.data_source('Type', 'display.type_display'),
-    ListDyField.data_source('Targets', 'display.target_display',
-                            default_badge={'type': 'outline', 'delimiter': '<br>'}),
-    TextDyField.data_source('Filters', 'display.filter'),
-    ListDyField.data_source('Protocols / Ports', 'display.protocols_port'),
-    EnumDyField.data_source('Action On Match', 'data.action', default_badge={
-        'indigo.500': ['Allow'], 'coral.600': ['Deny']
-    }),
-    TextDyField.data_source('Priority', 'priority'),
-    TextDyField.data_source('Logs', 'display.Logs')
-])
-
-
-vpc_network_route_meta = TableDynamicLayout.set_fields('Routes', root_path='data.route_data.route', fields=[
-    TextDyField.data_source('Name', 'name'),
-    TextDyField.data_source('Description', 'description'),
-    TextDyField.data_source('Destination IP Range', 'dest_range'),
-    TextDyField.data_source('Priority', 'priority'),
-    ListDyField.data_source('Instance Tags', 'tags',
-                            default_badge={'type': 'outline', 'delimiter': '<br>'}),
-    TextDyField.data_source('Next Hop', 'next_hop'),
-])
-
-vpc_network_peering_meta = TableDynamicLayout.set_fields('VPC Network Peering', root_path='data.peerings', fields=[
-    TextDyField.data_source('Name', 'name'),
-    TextDyField.data_source('Your VPC Network', 'display.your_network'),
-    TextDyField.data_source('Peered VPC Network', 'display.peered_network'),
-    TextDyField.data_source('Peered Project ID', 'display.project_id'),
-    EnumDyField.data_source('Status', 'display.state_display', default_badge={
-        'indigo.500': ['Active'], 'coral.600': ['Inactive']
-    }),
-    TextDyField.data_source('Exchange Custom Routes', 'display.ex_custom_route'),
-    TextDyField.data_source('Exchange Subnet Routes With Public IP', 'display.ex_route_public_ip_display'),
-])
-
-
-instance_template_meta = CloudServiceMeta.set_layouts([vpc_network_detail_meta,
-                                                       vpc_network_subnets_meta,
-                                                       vpc_network_subnets_ip_address_meta,
-                                                       vpc_network_firewall_meta,
-                                                       vpc_network_route_meta,
-                                                       vpc_network_peering_meta])
+instance_template_meta = CloudServiceMeta.set_layouts([VPC_instance,
+                                                       network_acl_list,
+                                                       route_table_list,
+                                                       subnet_list])
 
 
 class VPCResource(CloudServiceResource):
-    cloud_service_group = StringType(default='VPC')
+    cloud_service_group = StringType(default='Networking')
 
 
 class VPCNetworkResource(VPCResource):

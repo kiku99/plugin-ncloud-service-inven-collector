@@ -17,7 +17,7 @@ class MonitoringManager(NaverCloudManager):
     cloud_service_types = CLOUD_SERVICE_TYPES
     instance_conn = None
 
-    def collect_cloud_service(self, params) -> Tuple[List[MonitoringResponse], List[MonitoringResource]]:
+    def collect_cloud_service(self, params) -> Tuple[List[MonitoringResponse], List[ErrorResourceResponse]]:
         _LOGGER.debug(f'** Monitoring START **')
         """
         Args:
@@ -40,7 +40,7 @@ class MonitoringManager(NaverCloudManager):
         self.instance_conn: MonitoringConnector = self.locator.get_connector(self.connector_name, **params)
         self.instance_conn.set_connect(params['secret_data'])
 
-        metric_list = self.instance_conn.list_metrics(params["options"]["instance_no"])
+        metric_list = self.instance_conn.list_metrics(params["secret_data"]["instance_no"])
 
         #metirc_statistic_list = self.instance_conn.list_metric_statistic(params["instance_no"], params["metric_name"], params["period"], params["start_time"], params["end_time"])
 

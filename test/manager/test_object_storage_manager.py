@@ -41,7 +41,7 @@ class TestObjectStorageManager(TestCase):
         params = {'options': options, 'secret_data': secret_data}
         object_storage_instances = self.object_storage_manager.collect_cloud_service(params)
 
-        print(object_storage_instances[0][3].to_primitive())
+        print(object_storage_instances[0][0].to_primitive())
 
 if __name__ == "__main__":
     unittest.main(testRunner=RichTestRunner)

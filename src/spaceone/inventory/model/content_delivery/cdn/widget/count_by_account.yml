@@ -1,7 +1,7 @@
 ---
-cloud_service_group: storage
-cloud_service_type: storage
-name: Count by Project
+cloud_service_group: Content Delivery
+cloud_service_type: CDN
+name: Count by Account
 query:
   aggregate:
     - group:
@@ -11,5 +11,9 @@ query:
         fields:
           - name: value
             operator: count
+  filter:
+    - key: account
+      value: true
+      operator: exists
 options:
   chart_type: DONUT

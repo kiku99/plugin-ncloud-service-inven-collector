@@ -3,7 +3,7 @@ import os
 from spaceone.inventory.libs.common_parser import *
 from spaceone.inventory.libs.schema.metadata.dynamic_widget import CardWidget, ChartWidget
 from spaceone.inventory.libs.schema.metadata.dynamic_field import TextDyField, ListDyField, SearchField, \
-    EnumDyField
+    EnumDyField, DateTimeDyField
 from spaceone.inventory.libs.schema.cloud_service_type import CloudServiceTypeResource, CloudServiceTypeResponse, \
     CloudServiceTypeMeta
 from spaceone.inventory.conf.cloud_service_conf import *
@@ -12,12 +12,12 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 
 total_count_conf = os.path.join(current_dir, 'widget/total_count.yml')
 count_by_region_conf = os.path.join(current_dir, 'widget/count_by_region.yml')
-count_by_project_conf = os.path.join(current_dir, 'widget/count_by_project.yml')
+count_by_account_conf = os.path.join(current_dir, 'widget/count_by_account.yml')
 
 cst_content_delivery_cdn = CloudServiceTypeResource()
 cst_content_delivery_cdn.name = 'CDN'
 cst_content_delivery_cdn.provider = 'naver_cloud'
-cst_content_delivery_cdn.group = 'content_delivery'
+cst_content_delivery_cdn.group = 'Content Delivery'
 cst_content_delivery_cdn.service_code = 'CDN'
 cst_content_delivery_cdn.labels = ['Content Delivery']
 cst_content_delivery_cdn.is_primary = True
@@ -28,42 +28,42 @@ cst_content_delivery_cdn.tags = {
 
 cst_content_delivery_cdn._metadata = CloudServiceTypeMeta.set_meta(
     fields=[
-        EnumDyField.data_source('State', 'data.display_state', default_state={
+        TextDyField.data_source('Origin URL', 'data.cdn_plus_rule.origin_url'),
+        EnumDyField.data_source('State', 'data.cdn_instance_status_name', default_state={
             'safe': ['RUNNING'],
             'disable': ['UNKNOWN', 'ON-DEMAND'],
             'alert': ['STOPPED'],
         }),
-        TextDyField.data_source('Type', 'data.database_version'),
-        TextDyField.data_source('Project', 'data.project'),
-        ListDyField.data_source('Public IP Address', 'data.ip_addresses', default_badge={'type': 'outline',
-                                                                                         'sub_key': 'ip_address',
-                                                                                         'delimiter': '<br>'}),
-        TextDyField.data_source('Location', 'data.gce_zone'),
-        TextDyField.data_source('Data Disk Size (GB)', 'data.settings.data_disk_size_gb'),
+        TextDyField.data_source('Service Domain', 'data.cdn_plus_service_domain_list.default_domain_name'),
+        DateTimeDyField.data_source('Launched', 'launched_at'),
+        DateTimeDyField.data_source('Last Modified', 'data.last_modified_date',options={'is_optional': True}),
+        TextDyField.data_source('Forward Host Header', 'data.cdn_plus_rule.forward_host_header_type_code', options={'is_optional': True}),
+        TextDyField.data_source('Gzip Compression', 'data.cdn_plus_rule.is_gzip_compression_use', options={'is_optional': True}),
+        TextDyField.data_source('Caching Option', 'data.cdn_plus_rule.caching_option_type_code', options={'is_optional': True}),
+        TextDyField.data_source('Ignore Query String', 'data.cdn_plus_rule.is_query_string_ignore_use', options={'is_optional': True}),
+        TextDyField.data_source('Referrer Domain', 'data.cdn_plus_rule.is_referrer_domain_use', options={'is_optional': True}),
+        TextDyField.data_source('Large File Optimization', 'data.cdn_plus_rule.is_large_file_optimization_use', options={'is_optional': True}),
+        TextDyField.data_source('Security Token', 'data.cdn_plus_rule.is_reissue_secure_token_password', options={'is_optional': True}),
 
-        TextDyField.data_source('Connection name', 'data.connection_name', options={'is_optional': True}),
-        TextDyField.data_source('Location', 'data.gce_zone', options={'is_optional': True}),
-        TextDyField.data_source('Service Account', 'data.service_account_email_address', options={'is_optional': True}),
-
-
-        TextDyField.data_source('Auto Storage Increased Limit Size (GB)', 'data.settings.storage_auto_resize_limit',
-                                options={'is_optional': True}),
 
     ],
     search=[
-        SearchField.set(name='Name', key='data.name'),
-        SearchField.set(name='State', key='data.state'),
-        SearchField.set(name='Type', key='data.database_version'),
-        SearchField.set(name='Project', key='data.project'),
-        SearchField.set(name='Region', key='data.region'),
-        SearchField.set(name='Zone', key='data.gce_zone'),
-        SearchField.set(name='Public IP Address', key='data.ip_addresses.ip_address'),
+        SearchField.set(name='Service Domain', key='data.cdn_plus_service_domain_list.default_domain_name'),
+        SearchField.set(name='Launched', key='launched_at'),
+        SearchField.set(name='Last Modified', key='data.last_modified_date'),
+        SearchField.set(name='Forward Host Header', key='data.cdn_plus_rule.forward_host_header_type_code'),
+        SearchField.set(name='Gzip Compression', key='data.cdn_plus_rule.is_gzip_compression_use'),
+        SearchField.set(name='Caching Option', key='data.cdn_plus_rule.caching_option_type_code'),
+        SearchField.set(name='gnore Query String', key='data.cdn_plus_rule.is_query_string_ignore_use'),
+        SearchField.set(name='Referrer Domain', key='data.cdn_plus_rule.is_referrer_domain_use'),
+        SearchField.set(name='Large File Optimization', key='data.cdn_plus_rule.is_large_file_optimization_use'),
+        SearchField.set(name='Security Token', key='data.cdn_plus_rule.is_reissue_secure_token_password'),
     ],
 
     widget=[
         CardWidget.set(**get_data_from_yaml(total_count_conf)),
         ChartWidget.set(**get_data_from_yaml(count_by_region_conf)),
-        ChartWidget.set(**get_data_from_yaml(count_by_project_conf))
+        ChartWidget.set(**get_data_from_yaml(count_by_account_conf))
     ]
 )
 

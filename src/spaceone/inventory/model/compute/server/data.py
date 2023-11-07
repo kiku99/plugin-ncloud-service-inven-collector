@@ -60,24 +60,6 @@ class NIC(Model):
     tags = DictType(StringType, default={})
 
 
-# vpc
-class VPC(Model):
-    vpc_id = StringType()
-    vpc_name = StringType(default="")
-    description = StringType(default="")
-    self_link = StringType(default="")
-
-
-# subnet
-class Subnet(Model):
-    subnet_id = StringType()
-    cidr = StringType()
-    subnet_name = StringType()
-    gateway_address = StringType()
-    vpc = ModelType(VPC)
-    self_link = StringType()
-
-
 class Hardware(Model):
     cpu_count = IntType()
     memory_size = IntType()
@@ -93,9 +75,12 @@ class Storage(Model):
 
 
 class Compute(Model):
+    server_instance_no = StringType()
     server_name = StringType()
     server_image_name = StringType()
-    server_instance_status = StringType()
+    server_instance_status = StringType(choices=(
+        'INIT', 'CREAT', 'RUN', 'NSTOP', 'TERMT', 'FSTOP', 'SD_FL', 'RS_FL', 'ST_FL'
+    ))
     server_instance_operation = StringType()
     server_instance_status_name = StringType()
     platform_type = StringType()
@@ -103,7 +88,9 @@ class Compute(Model):
     uptime = DateTimeType()
     server_image_product_code = StringType()
     server_product_code = StringType()
-    server_instance_type = StringType()
+    server_instance_type = StringType(choices=(
+        'MICRO', 'COMPT', 'STAND', 'GPU', 'LDISK', 'CHADP', 'BM', 'VDS'
+    ))
     zone = StringType()
     region = StringType()
 
@@ -125,4 +112,4 @@ class ServerInstance(Model):
     ip = ModelType(IP)
     storage = ModelType(Storage)
     hardware = ModelType(Hardware)
-    login_Key = ModelType(LoginKey)
+    login_key = ModelType(LoginKey)

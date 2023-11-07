@@ -17,7 +17,7 @@ class CdnManager(NaverCloudManager):
     cloud_service_types = CLOUD_SERVICE_TYPES
     instance_conn = None
 
-    def collect_cloud_service(self, params) -> Tuple[List[CdnResponse], List[CdnResource]]:
+    def collect_cloud_service(self, params) -> Tuple[List[CdnResponse], List[ErrorResourceResponse]]:
         _LOGGER.debug(f'** Cdn START **')
         """
         Args:
@@ -41,10 +41,10 @@ class CdnManager(NaverCloudManager):
         self.instance_conn.set_connect(params['secret_data'])
 
         cdn_plus_instance_list = self.instance_conn.list_cdn_plus_instance()
-        #cdn_plus_pluge_history_list = self.instance_conn.list_cdn_plus_purge_history_instance(params['cdnInstanceNo'])
+        #cdn_plus_pluge_history_list = self.instance_conn.list_cdn_plus_purge_history_instance(params['cdn_instanc_no'])
 
         #global_cdn_instance_list = self.instance_conn.list_cdn_global_cdn_instance_instance()
-        #global_cdn_purge_history_list = self.instance_conn.list_global_cdn_purge_history_instance(params['cdnInstanceNo'])
+        #global_cdn_purge_history_list = self.instance_conn.list_global_cdn_purge_history_instance(params['cdn_instanc_no'])
 
         #metirc_statistic_list = self.instance_conn.list_metric_statistic(params["instance_no"], params["metric_name"], params["period"], params["start_time"], params["end_time"])
 
@@ -53,7 +53,7 @@ class CdnManager(NaverCloudManager):
                 ##################################
                 # 1. Set Basic Information
                 ##################################
-                instance_no = instance.cdn_instance_no
+                instance_name = instance.service_name
                 instance_rule = instance.cdn_plus_rule
                 instance_create_date = instance.create_date
                 instance_service_domain_list = instance.cdn_plus_service_domain_list
@@ -85,7 +85,7 @@ class CdnManager(NaverCloudManager):
                 # 3. Make Return Resource
                 ##################################
                 monitoring_resource = CdnResource({
-                    'name': instance_no,
+                    'name': instance_name,
                     'launched_at': instance_create_date,
                     'data': cdn_plus_instance
                 })
@@ -98,7 +98,7 @@ class CdnManager(NaverCloudManager):
                 _LOGGER.error(
                     f'[list_resources] cdn_instance_no => {instance.cdn_instance_no}, error => {e}',
                     exc_info=True)
-                error_response = self.generate_resource_error_response(e, 'content_delivery', 'cdn', instance_no)
+                error_response = self.generate_resource_error_response(e, 'content_delivery', 'cdn', instance_name)
                 error_responses.append(error_response)
 
         _LOGGER.debug(f'** Instance Group Finished {time.time() - start_time} Seconds **')

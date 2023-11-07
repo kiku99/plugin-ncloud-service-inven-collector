@@ -1,15 +1,15 @@
 ---
 cloud_service_group: Compute
-cloud_service_type: Instance
+cloud_service_type: Server
 name: Total Disk Size
 query:
   aggregate:
     - unwind:
-        path: data.disks
+        path: data.storage
     - group:
         fields:
           - name: value
-            key: data.disks.size
+            key: data.storage.storage_size
             operator: sum
 options:
   value_options:
