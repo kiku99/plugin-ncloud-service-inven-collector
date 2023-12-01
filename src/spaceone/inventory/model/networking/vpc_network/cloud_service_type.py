@@ -45,6 +45,7 @@ cst_network._metadata = CloudServiceTypeMeta.set_meta(
         # TextDyField.data_source('Secrets', 'account', odptions={'is_optional': True}),
         # TextDyField.data_source('Collectors', 'account', odptions={'is_optional': True}),
         # TextDyField.data_source('Created', 'account', odptions={'is_optional': True}),
+
     ],
 
     search=[
