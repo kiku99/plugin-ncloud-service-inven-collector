@@ -51,12 +51,12 @@ cst_network._metadata = CloudServiceTypeMeta.set_meta(
         SearchField.set(name='ID', key='data.vpc_no'),
         SearchField.set(name='Name', key='data.name'),
         SearchField.set(name='CIDR Block', key='data.ipv4_cidr_block'),
-        SearchField.set(name='State', key='data.vpc_status',
-            enums={
-            'safe': ['RUN'],
-            'warning': ['CREATING', 'INIT'],
-            'alert': ['TERMTING']
-        }),
+        # SearchField.set(name='State', key='data.vpc_status',
+        #                 enums={
+        #                     'safe': ['RUN'],
+        #                     'warning': ['CREATING', 'INIT'],
+        #                     'alert': ['TERMTING']
+        #                 }),
         SearchField.set(name='Provider', key='provider'),
         SearchField.set(name='Region', key='data.region_code'),
         SearchField.set(name='Cloud Service Group', key='cloud_service_group'),
